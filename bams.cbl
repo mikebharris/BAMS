@@ -3,12 +3,12 @@ program-id. BAMS.
 
 environment division.
 configuration section.
+    special-names.
+        class HexNumber is "0" thru "9", "A" thru "F", "a" thru "f".
+
     repository.
         function all intrinsic
         function createAuthCode.
-
-    special-names.
-        class HexNumber is "0" thru "9", "A" thru "F", "a" thru "f".
 
 data division.
 working-storage section.
