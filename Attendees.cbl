@@ -37,12 +37,12 @@ working-storage section.
 linkage section.
     01 CustomFileName pic x(20) value spaces.
     copy Attendee replacing Attendee by ==ThisAttendee is global==.
-    01 NumberOfAttendees pic 9(4) value zeroes.
-    01 AttendeesOnSite pic 9(4) value zeroes.
-    01 AttendeesToArrive pic 9(4) value zeroes.
-    01 KidsOnSite pic 9(4) value zeros.
-    01 KidsToArrive pic 9(4) value zeros.
-    01 CountOfKids pic 9(4) value zeroes.
+    01 NumberOfAttendees pic 999 value zeroes.
+    01 AttendeesOnSite pic 999 value zeroes.
+    01 AttendeesToArrive pic 999 value zeroes.
+    01 KidsOnSite pic 99 value zeros.
+    01 KidsToArrive pic 99 value zeros.
+    01 CountOfKids pic 99 value zeroes.
     01 ThisAuthCode pic x(6).
     01 ThisEmail pic x(25) value spaces.
     01 ThisName pic x(25) value spaces.

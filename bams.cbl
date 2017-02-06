@@ -13,10 +13,10 @@ configuration section.
 data division.
 working-storage section.
     01 BarnCampStats.
-        02 PeopleOnSite pic 9(4) value zero.
-        02 PeopleSignedUp pic 9(4) value zero.
-        02 PeopleToArrive pic 9(4) value zero.
-        02 PeopleToArriveToday pic 9(4) value zero.
+        02 PeopleOnSite pic 999 value zero.
+        02 PeopleSignedUp pic 999 value zero.
+        02 PeopleToArrive pic 999 value zero.
+        02 PeopleToArriveToday pic 999 value zero.
         02 TotalEstimatedAttendees pic 999 value zero.
         02 KidsToArrive pic 99 value zero.
         02 KidsOnSite pic 99 value zero.
@@ -59,14 +59,14 @@ screen section.
         03 line 7 column 36 value "Today is ".
         03 line 7 column plus 1 from DayOfTheWeek(CurrentDayOfWeek).
         03 line 10 column 5 value "People on site: ".
-        03 pic zzzz line 10 column plus 3 from PeopleOnSite.
+        03 pic zzz9 line 10 column plus 3 from PeopleOnSite.
         03 line 11 column 5 value "People to arrive: ".
-        03 pic zzzz line 11 column plus 1 from PeopleToArrive.
+        03 pic zzz9 line 11 column plus 1 from PeopleToArrive.
         03 line 12 column 5 value "                " underline.
         03 line 13 column 5 value "Total attendees: ".
-        03 pic zzzz line 13 column plus 2 from TotalEstimatedAttendees.
-        03 line 16 column 5 value "People to arrive tdoay: ".
-        03 pic zzzz line 16 column plus 1 from PeopleToArriveToday.
+        03 pic zzz9 line 13 column plus 2 from TotalEstimatedAttendees.
+        03 line 16 column 5 value "To arrive today: ".
+        03 pic zzz9 line 16 column plus 2 from PeopleToArriveToday.
         03 line 10 column 50 value "Kids on-site: ".
         03 pic z9 line 10 column plus 5 from KidsOnSite.
         03 line 11 column 50 value "Kids to arrive: ".
