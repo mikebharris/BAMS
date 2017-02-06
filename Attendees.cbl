@@ -48,6 +48,8 @@ linkage section.
     01 ThisName pic x(25) value spaces.
     01 DayOfWeek pic x(3) value spaces.
         88 ValidDayOfWeek values "Wed", "Thu", "Fri", "Sat", "Sun".
+    01 TotalPaid pic 9(4) value zeroes.
+    01 TotalToPay pic 9(4) value zeroes.
 
 procedure division using CustomFileName.
     if CustomFileName not equal to spaces
@@ -179,6 +181,29 @@ entry "AttendeeStats" using NumberOfAttendees, AttendeesOnSite, AttendeesToArriv
                     add NumberOfKids of AttendeeRecord to KidsToArrive
             end-evaluate
             add 1 to NumberOfAttendees
+            read AttendeesFile next record
+                at end set EndOfAttendeesFile to true
+            end-read
+        end-perform
+    close AttendeesFile
+    goback
+    .
+
+entry "FinancialStats" using TotalPaid, TotalToPay
+    initialize TotalPaid, TotalToPay
+    move zeros to AuthCode of AttendeeRecord
+    start AttendeesFile key is greater than AuthCode of AttendeeRecord
+    open input AttendeesFile
+        read AttendeesFile next record
+            at end set EndOfAttendeesFile to true
+        end-read
+        perform until EndOfAttendeesFile
+            evaluate true
+                when AttendeePaid of AttendeeRecord
+                    add AmountPaid of AttendeeRecord to TotalPaid
+                when AttendeeNotPaid of AttendeeRecord
+                    add AmountToPay of AttendeeRecord to TotalToPay
+            end-evaluate
             read AttendeesFile next record
                 at end set EndOfAttendeesFile to true
             end-read
