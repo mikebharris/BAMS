@@ -55,6 +55,8 @@ working-storage section.
 screen section.
     01 HomeScreen background-color 0 foreground-color 2 highlight.
         03 blank screen background-color 0 foreground-color 5.
+        03 line 1 column 1 value "    BarnCamp Attendee Management System v1.0   (c) copyleft 2017 HacktionLab    " reverse-video.
+        03 line 5 column 34 value "Welcome to BAMS" underline.
         03 line 7 column 36 value "Today is ".
         03 line 7 column plus 1 from DayOfTheWeek(CurrentDayOfWeek).
         03 line 10 column 5 value "People on site: ".
