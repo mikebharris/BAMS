@@ -55,7 +55,6 @@ working-storage section.
 screen section.
     01 HomeScreen background-color 0 foreground-color 2 highlight.
         03 blank screen background-color 0 foreground-color 5.
-        03 line 5 column 34 value "Welcome to BAMS" underline reverse-video.
         03 line 7 column 36 value "Today is ".
         03 line 7 column plus 1 from DayOfTheWeek(CurrentDayOfWeek).
         03 line 10 column 5 value "People on site: ".
