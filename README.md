@@ -8,7 +8,7 @@ A system for managing the Welcome Desk at [BarnCamp](https://barncamp.org.uk) wr
 
 ## Compiling
 
-Firstly, Good Luck!
+Firstly, Good Luck!  You'll need version 2.0 of [GNU COBOL](https://sourceforge.net/projects/open-cobol/) to compile this code.  
 
 I can compile it on Mac OS X 10.12 with:
 ```
@@ -37,6 +37,8 @@ Just run it with:
  ./bams
  ```   
 ## Run the test suite
+
+To run the test suite, you'll need to download and build [COBOL Test Suite](https://github.com/mikebharris/COBOL-Test-Suite).
 
 First import the test data (see above).
 
