@@ -12,26 +12,21 @@ configuration section.
 
 data division.
 working-storage section.
+    copy Attendee.
+
+    01 AttendeesFileName pic x(20) value spaces.
+
     01 BarnCampStats.
         02 PeopleOnSite pic 999 value zero.
         02 PeopleSignedUp pic 999 value zero.
         02 PeopleToArrive pic 999 value zero.
         02 PeopleToArriveToday pic 999 value zero.
-        02 TotalEstimatedAttendees pic 999 value zero.
-        02 KidsToArrive pic 99 value zero.
         02 KidsOnSite pic 99 value zero.
+        02 KidsToArrive pic 99 value zero.
         02 KidsToArriveToday pic 99 value zero.
-        02 TotalEstimatedKids pic 99 value zero.
         02 NumberOfCancellations pic 99 value zero.
-
-    01 CurrentDayOfWeek pic 9 value zero.
-
-    01 DaysOfTheWeek value "MonTueWedThuFriSatSun".
-        02 DayOfTheWeek pic x(3) occurs 7 times.
-
-    01 AttendeesFileName pic x(20) value spaces.
-
-    copy Attendee.
+        02 TotalEstimatedAttendees pic 999 value zero.
+        02 TotalEstimatedKids pic 99 value zero.
 
     01 Command pic x.
         88 CommandIsExit values "x","X".
@@ -43,11 +38,17 @@ working-storage section.
         88 CommandIsSearch value "?".
         88 CommandIsList value "l", "L".
 
-    01 StringToSearch pic x(30) value spaces.
+    01 CurrentDayOfWeek pic 9 value zero.
+
+    01 DaysOfTheWeek value "MonTueWedThuFriSatSun".
+        02 DayOfTheWeek pic x(3) occurs 7 times.
+
+
     01 SearchOperation pic x.
         88 SearchByAuthCode values "a", "A".
         88 SearchByEmail values "e", "E".
         88 SearchByName values "n", "N".
+    01 StringToSearch pic x(30) value spaces.
 
     01 Today pic x(3).
         88 IsValidDayOfWeek values "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat".

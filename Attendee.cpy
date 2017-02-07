@@ -7,7 +7,7 @@
         88 AttendeePaid values "Y", "y".
         88 AttendeeNotPaid values "N", "n".
     02 AmountPaid  pic 999 value zero.
-    02 DatePaid value zeros.
+    02 DatePaid value zeroes.
         03 CentuaryPaid pic 99.
         03 YearPaid pic 99.
         03 MonthPaid pic 99.

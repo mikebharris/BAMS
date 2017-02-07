@@ -16,15 +16,15 @@ working-storage section.
     01 AttendeesFileName pic x(20) value spaces.
     01 SourceFileName pic x(20) value spaces.
 
+    01 AttendeesToArriveReturned pic 999 value zero.
+    01 AttendeesOnSiteReturned pic 999 value zero.
     01 NewAuthCode      pic x(6) value all "0".
-    01 NumberOfAttendeesReturned pic 999 value zeroes.
-    01 AttendeesOnSiteReturned pic 999 value zeroes.
-    01 AttendeesToArriveReturned pic 999 value zeroes.
-    01 NumberOfKidsReturned pic 99 value zeroes.
-    01 NumberOfKidsOnSiteReturned pic 99 value zeroes.
-    01 NumberOfKidsToArriveReturned pic 99 value zeroes.
-    01 TotalPaidReturned pic 9(4) value zeroes.
-    01 TotalToPayReturned pic 9(4) value zeroes.
+    01 NumberOfAttendeesReturned pic 999 value zero.
+    01 NumberOfKidsOnSiteReturned pic 99 value zero.
+    01 NumberOfKidsReturned pic 99 value zero.
+    01 NumberOfKidsToArriveReturned pic 99 value zero.
+    01 TotalPaidReturned pic 9(4) value zero.
+    01 TotalToPayReturned pic 9(4) value zero.
 
 procedure division.
 
@@ -40,16 +40,6 @@ InitialiseAttendeesFile.
 
 TestListAttendees.
     call "ListAttendees"
-    .
-
-TestReturnCountOfAttendees.
-    *> Given
-    *> When
-    call "CountOfAttendees" using by reference NumberOfAttendeesReturned
-
-    *> Then
-    call "AssertEquals" using by content NumberOfAttendeesReturned, by content 7,
-        by content "TestReturnCountOfAttendees: Correct number of attendees returned: 7".
     .
 
 TestImportedRecordExists.
@@ -91,9 +81,7 @@ TestShouldUpdateAttendeeDetails.
 
     *> Then
     call "AssertEquals" using by content AttendeeReturned, by content AttendeeExpected
-        by content "Result returns the correct details for added Attendee with AuthCode of " NewAuthCode
-    call "AssertEquals" using by content NumberOfAttendeesReturned, by content 7,
-        by content "Number of attendees not incremented for record update: 7"
+        by content "TestShouldUpdateAttendeeDetails: Result returns the correct details for added Attendee with AuthCode of " NewAuthCode
     .
 
 TestCanAddAttendee.
@@ -115,40 +103,6 @@ TestCanAddAttendee.
     *> Then
     call "AssertEquals" using by content AttendeeReturned, by content AttendeeExpected
         by content "TestCanAddAnotherAttendee: Result returns the correct details for added Attendee"
-    .
-
-TestReturnCountOfAttendees.
-    *> Given
-    *> When
-    call "CountOfAttendees" using by reference NumberOfAttendeesReturned
-
-    *> Then
-    call "AssertEquals" using by content NumberOfAttendeesReturned, by content 8,
-        by content "TestReturnCountOfAttendees: Correct number of attendees returned: 8".
-
-TestReturnTotalNumberOfKids.
-    *> Given
-    *> When
-    call "NumberOfKids" using by reference NumberOfKidsReturned
-
-    *> Then
-    call "AssertEquals" using by content NumberOfKidsReturned, by content 6,
-        by content "TestReturnTotalNumberOfKids: Correct number of kids returned: 6".
-
-TestShouldUpdateNumberOfKids.
-    *> Given
-    call "GetAttendeeByAuthCode"
-        using by reference "ABCDEF",
-        by reference AttendeeReturned
-    move 2 to NumberOfKids of AttendeeReturned
-    call "UpdateAttendee" using by content AttendeeReturned
-
-    *> When
-    call "NumberOfKids" using by reference NumberOfKidsReturned
-
-    *> Then
-    call "AssertEquals" using by content NumberOfKidsReturned, by content 8,
-        by content "TestShouldUpdateNumberOfKids: Correct number of kids returned: 8".
     .
 
 TestAttendeeStats.

@@ -35,21 +35,20 @@ working-storage section.
     01 BackupFileName   pic x(20) value "attendees.bak".
 
 linkage section.
+    01 AttendeesToArrive pic 999 value zero.
+    01 AttendeesOnSite pic 999 value zero.
     01 CustomFileName pic x(20) value spaces.
-    copy Attendee replacing Attendee by ==ThisAttendee is global==.
-    01 NumberOfAttendees pic 999 value zeroes.
-    01 AttendeesOnSite pic 999 value zeroes.
-    01 AttendeesToArrive pic 999 value zeroes.
-    01 KidsOnSite pic 99 value zeros.
-    01 KidsToArrive pic 99 value zeros.
-    01 CountOfKids pic 99 value zeroes.
-    01 ThisAuthCode pic x(6).
-    01 ThisEmail pic x(25) value spaces.
-    01 ThisName pic x(25) value spaces.
     01 DayOfWeek pic x(3) value spaces.
         88 ValidDayOfWeek values "Wed", "Thu", "Fri", "Sat", "Sun".
-    01 TotalPaid pic 9(4) value zeroes.
-    01 TotalToPay pic 9(4) value zeroes.
+    01 NumberOfAttendees pic 999 value zero.
+    01 KidsToArrive pic 99 value zero.
+    01 KidsOnSite pic 99 value zero.
+    copy Attendee replacing Attendee by ==ThisAttendee is global==.
+    01 ThisAuthCode pic x(6) value all "0".
+    01 ThisEmail pic x(25) value spaces.
+    01 ThisName pic x(25) value spaces.
+    01 TotalPaid pic 9(4) value zero.
+    01 TotalToPay pic 9(4) value zero.
 
 procedure division using CustomFileName.
     if CustomFileName not equal to spaces
@@ -127,7 +126,7 @@ entry "GetAttendeeByName" using ThisName, ThisAttendee
     .
 
 entry "ListAttendees"
-    move zeros to AuthCode of AttendeeRecord
+    move zeroes to AuthCode of AttendeeRecord
     start AttendeesFile key is greater than AuthCode of AttendeeRecord
     open input AttendeesFile
         read AttendeesFile next record
@@ -143,29 +142,11 @@ entry "ListAttendees"
     goback
     .
 
-entry "CountOfAttendees" using NumberOfAttendees
-    move zero to NumberOfAttendees
-    move zeros to AuthCode of AttendeeRecord
-    start AttendeesFile key is greater than AuthCode of AttendeeRecord
-    open input AttendeesFile
-        read AttendeesFile next record
-            at end set EndOfAttendeesFile to true
-        end-read
-        perform until EndOfAttendeesFile
-            add 1 to NumberOfAttendees
-            read AttendeesFile next record
-                at end set EndOfAttendeesFile to true
-            end-read
-        end-perform
-    close AttendeesFile
-    goback
-    .
-
 entry "AttendeeStats" using NumberOfAttendees, AttendeesOnSite, AttendeesToArrive, KidsOnSite, KidsToArrive
     move zero to NumberOfAttendees
     move zero to AttendeesOnSite
     move zero to AttendeesToArrive
-    move zeros to AuthCode of AttendeeRecord
+    move zeroes to AuthCode of AttendeeRecord
     start AttendeesFile key is greater than AuthCode of AttendeeRecord
     open input AttendeesFile
         read AttendeesFile next record
@@ -190,8 +171,9 @@ entry "AttendeeStats" using NumberOfAttendees, AttendeesOnSite, AttendeesToArriv
     .
 
 entry "FinancialStats" using TotalPaid, TotalToPay
-    initialize TotalPaid, TotalToPay
-    move zeros to AuthCode of AttendeeRecord
+    move zero to TotalPaid
+    move zero to TotalToPay
+    move zeroes to AuthCode of AttendeeRecord
     start AttendeesFile key is greater than AuthCode of AttendeeRecord
     open input AttendeesFile
         read AttendeesFile next record
@@ -212,28 +194,10 @@ entry "FinancialStats" using TotalPaid, TotalToPay
     goback
     .
 
-entry "NumberOfKids" using CountOfKids
-    move zero to CountOfKids
-    move zeros to AuthCode of AttendeeRecord
-    start AttendeesFile key is greater than AuthCode of AttendeeRecord
-    open input AttendeesFile
-        read AttendeesFile next record
-            at end set EndOfAttendeesFile to true
-        end-read
-        perform until EndOfAttendeesFile
-            add NumberOfKids of AttendeeRecord to CountOfKids
-            read AttendeesFile next record
-                at end set EndOfAttendeesFile to true
-            end-read
-        end-perform
-    close AttendeesFile
-    goback
-    .
-
 entry "AttendeesToArriveOnDay" using DayOfWeek, AttendeesToArrive, KidsToArrive
     initialize AttendeesToArrive, KidsToArrive
     if ValidDayOfWeek
-        move zeros to AuthCode of AttendeeRecord
+        move zeroes to AuthCode of AttendeeRecord
         start AttendeesFile key is greater than AuthCode of AttendeeRecord
         open input AttendeesFile
             read AttendeesFile next record
