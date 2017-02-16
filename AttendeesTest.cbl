@@ -108,7 +108,7 @@ TestCanAddAttendee.
 TestAttendeeStats.
     *> Given
     call "GetAttendeeByAuthCode"
-        using by reference "ABCDEF",
+        using by reference "CDEF12",
         by reference AttendeeReturned
     set AttendeeArrived of AttendeeReturned to true
     call "UpdateAttendee" using by content AttendeeReturned
@@ -129,11 +129,11 @@ TestAttendeeStats.
     call "AssertEquals" using by content AttendeesToArriveReturned, by content 7,
         by content "TestAttendeeStats: Correct number of attendees TO ARRIVE returned: 7".
 
-    call "AssertEquals" using by content NumberOfKidsToArriveReturned, by content 6,
-        by content "TestAttendeeStats: Correct number of kids TO ARRIVE returned: 6".
+    call "AssertEquals" using by content NumberOfKidsToArriveReturned, by content 4,
+        by content "TestAttendeeStats: Correct number of kids TO ARRIVE returned: 4".
 
     call "AssertEquals" using by content NumberOfKidsOnSiteReturned, by content 2,
-        by content "TestAttendeeStats: Correct number of kids TO On-Site returned: 2".
+        by content "TestAttendeeStats: Correct number of kids On-Site returned: 2".
 
 TestFetchAttendeeByEmail.
     *> Given
@@ -170,7 +170,7 @@ TestFetchAttendeesToArriveOnDay.
         by reference AttendeesToArriveReturned, NumberOfKidsToArriveReturned
 
     *> Then
-    call "AssertEquals" using by content AttendeesToArriveReturned by content 2
+    call "AssertEquals" using by content AttendeesToArriveReturned by content 3
         by content "TestFetchAttendeesToArriveOnDay: Correct number of attendees returned for Wednesday arrivals"
 
     call "AssertEquals" using by content NumberOfKidsToArriveReturned by content 3
@@ -182,10 +182,10 @@ TestFetchAttendeesToArriveOnDay.
         by reference AttendeesToArriveReturned, NumberOfKidsToArriveReturned
 
     *> Then
-    call "AssertEquals" using by content AttendeesToArriveReturned by content 5
+    call "AssertEquals" using by content AttendeesToArriveReturned by content 4
         by content "TestFetchAttendeesToArriveOnDay: Correct number of attendees returned for Friday arrivals"
 
-    call "AssertEquals" using by content NumberOfKidsToArriveReturned by content 3
+    call "AssertEquals" using by content NumberOfKidsToArriveReturned by content 1
         by content "TestFetchAttendeesToArriveOnDay: Correct number of kids returned for Friday arrivals"
     .
 
