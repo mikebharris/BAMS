@@ -35,20 +35,11 @@ working-storage section.
         88 CommandIsAdd values "a", "A".
         88 CommandIsSave values "s", "S".
         88 CommandIsGoBack values "g", "G".
-        88 CommandIsSearch value "?".
-        88 CommandIsList value "l", "L".
 
     01 CurrentDayOfWeek pic 9 value zero.
 
     01 DaysOfTheWeek value "MonTueWedThuFriSatSun".
         02 DayOfTheWeek pic x(3) occurs 7 times.
-
-
-    01 SearchOperation pic x.
-        88 SearchByAuthCode values "a", "A".
-        88 SearchByEmail values "e", "E".
-        88 SearchByName values "n", "N".
-    01 StringToSearch pic x(30) value spaces.
 
     01 Today pic x(3).
         88 IsValidDayOfWeek values "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat".
@@ -152,7 +143,6 @@ Main section.
         evaluate true
             when CommandIsView perform ViewAttendee
             when CommandIsAdd  perform AddAttendee
-            when CommandIsList perform ListAttendees
         end-evaluate
     end-perform
 
@@ -163,12 +153,6 @@ SearchAttendee section.
     move spaces to AuthCode
     accept SearchByAuthCodeScreen end-accept
     move upper-case(AuthCode) to AuthCode
-.
-
-ListAttendees section.
-    accept ListAttendeesScreen
-    call "ListAttendees"
-    accept Command
 .
 
 ViewAttendee section.
