@@ -14,6 +14,7 @@
         03 DayPaid pic 99.
     02 Telephone    pic x(14) value spaces.
     02 ArrivalDay   pic xxx value spaces.
+        88 ArrivalDayIsValid values "Wed", "Thu", "Fri", "Sat".
         88 ArrivalDayIsWednesday value "Wed".
         88 ArrivalDayIsThursday value "Thu".
         88 ArrivalDayIsFriday value "Fri".
