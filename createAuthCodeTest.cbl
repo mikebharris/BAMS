@@ -3,13 +3,12 @@ program-id. createAuthCodeTest.
 
 environment division.
 configuration section.
-    repository.
-        function createAuthCode.
-
     special-names.
         class HexNumber is "0" thru "9",
                            "A" thru "F",
                            "a" thru "f".
+    repository.
+        function createAuthCode.
 
 data division.
 working-storage section.
