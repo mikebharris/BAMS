@@ -50,7 +50,11 @@ linkage section.
     01 TotalPaid pic 9(4) value zero.
     01 TotalToPay pic 9(4) value zero.
 
-procedure division using CustomFileName.
+procedure division.
+    goback
+    .
+
+entry "SetAttendeesFileName" using CustomFileName.
     if CustomFileName not equal to spaces
         move CustomFileName to AttendeeFileName
         move AttendeeFileName to BackupFileName

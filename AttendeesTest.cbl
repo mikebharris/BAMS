@@ -29,13 +29,15 @@ working-storage section.
 procedure division.
 
 SetupInitialData.
-    initialize AttendeeExpected.
+    initialize AttendeeExpected
+    call "Attendees"
+    .
 
 InitialiseAttendeesFile.
     call "C$COPY" using "test-data.dat", "attendees-test.dat", 0
     call "C$COPY" using "test-data.dat.1", "attendees-test.dat.1", 0
     call "C$COPY" using "test-data.dat.2", "attendees-test.dat.2", 0
-    call "Attendees" using "attendees-test.dat"
+    call "SetAttendeesFileName" using "attendees-test.dat"
     .
 
 TestListAttendees.
