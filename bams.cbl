@@ -127,9 +127,11 @@ screen section.
         03 line 24 column 78 to Command.
 
 procedure division.
+
 Initialisation section.
+    call "Attendees"
     move "attendees.dat" to AttendeesFileName
-    call "Attendees" using AttendeesFileName
+    call "SetAttendeesFileName" using AttendeesFileName
 .
 
 Main section.
