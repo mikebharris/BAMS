@@ -36,6 +36,8 @@ working-storage section.
         88 CommandIsSave values "s", "S".
         88 CommandIsGoBack values "g", "G".
 
+    01 CommandLineArgumentCount pic 9 value zero.
+
     01 CurrentDayOfWeek pic 9 value zero.
 
     01 DaysOfTheWeek value "MonTueWedThuFriSatSun".
@@ -127,10 +129,14 @@ screen section.
         03 line 24 column 78 to Command.
 
 procedure division.
-
 Initialisation section.
+    accept CommandLineArgumentCount from argument-number
+    if CommandLineArgumentCount equal to 1 then
+        accept AttendeesFileName from argument-value
+    else
+        move "attendees.dat" to AttendeesFileName
+    end-if
     call "Attendees"
-    move "attendees.dat" to AttendeesFileName
     call "SetAttendeesFileName" using AttendeesFileName
 .
 
