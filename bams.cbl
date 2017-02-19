@@ -4,6 +4,7 @@ program-id. BAMS.
 environment division.
 configuration section.
     special-names.
+        crt status is FunctionKeyCommand.
         class HexNumber is "0" thru "9", "A" thru "F", "a" thru "f".
 
     repository.
@@ -27,6 +28,13 @@ working-storage section.
         02 NumberOfCancellations pic 99 value zero.
         02 TotalEstimatedAttendees pic 999 value zero.
         02 TotalEstimatedKids pic 99 value zero.
+
+    01 FunctionKeyCommand pic 9999 value zero.
+        88 OperationIsExit value 1010. *> F10
+        88 OperationIsSave value 1007. *> F7
+        88 OperationIsAdd value 1001.  *> F1
+        88 OperationIsView value 1002. *> F2
+        88 OperationIsEdit value 1003. *> F3
 
     01 Command pic x.
         88 CommandIsExit values "x","X".
@@ -71,7 +79,7 @@ screen section.
         03 pic z9 line 13 column plus 8 from TotalEstimatedKids.
         03 line 16 column 45 value "Kids to arrive today: ".
         03 pic z9 line 16 column plus 2 from KidsToArriveToday.
-        03 line 24 column 4 value "Commands are: (V)iew/edit, (A)dd or e(X)it".
+        03 line 24 column 1 value "Commands: F1 View, F2 Add, F3 Edit, F7 Save, F10 Exit                          " reverse-video.
         03 line 24 column 78 to Command.
 
     01 ViewAttendeeScreen background-color 0 foreground-color 2.
@@ -141,7 +149,7 @@ Initialisation section.
 .
 
 Main section.
-    perform until CommandIsExit
+    perform until OperationIsExit
         call "AttendeeStats" using by reference PeopleSignedUp, PeopleOnSite, PeopleToArrive, KidsOnSite, KidsToArrive
         add PeopleToArrive to PeopleOnSite giving TotalEstimatedAttendees
         add KidsToArrive to KidsOnSite giving TotalEstimatedKids
@@ -149,8 +157,8 @@ Main section.
         call "AttendeesToArriveOnDay" using content DayOfTheWeek(CurrentDayOfWeek) by reference PeopleToArriveToday, KidsToArriveToday
         accept HomeScreen end-accept
         evaluate true
-            when CommandIsView perform ViewAttendee
-            when CommandIsAdd  perform AddAttendee
+            when OperationIsView perform ViewAttendee
+            when OperationIsAdd  perform AddAttendee
         end-evaluate
     end-perform
 
