@@ -1,10 +1,22 @@
+>>DEFINE CONSTANT F1 AS 1001
+>>DEFINE CONSTANT F2 AS 1002
+>>DEFINE CONSTANT F3 AS 1003
+>>DEFINE CONSTANT F4 AS 1004
+>>DEFINE CONSTANT F5 AS 1005
+>>DEFINE CONSTANT F6 AS 1006
+>>DEFINE CONSTANT F7 AS 1007
+>>DEFINE CONSTANT F8 AS 1008
+>>DEFINE CONSTANT F9 AS 1009
+>>DEFINE CONSTANT F10 AS 1010
+>>DEFINE CONSTANT ESC AS 2005
+
 identification division.
 program-id. BAMS.
 
 environment division.
 configuration section.
     special-names.
-        crt status is FunctionKeyCommand.
+        crt status is Operation.
         class HexNumber is "0" thru "9", "A" thru "F", "a" thru "f".
 
     repository.
@@ -29,20 +41,15 @@ working-storage section.
         02 TotalEstimatedAttendees pic 999 value zero.
         02 TotalEstimatedKids pic 99 value zero.
 
-    01 FunctionKeyCommand pic 9999 value zero.
-        88 OperationIsExit value 1010. *> F10
-        88 OperationIsSave value 1007. *> F7
-        88 OperationIsAdd value 1001.  *> F1
-        88 OperationIsView value 1002. *> F2
-        88 OperationIsEdit value 1003. *> F3
+    01 Operation pic 9999 value zero.
+        88 OperationIsExit value F10.
+        88 OperationIsSave value F7.
+        88 OperationIsAdd  value F3.
+        88 OperationIsView value F2.
+        88 OperationIsEdit value F4.
+        88 OperationIsBack values F1 ESC.
 
     01 Command pic x.
-        88 CommandIsExit values "x","X".
-        88 CommandIsView values "v","V".
-        88 CommandIsEdit values "e", "E".
-        88 CommandIsAdd values "a", "A".
-        88 CommandIsSave values "s", "S".
-        88 CommandIsGoBack values "g", "G".
 
     01 CommandLineArgumentCount pic 9 value zero.
 
@@ -79,11 +86,12 @@ screen section.
         03 pic z9 line 13 column plus 8 from TotalEstimatedKids.
         03 line 16 column 45 value "Kids to arrive today: ".
         03 pic z9 line 16 column plus 2 from KidsToArriveToday.
-        03 line 24 column 1 value "Commands: F1 View, F2 Add, F3 Edit, F7 Save, F10 Exit                          " reverse-video.
+        03 line 24 column 1 value "Commands: F2 View, F3 Add, F10 Exit                                           " reverse-video highlight.
         03 line 24 column 78 to Command.
 
     01 ViewAttendeeScreen background-color 0 foreground-color 2.
         03 blank screen.
+        03 line 1 column 1 value "    BarnCamp Attendee Management System v1.0   (c) copyleft 2017 HacktionLab    " reverse-video highlight.
         03 line 2 column 1 value "AuthCode:".
         03 line 2 column 15 from AuthCode.
         03 line 4 column 1 value "Name:".
@@ -102,19 +110,22 @@ screen section.
         03 pic 999 line 16 column 15 from AmountToPay.
         03 line 18 column 1 value "Paid?:".
         03 line 18 column 15 from PaymentStatus.
-        03 line 24 column 4 value "Commands are: (E)dit or (G)oback".
+        03 line 24 column 1 value "Commands: F1 Home, F4 Edit, F10 Exit                                         " reverse-video highlight.
         03 line 24 column 78 to Command.
 
     01 SearchByAuthCodeScreen background-color 0 foreground-color 2.
         03 blank screen.
+        03 line 1 column 1 value "    BarnCamp Attendee Management System v1.0   (c) copyleft 2017 HacktionLab    " reverse-video highlight.
         03 line 2 column 1 value "AuthCode:".
-        03 line 2 column 15 using AuthCode required.
+        03 line 2 column 15 to AuthCode required.
+        03 line 24 column 1 value "Commands: F1 Home, F10 Exit - type in authcode and press ENTER               " reverse-video highlight.
 
     01 ListAttendeesScreen background-color 0 foreground-color 2.
         03 blank screen.
 
     01 EditAttendeeScreen background-color 0 foreground-color 2.
         03 blank screen.
+        03 line 1 column 1 value "    BarnCamp Attendee Management System v1.0   (c) copyleft 2017 HacktionLab    " reverse-video highlight.
         03 line 2 column 1 value "AuthCode:".
         03 line 2 column 15 from AuthCode.
         03 line 4 column 1 value "Name:".
@@ -133,7 +144,7 @@ screen section.
         03 pic 999 line 16 column 15 using AmountToPay.
         03 line 18 column 1 value "Paid?:".
         03 line 18 column 15 using PaymentStatus required.
-        03 line 24 column 4 value "Commands are: (S)ave or (G)oback".
+        03 line 24 column 1 value "Commands: F1 Home, F7 Save, F10 Exit                                         " reverse-video highlight.
         03 line 24 column 78 to Command.
 
 procedure division.
@@ -146,6 +157,9 @@ Initialisation section.
     end-if
     call "Attendees"
     call "SetAttendeesFileName" using AttendeesFileName
+
+    set environment 'COB_SCREEN_EXCEPTIONS' to 'Y'
+    set environment 'COB_SCREEN_ESC' to 'Y'
 .
 
 Main section.
@@ -155,7 +169,7 @@ Main section.
         add KidsToArrive to KidsOnSite giving TotalEstimatedKids
         accept CurrentDayOfWeek from day-of-week
         call "AttendeesToArriveOnDay" using content DayOfTheWeek(CurrentDayOfWeek) by reference PeopleToArriveToday, KidsToArriveToday
-        accept HomeScreen end-accept
+        accept HomeScreen from crt end-accept
         evaluate true
             when OperationIsView perform ViewAttendee
             when OperationIsAdd  perform AddAttendee
@@ -181,23 +195,22 @@ ViewAttendee section.
     if Name of Attendee is equal to high-values or AuthCode is not HexNumber then
         display "Invalid authcode or authcode not found"
     else
-        perform until CommandIsGoBack
+        perform until OperationIsBack or OperationIsExit
             accept ViewAttendeeScreen end-accept
             evaluate true
-                when CommandIsEdit perform EditAttendee
+                when OperationIsEdit perform EditAttendee
             end-evaluate
         end-perform
     end-if
 .
 
 EditAttendee section.
-    perform until CommandIsGoBack or CommandIsSave
+    perform until OperationIsBack or OperationIsExit or OperationIsSave
         accept EditAttendeeScreen end-accept
         evaluate true
-            when CommandIsSave call "UpdateAttendee" using by content Attendee
+            when OperationIsSave call "UpdateAttendee" using by content Attendee
         end-evaluate
     end-perform
-    move space to Command
 .
 
 AddAttendee section.
@@ -207,10 +220,10 @@ AddAttendee section.
     set AttendeeArrived of Attendee to true
     set AttendeeNotPaid of Attendee to true
     move 40 to AmountToPay
-    perform until CommandIsGoBack or CommandIsSave
+    perform until OperationIsBack or OperationIsExit or OperationIsSave
         accept EditAttendeeScreen end-accept
         evaluate true
-            when CommandIsSave call "AddAttendee" using by content Attendee
+            when OperationIsSave call "AddAttendee" using by content Attendee
         end-evaluate
     end-perform
 .
