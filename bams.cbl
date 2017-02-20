@@ -106,7 +106,7 @@ screen section.
         03 line 12 column 15 from AttendanceStatus.
         03 line 14 column 1 value "Kids:".
         03 line 14 column 15 from NumberOfKids.
-        03 line 16 column 1 value "To Pay:".
+        03 line 16 column 1 value "Pay amount:".
         03 pic 999 line 16 column 15 from AmountToPay.
         03 line 18 column 1 value "Paid?:".
         03 line 18 column 15 from PaymentStatus.
@@ -135,15 +135,18 @@ screen section.
         03 line 8 column 1 value "Telephone:".
         03 line 8 column 15 using Telephone.
         03 line 10 column 1 value "Arrival day:".
-        03 line 10 column 15 using ArrivalDay required.
+        03 line 10 column 15 using ArrivalDay required full.
+        03 line 10 column plus 2 value "(Wed/Thu/Fri/Sat/Sun)".
         03 line 12 column 1 value "Status:".
         03 line 12 column 15 using AttendanceStatus required.
+        03 line 12 column plus 2 value "(A = arrived, C = coming, X = cancelled)".
         03 line 14 column 1 value "Kids:".
         03 pic 9 line 14 column 15 using NumberOfKids required.
-        03 line 16 column 1 value "To Pay:".
-        03 pic 999 line 16 column 15 using AmountToPay.
+        03 line 16 column 1 value "Pay amount:".
+        03 pic 999 line 16 column 15 using AmountToPay required full.
         03 line 18 column 1 value "Paid?:".
         03 line 18 column 15 using PaymentStatus required.
+        03 line 18 column plus 2 value "(Y/N)".
         03 line 24 column 1 value "Commands: F1 Home, F7 Save, F10 Exit                                         " reverse-video highlight.
         03 line 24 column 78 to Command.
 
