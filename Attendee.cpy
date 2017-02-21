@@ -24,3 +24,4 @@
         88 AttendeeComing values "C", "c".
         88 AttendeeArrived values "A", "a".
         88 AttendeeCancelled values "X", "x".
+    02 Diet pic x(60) value spaces.

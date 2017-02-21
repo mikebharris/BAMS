@@ -110,6 +110,8 @@ screen section.
         03 pic 999 line 16 column 15 from AmountToPay.
         03 line 18 column 1 value "Paid?:".
         03 line 18 column 15 from PaymentStatus.
+        03 line 20 column 1 value "Diet issues:".
+        03 line 20 column 15 from Diet.
         03 line 24 column 1 value "Commands: F1 Home, F4 Edit, F10 Exit                                         " reverse-video highlight.
         03 line 24 column 78 to Command.
 
@@ -147,6 +149,8 @@ screen section.
         03 line 18 column 1 value "Paid?:".
         03 line 18 column 15 using PaymentStatus required.
         03 line 18 column plus 2 value "(Y/N)".
+        03 line 20 column 1 value "Diet issues:".
+        03 line 20 column 15 using Diet.
         03 line 24 column 1 value "Commands: F1 Home, F7 Save, F10 Exit                                         " reverse-video highlight.
         03 line 24 column 78 to Command.
 

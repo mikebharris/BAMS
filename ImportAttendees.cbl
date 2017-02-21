@@ -40,7 +40,6 @@ working-storage section.
     01 TempAttendeeData.
         02 PaidDateFromWeb pic x(10).
         02 ArrivalDayFromWeb pic x(10).
-        02 DietFromWeb pic x(20).
         02 StayingLateFromWeb pic x(5).
 
     01 AttendeesFileName pic x(20) value spaces.
@@ -80,7 +79,7 @@ procedure division.
             PaidDateFromWeb,
             Telephone of Attendee,
             ArrivalDayFromWeb,
-            DietFromWeb,
+            Diet of Attendee,
             StayingLateFromWeb,
             NumberOfKids of Attendee
         end-unstring
