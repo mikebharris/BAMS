@@ -27,6 +27,9 @@ data division.
 working-storage section.
     copy Attendee.
 
+    01 AddAttendeeFlag pic 9 value 0.
+        88 AddAttendeeFlagOn value 1 when set to false is 0.
+
     01 AttendeesFileName pic x(20) value spaces.
 
     01 BarnCampStats.
@@ -213,7 +216,11 @@ EditAttendee section.
     perform until OperationIsBack or OperationIsExit or OperationIsSave
         accept EditAttendeeScreen end-accept
         evaluate true
-            when OperationIsSave call "UpdateAttendee" using by content Attendee
+            when OperationIsSave
+                evaluate true
+                    when AddAttendeeFlagOn call "AddAttendee" using by content Attendee
+                    when not AddAttendeeFlagOn call "UpdateAttendee" using by content Attendee
+                end-evaluate
             when OperationIsTogglePaid
                 evaluate true
                     when AttendeePaid set AttendeeNotPaid to true
@@ -243,12 +250,8 @@ AddAttendee section.
     set AttendeeArrived of Attendee to true
     set AttendeeNotPaid of Attendee to true
     move 40 to AmountToPay
-    perform until OperationIsBack or OperationIsExit or OperationIsSave
-        accept EditAttendeeScreen end-accept
-        evaluate true
-            when OperationIsSave call "AddAttendee" using by content Attendee
-        end-evaluate
-    end-perform
+    set AddAttendeeFlagOn to true
+    perform EditAttendee
 .
 
 end program BAMS.
