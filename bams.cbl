@@ -43,10 +43,13 @@ working-storage section.
 
     01 Operation pic 9999 value zero.
         88 OperationIsExit value F10.
-        88 OperationIsSave value F7.
+        88 OperationIsSave value F8.
         88 OperationIsAdd  value F3.
         88 OperationIsView value F2.
         88 OperationIsEdit value F4.
+        88 OperationIsTogglePaid value F7.
+        88 OperationIsToggleStatus value F6.
+        88 OperationIsToggleArrivalDay value F5.
         88 OperationIsBack values F1 ESC.
 
     01 Command pic x.
@@ -137,21 +140,20 @@ screen section.
         03 line 8 column 1 value "Telephone:".
         03 line 8 column 15 using Telephone.
         03 line 10 column 1 value "Arrival day:".
-        03 line 10 column 15 using ArrivalDay required full.
-        03 line 10 column plus 2 value "(Wed/Thu/Fri/Sat/Sun)".
+        03 line 10 column 15 from ArrivalDay.
+        03 line 10 column plus 2 value "(Wed/Thu/Fri/Sat)".
         03 line 12 column 1 value "Status:".
-        03 line 12 column 15 using AttendanceStatus required.
+        03 line 12 column 15 from AttendanceStatus.
         03 line 12 column plus 2 value "(A = arrived, C = coming, X = cancelled)".
         03 line 14 column 1 value "Kids:".
         03 pic 9 line 14 column 15 using NumberOfKids required.
         03 line 16 column 1 value "Pay amount:".
         03 pic 999 line 16 column 15 using AmountToPay required full.
         03 line 18 column 1 value "Paid?:".
-        03 line 18 column 15 using PaymentStatus required.
-        03 line 18 column plus 2 value "(Y/N)".
+        03 line 18 column 15 from PaymentStatus.
         03 line 20 column 1 value "Diet issues:".
         03 line 20 column 15 using Diet.
-        03 line 24 column 1 value "Commands: F1 Home, F7 Save, F10 Exit                                         " reverse-video highlight.
+        03 line 24 column 1 value "Commands: F1 Home; Toggle: F5 Arrival, F6 Status, F7 Paid; F8 Save, F10 Exit  " reverse-video highlight.
         03 line 24 column 78 to Command.
 
 procedure division.
@@ -216,6 +218,24 @@ EditAttendee section.
         accept EditAttendeeScreen end-accept
         evaluate true
             when OperationIsSave call "UpdateAttendee" using by content Attendee
+            when OperationIsTogglePaid
+                evaluate true
+                    when AttendeePaid set AttendeeNotPaid to true
+                    when AttendeeNotPaid set AttendeePaid to true
+                end-evaluate
+            when OperationIsToggleArrivalDay
+                evaluate true
+                    when ArrivalDayIsWednesday set ArrivalDayIsThursday to true
+                    when ArrivalDayIsThursday set ArrivalDayIsFriday to true
+                    when ArrivalDayIsFriday set ArrivalDayIsSaturday to true
+                    when ArrivalDayIsSaturday set ArrivalDayIsWednesday to true
+                end-evaluate
+            when OperationIsToggleStatus
+                evaluate true
+                    when AttendeeComing set AttendeeArrived to true
+                    when AttendeeArrived set AttendeeCancelled to true
+                    when AttendeeCancelled set AttendeeComing to true
+                end-evaluate
         end-evaluate
     end-perform
 .
