@@ -57,12 +57,8 @@ working-storage section.
     01 CommandLineArgumentCount pic 9 value zero.
 
     01 CurrentDayOfWeek pic 9 value zero.
-
     01 DaysOfTheWeek value "MonTueWedThuFriSatSun".
         02 DayOfTheWeek pic x(3) occurs 7 times.
-
-    01 Today pic x(3).
-        88 IsValidDayOfWeek values "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat".
 
 screen section.
     01 HomeScreen background-color 0 foreground-color 2 highlight.
