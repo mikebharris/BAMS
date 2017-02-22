@@ -195,7 +195,7 @@ SearchAttendee section.
 
 ViewAttendee section.
     initialize Attendee
-    perform SearchAttendee
+    call "AttendeesList" using by reference Authcode of Attendee
     call "GetAttendeeByAuthCode"
         using by content Authcode of Attendee,
         by reference Attendee
