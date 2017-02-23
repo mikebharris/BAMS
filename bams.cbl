@@ -120,9 +120,9 @@ screen section.
     01 SearchByAuthCodeScreen background-color 0 foreground-color 2.
         03 blank screen.
         03 line 1 column 1 value "    BarnCamp Attendee Management System v1.0   (c) copyleft 2017 HacktionLab    " reverse-video highlight.
-        03 line 2 column 1 value "AuthCode:".
-        03 line 2 column 15 to AuthCode required.
-        03 line 24 column 1 value "Commands: F1 Home, F10 Exit - type in authcode and press ENTER               " reverse-video highlight.
+        03 line 2 column 1 value "Enter AuthCode and press enter, F2 to find:".
+        03 line 2 column plus 2 to AuthCode required.
+        03 line 24 column 1 value "Commands: F1 Home, F2 Find, F10 Exit - type in authcode and press ENTER               " reverse-video highlight.
 
     01 ListAttendeesScreen background-color 0 foreground-color 2.
         03 blank screen.
@@ -190,12 +190,15 @@ Main section.
 SearchAttendee section.
     move spaces to AuthCode
     accept SearchByAuthCodeScreen end-accept
-    move upper-case(AuthCode) to AuthCode
+    evaluate true
+        when OperationIsView call "AttendeesList" using by reference Authcode of Attendee
+        when other move upper-case(AuthCode) to AuthCode
+    end-evaluate
 .
 
 ViewAttendee section.
     initialize Attendee
-    call "AttendeesList" using by reference Authcode of Attendee
+    perform SearchAttendee
     call "GetAttendeeByAuthCode"
         using by content Authcode of Attendee,
         by reference Attendee
