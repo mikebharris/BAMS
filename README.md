@@ -12,8 +12,7 @@ Firstly, Good Luck!  You'll need version 2.0 of [GNU COBOL](https://sourceforge.
 
 I can compile it on Mac OS X 10.12 and under Debian GNU/Linux (kernel 3.16.0-4-amd64) with:
 ```
-cobc -free Attendees.cbl
-cobc -std=default -x -free -o ./bams bams.cbl createAuthCode.cbl
+cobc -x -free -std=default bams.cbl Attendees.cbl createAuthCode.cbl AttendeesList.cbl
 ```
 
 ## Setting up data
