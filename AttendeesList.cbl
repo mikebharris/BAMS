@@ -66,6 +66,10 @@ screen section.
     01 HomeScreen background-color 0 foreground-color 2 highlight.
         03 blank screen background-color 0 foreground-color 5.
         03 line 1 column 1 value "    BarnCamp Attendee Management System v1.0   (c) copyleft 2017 HacktionLab    " reverse-video.
+        03 line 2 column 1 value "Num" highlight underline.
+        03 line 2 column 6 value "Name" highlight underline.
+        03 line 2 column 31 value "Email" highlight underline.
+        03 line 2 column 71 value "AuthCode" highlight underline.
         03 line 24 column 1 value "Commands: PgUp/PgDown to scroll, Enter number and press ENTER, F10 Exit        " reverse-video highlight.
 
 procedure division using ReturnAuthCode.
@@ -96,7 +100,7 @@ procedure division using ReturnAuthCode.
     perform until OperationIsExit or OperationIsFinish
         display HomeScreen
         add 1 to PageOffset giving FirstRecordToShow
-        move 2 to CurrentRow
+        move 3 to CurrentRow
         add PageOffset to RecordsPerPage giving LastRecordToShow
         perform varying CurrentAttendeeNumber from FirstRecordToShow by 1
             until CurrentAttendeeNumber greater than LastRecordToShow or
