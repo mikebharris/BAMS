@@ -66,20 +66,7 @@ screen section.
     01 HomeScreen background-color 0 foreground-color 2 highlight.
         03 blank screen background-color 0 foreground-color 5.
         03 line 1 column 1 value "    BarnCamp Attendee Management System v1.0   (c) copyleft 2017 HacktionLab    " reverse-video.
-        03 line 23 column 1 value "PO: ".
-        03 line 23 column plus 1 from PageOffset.
-        03 line 23 column plus 2 value "1st: ".
-        03 line 23 column plus 1 from FirstRecordToShow.
-        03 line 23 column plus 2 value "Lst: ".
-        03 line 23 column plus 1 from LastRecordToShow.
-        03 line 23 column plus 2 value "Ofst: ".
-        03 line 23 column plus 1 from CurrentRow.
-        03 line 23 column plus 2 value "Cnt: ".
-        03 line 23 column plus 1 from RecordCount.
-        03 line 23 column plus 2 value "Cur: ".
-        03 line 23 column plus 1 from CurrentAttendeeNumber.
-        03 line 23 column 70 from Operation.
-        03 line 24 column 1 value "Commands: PgUp/PgDown to scroll, F10 Exit                              " reverse-video highlight.
+        03 line 24 column 1 value "Commands: PgUp/PgDown to scroll, Enter number and press ENTER, F10 Exit        " reverse-video highlight.
 
 procedure division using ReturnAuthCode.
 
