@@ -135,7 +135,7 @@ procedure division using ReturnAuthCode.
     end-perform
 
     if OperationIsFinish then
-        move Attendee(RecordSelected) to ReturnAuthCode
+        move AuthCode of Attendee(RecordSelected) to ReturnAuthCode
     end-if
 
     goback.
