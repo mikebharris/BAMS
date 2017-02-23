@@ -1,6 +1,6 @@
 >>DEFINE CONSTANT F10 AS 1010
->>DEFINE CONSTANT PGDN AS 2001
->>DEFINE CONSTANT PGUP AS 2002
+>>DEFINE CONSTANT PGUP AS 2001
+>>DEFINE CONSTANT PGDN AS 2002
 >>DEFINE CONSTANT ENTER AS 0000
 
 identification division.
@@ -55,8 +55,8 @@ working-storage section.
 
     01 Operation pic 9999 value 9999.
         88 OperationIsExit value 1010.
-        88 OperationIsNextPage value 2001.
-        88 OperationIsPrevPage value 2002.
+        88 OperationIsNextPage value 2002.
+        88 OperationIsPrevPage value 2001.
         88 OperationIsFinish value 0000.
 
 linkage section.
