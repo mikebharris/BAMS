@@ -105,14 +105,14 @@ procedure division using ReturnAuthCode.
         end-perform
     close AttendeesFile
 
-    move 1 to PageOffset
+    move zero to PageOffset
     perform until OperationIsExit or OperationIsFinish
         display HomeScreen
-        move PageOffset to FirstRecordToShow
+        add 1 to PageOffset giving FirstRecordToShow
         move 2 to CurrentRow
-        compute LastRecordToShow = PageOffset + RecordsPerPage
-        perform with test before varying CurrentAttendeeNumber from FirstRecordToShow by 1
-            until CurrentAttendeeNumber equal to LastRecordToShow or
+        add PageOffset to RecordsPerPage giving LastRecordToShow
+        perform varying CurrentAttendeeNumber from FirstRecordToShow by 1
+            until CurrentAttendeeNumber greater than LastRecordToShow or
                 CurrentAttendeeNumber greater than RecordCount
             display CurrentAttendeeNumber
                 at line CurrentRow
@@ -125,13 +125,13 @@ procedure division using ReturnAuthCode.
             end-display
             add 1 to CurrentRow
         end-perform
+        accept RecordSelected at line 24 column 78 foreground-color 2
         evaluate true also true
             when OperationIsNextPage also LastRecordToShow is less than RecordCount
                 add RecordsPerPage to PageOffset
-            when OperationIsPrevPage also PageOffset is greater than RecordsPerPage
+            when OperationIsPrevPage also PageOffset is greater than or equal to RecordsPerPage
                 subtract RecordsPerPage from PageOffset
         end-evaluate
-        accept RecordSelected at line 24 column 78 foreground-color 2
     end-perform
 
     if OperationIsFinish then
