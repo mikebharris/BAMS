@@ -58,7 +58,7 @@ procedure division.
     end-if
     display "Reading from " trim(CSVSourceFileName) " and writing to " trim(AttendeesFileName)
     open input CSVSourceFile
-    open output AttendeesFile
+    open i-o AttendeesFile
     read CSVSourceFile
         at end set EndOfCSVFile to true
     end-read
