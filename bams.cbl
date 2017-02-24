@@ -94,35 +94,35 @@ screen section.
     01 ViewAttendeeScreen background-color 0 foreground-color 2.
         03 blank screen.
         03 line 1 column 1 value "    BarnCamp Attendee Management System v1.0   (c) copyleft 2017 HacktionLab    " reverse-video highlight.
-        03 line 2 column 1 value "AuthCode:".
-        03 line 2 column 15 from AuthCode.
-        03 line 4 column 1 value "Name:".
-        03 line 4 column 15 from Name.
-        03 line 6 column 1 value "Email:".
-        03 line 6 column 15 from Email.
-        03 line 8 column 1 value "Telephone:".
-        03 line 8 column 15 from Telephone.
-        03 line 10 column 1 value "Arrival day:".
-        03 line 10 column 15 from ArrivalDay.
-        03 line 12 column 1 value "Status:".
-        03 line 12 column 15 from AttendanceStatus.
-        03 line 14 column 1 value "Kids:".
-        03 line 14 column 15 from NumberOfKids.
-        03 line 16 column 1 value "Pay amount:".
-        03 pic 999 line 16 column 15 from AmountToPay.
-        03 line 18 column 1 value "Paid?:".
-        03 line 18 column 15 from PaymentStatus.
-        03 line 20 column 1 value "Diet issues:".
-        03 line 20 column 15 from Diet.
+        03 line 3 column 1 value "AuthCode:".
+        03 line 3 column 15 from AuthCode.
+        03 line 5 column 1 value "Name:".
+        03 line 5 column 15 from Name.
+        03 line 7 column 1 value "Email:".
+        03 line 7 column 15 from Email.
+        03 line 9 column 1 value "Telephone:".
+        03 line 9 column 15 from Telephone.
+        03 line 11 column 1 value "Arrival day:".
+        03 line 11 column 15 from ArrivalDay.
+        03 line 13 column 1 value "Status:".
+        03 line 13 column 15 from AttendanceStatus.
+        03 line 15 column 1 value "Kids:".
+        03 line 15 column 15 from NumberOfKids.
+        03 line 17 column 1 value "Pay amount:".
+        03 pic 999 line 17 column 15 from AmountToPay.
+        03 line 19 column 1 value "Paid?:".
+        03 line 19 column 15 from PaymentStatus.
+        03 line 21 column 1 value "Diet issues:".
+        03 line 21 column 15 from Diet.
         03 line 24 column 1 value "Commands: F1 Home, F4 Edit, F10 Exit                                         " reverse-video highlight.
         03 line 24 column 78 to Command.
 
     01 SearchByAuthCodeScreen background-color 0 foreground-color 2.
         03 blank screen.
         03 line 1 column 1 value "    BarnCamp Attendee Management System v1.0   (c) copyleft 2017 HacktionLab    " reverse-video highlight.
-        03 line 2 column 1 value "Enter AuthCode and press enter, F2 to find:".
-        03 line 2 column plus 2 to AuthCode required.
-        03 line 24 column 1 value "Commands: F1 Home, F2 Find, F10 Exit - type in authcode and press ENTER               " reverse-video highlight.
+        03 line 4 column 1 value "Enter AuthCode and press enter or F2 to look-up:".
+        03 line 4 column plus 2 to AuthCode required.
+        03 line 24 column 1 value "Commands: F1 Home, F2 Look-up, F10 Exit                                        " reverse-video highlight.
 
     01 ListAttendeesScreen background-color 0 foreground-color 2.
         03 blank screen.
@@ -130,28 +130,28 @@ screen section.
     01 EditAttendeeScreen background-color 0 foreground-color 2.
         03 blank screen.
         03 line 1 column 1 value "    BarnCamp Attendee Management System v1.0   (c) copyleft 2017 HacktionLab    " reverse-video highlight.
-        03 line 2 column 1 value "AuthCode:".
-        03 line 2 column 15 from AuthCode.
-        03 line 4 column 1 value "Name:".
-        03 line 4 column 15 using Name required.
-        03 line 6 column 1 value "Email:".
-        03 line 6 column 15 using Email.
-        03 line 8 column 1 value "Telephone:".
-        03 line 8 column 15 using Telephone.
-        03 line 10 column 1 value "Arrival day:".
-        03 line 10 column 15 from ArrivalDay.
-        03 line 10 column plus 2 value "(Wed/Thu/Fri/Sat)".
-        03 line 12 column 1 value "Status:".
-        03 line 12 column 15 from AttendanceStatus.
-        03 line 12 column plus 2 value "(A = arrived, C = coming, X = cancelled)".
-        03 line 14 column 1 value "Kids:".
-        03 pic 9 line 14 column 15 using NumberOfKids required.
-        03 line 16 column 1 value "Pay amount:".
-        03 pic 999 line 16 column 15 using AmountToPay required full.
-        03 line 18 column 1 value "Paid?:".
-        03 line 18 column 15 from PaymentStatus.
-        03 line 20 column 1 value "Diet issues:".
-        03 line 20 column 15 using Diet.
+        03 line 3 column 1 value "AuthCode:".
+        03 line 3 column 15 from AuthCode.
+        03 line 5 column 1 value "Name:".
+        03 line 5 column 15 using Name required.
+        03 line 7 column 1 value "Email:".
+        03 line 7 column 15 using Email.
+        03 line 9 column 1 value "Telephone:".
+        03 line 9 column 15 using Telephone.
+        03 line 11 column 1 value "Arrival day:".
+        03 line 11 column 15 from ArrivalDay.
+        03 line 11 column plus 2 value "(Wed/Thu/Fri/Sat)".
+        03 line 13 column 1 value "Status:".
+        03 line 13 column 15 from AttendanceStatus.
+        03 line 13 column plus 2 value "(A = arrived, C = coming, X = cancelled)".
+        03 line 15 column 1 value "Kids:".
+        03 pic 9 line 15 column 15 using NumberOfKids required.
+        03 line 17 column 1 value "Pay amount:".
+        03 pic 999 line 17 column 15 using AmountToPay required full.
+        03 line 19 column 1 value "Paid?:".
+        03 line 19 column 15 from PaymentStatus.
+        03 line 21 column 1 value "Diet issues:".
+        03 line 21 column 15 using Diet.
         03 line 24 column 1 value "Commands: F1 Home; Toggle: F5 Arrival, F6 Status, F7 Paid; F8 Save, F10 Exit  " reverse-video highlight.
         03 line 24 column 78 to Command.
 
