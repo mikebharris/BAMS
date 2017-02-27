@@ -195,9 +195,8 @@ Initialisation section.
 
 Main section.
     perform until OperationIsExit
-        move zero to PeopleSignedUp
-        move zero to PeopleOnSite
-        move zero to PeopleToArrive
+        initialize PeopleSignedUp, PeopleOnSite, PeopleToArrive, PeopleToArriveToday,
+            KidsOnSite, KidsToArrive, KidsToArriveToday
         move zeroes to AuthCode of AttendeeRecord
         start AttendeesFile key is greater than AuthCode of AttendeeRecord
         open input AttendeesFile
@@ -224,7 +223,6 @@ Main section.
         add KidsToArrive to KidsOnSite giving TotalEstimatedKids
         accept CurrentDayOfWeek from day-of-week
 
-        initialize PeopleToArriveToday, KidsToArriveToday
         if ValidDayOfWeek(CurrentDayOfWeek)
             move zeroes to AuthCode of AttendeeRecord
             start AttendeesFile key is greater than AuthCode of AttendeeRecord
