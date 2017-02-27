@@ -235,7 +235,7 @@ Main section.
                         when AttendeeComing of AttendeeRecord
                             and ArrivalDay of AttendeeRecord is equal to DayOfTheWeek(CurrentDayOfWeek)
                                 add 1 to PeopleToArriveToday
-                                add NumberOfKids of AttendeeRecord to KidsToArrive
+                                add NumberOfKids of AttendeeRecord to KidsToArriveToday
                     end-evaluate
                     read AttendeesFile next record
                         at end set EndOfAttendeesFile to true
