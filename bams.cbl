@@ -307,8 +307,7 @@ EditAttendee section.
                     when not AddAttendeeFlagOn
                         call "C$COPY" using AttendeesFileName, BackupFileName, 0
                         open i-o AttendeesFile
-                            move Attendee to AttendeeRecord
-                            rewrite AttendeeRecord
+                            rewrite AttendeeRecord from Attendee
                                 invalid key
                                     if NoSuchRecord
                                         display "Record for " AuthCode of Attendee "  not found"
