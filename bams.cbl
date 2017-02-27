@@ -195,6 +195,8 @@ Initialisation section.
 
 Main section.
     perform until OperationIsExit
+        accept CurrentDayOfWeek from day-of-week
+        move 5 to CurrentDayOfWeek
         initialize PeopleSignedUp, PeopleOnSite, PeopleToArrive, PeopleToArriveToday,
             KidsOnSite, KidsToArrive, KidsToArriveToday
         move zeroes to AuthCode of AttendeeRecord
@@ -211,6 +213,11 @@ Main section.
                     when AttendeeComing of AttendeeRecord
                         add 1 to PeopleToArrive
                         add NumberOfKids of AttendeeRecord to KidsToArrive
+                        if ValidDayOfWeek(CurrentDayOfWeek) and
+                            ArrivalDay of AttendeeRecord is equal to DayOfTheWeek(CurrentDayOfWeek) then
+                            add 1 to PeopleToArriveToday
+                            add NumberOfKids of AttendeeRecord to KidsToArriveToday
+                        end-if
                 end-evaluate
                 add 1 to PeopleSignedUp
                 read AttendeesFile next record
@@ -221,28 +228,6 @@ Main section.
 
         add PeopleToArrive to PeopleOnSite giving TotalEstimatedAttendees
         add KidsToArrive to KidsOnSite giving TotalEstimatedKids
-        accept CurrentDayOfWeek from day-of-week
-
-        if ValidDayOfWeek(CurrentDayOfWeek)
-            move zeroes to AuthCode of AttendeeRecord
-            start AttendeesFile key is greater than AuthCode of AttendeeRecord
-            open input AttendeesFile
-                read AttendeesFile next record
-                    at end set EndOfAttendeesFile to true
-                end-read
-                perform until EndOfAttendeesFile
-                    evaluate true
-                        when AttendeeComing of AttendeeRecord
-                            and ArrivalDay of AttendeeRecord is equal to DayOfTheWeek(CurrentDayOfWeek)
-                                add 1 to PeopleToArriveToday
-                                add NumberOfKids of AttendeeRecord to KidsToArriveToday
-                    end-evaluate
-                    read AttendeesFile next record
-                        at end set EndOfAttendeesFile to true
-                    end-read
-                end-perform
-            close AttendeesFile
-        end-if
 
         accept HomeScreen from crt end-accept
         evaluate true
