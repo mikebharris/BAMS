@@ -345,7 +345,7 @@ EditAttendee section.
 AddAttendee section.
     initialize Attendee
     move createAuthCode to AuthCode of Attendee
-    move DayOfTheWeek(CurrentDayOfWeek) to ArrivalDay of Attendee
+    set ArrivalDayIsFriday of Attendee to true
     set AttendeeArrived of Attendee to true
     set AttendeeNotPaid of Attendee to true
     move 40 to AmountToPay of Attendee
