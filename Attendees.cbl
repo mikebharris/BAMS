@@ -12,10 +12,6 @@ input-output section.
             organization is indexed
             access mode is dynamic
             record key is AuthCode of AttendeeRecord
-            alternate record key is Name of AttendeeRecord
-                    with duplicates
-            alternate record key is Email of AttendeeRecord
-                    with duplicates
             file status is AttendeeStatus.
 
 data division.
@@ -100,30 +96,6 @@ entry "GetAttendeeByAuthCode" using ThisAuthCode, ThisAttendee
     read AttendeesFile record into ThisAttendee
         key is AuthCode of AttendeeRecord
         invalid key display "Record for " ThisAuthCode " not found - " AttendeeStatus
-    end-read
-    close AttendeesFile
-    goback
-    .
-
-entry "GetAttendeeByEmail" using ThisEmail, ThisAttendee
-    initialize ThisAttendee
-    open input AttendeesFile
-    move ThisEmail to Email of AttendeeRecord
-    read AttendeesFile record into ThisAttendee
-        key is Email of AttendeeRecord
-        invalid key display "Record for " ThisEmail " not found - " AttendeeStatus
-    end-read
-    close AttendeesFile
-    goback
-    .
-
-entry "GetAttendeeByName" using ThisName, ThisAttendee
-    initialize ThisAttendee
-    open input AttendeesFile
-    move ThisName to Name of AttendeeRecord
-    read AttendeesFile record into ThisAttendee
-        key is Name of AttendeeRecord
-        invalid key display "Record for " ThisName " not found - " AttendeeStatus
     end-read
     close AttendeesFile
     goback

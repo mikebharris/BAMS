@@ -35,8 +35,6 @@ SetupInitialData.
 
 InitialiseAttendeesFile.
     call "C$COPY" using "test-data.dat", "attendees-test.dat", 0
-    call "C$COPY" using "test-data.dat.1", "attendees-test.dat.1", 0
-    call "C$COPY" using "test-data.dat.2", "attendees-test.dat.2", 0
     call "SetAttendeesFileName" using "attendees-test.dat"
     .
 
@@ -57,6 +55,7 @@ TestImportedRecordExists.
     set AttendeeComing of AttendeeExpected to true.
     set ArrivalDayIsWednesday of AttendeeExpected to true.
     move 0 to NumberOfKids of AttendeeExpected.
+    move "I eat anything" to Diet of AttendeeExpected.
 
     *> When
     call "GetAttendeeByAuthCode"
@@ -136,34 +135,6 @@ TestAttendeeStats.
 
     call "AssertEquals" using by content NumberOfKidsOnSiteReturned, by content 2,
         by content "TestAttendeeStats: Correct number of kids On-Site returned: 2".
-
-TestFetchAttendeeByEmail.
-    *> Given
-    move "obviouscrusty@gmail.com" to Email of AttendeeExpected
-
-    *> When
-    call "GetAttendeeByEmail"
-        using by content Email of AttendeeExpected,
-        by reference AttendeeReturned
-
-    *> Then
-    call "AssertEquals" using by content Name of AttendeeReturned, by content "Cover Broken"
-        by content "TestFetchAttendeeByEmail: Result returned the correct details for Attendee"
-    .
-
-TestFetchAttendeeByName.
-    *> Given
-    move "Ronald Chump" to Name of AttendeeExpected
-
-    *> When
-    call "GetAttendeeByName"
-        using by content Name of AttendeeExpected,
-        by reference AttendeeReturned
-
-    *> Then
-    call "AssertEquals" using by content AuthCode of AttendeeReturned by content "BCDEF1"
-        by content "TestFetchAttendeeByName: Result returned the correct details for Attendee"
-    .
 
 TestFetchAttendeesToArriveOnDay.
     *> Given/When

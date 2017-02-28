@@ -19,9 +19,6 @@ input-output section.
             organization is indexed
             access mode is dynamic
             record key is AuthCode
-            alternate record key is Name
-            alternate record key is Email
-                    with duplicates
             file status is AttendeeStatus.
 
 data division.
