@@ -12,7 +12,13 @@ Firstly, Good Luck!  You'll need version 2.0 of [GNU COBOL](https://sourceforge.
 
 I can compile it on Mac OS X 10.12 and under Debian GNU/Linux (kernel 3.16.0-4-amd64) with:
 ```
-cobc -x -free -std=default bams.cbl Attendees.cbl createAuthCode.cbl AttendeesList.cbl
+cobc -x -free -std=default bams.cbl Attendees.cbl createAuthCode.cbl ListAttdendeesScreen.cbl
+```
+
+I have had huge problems trying to get it to compile under Linux using this modular approach, and so I had to merge it back down into a monolithic version
+and lose the test suite for it.  You can compile this version with:
+```
+cobc -x -free -std=default -o bams  bams-monolith.cbl createAuthCode.cbl ListAttdendeesScreen.cbl
 ```
 
 ## Setting up data
@@ -64,7 +70,7 @@ Undercover Agent         obviouscrusty@gmail.com                 EF1234035N00020
 Cynthia Underhill        cynthia234@hotmail.com                  F12345035N0002017010301234 567 890 Fri0C
 Passed: TestReturnCountOfAttendees: Correct number of attendees returned: 7
 Passed: TestImportedRecordExists: Result returns the correct details for first Attendee
-Passed: Result returns the correct details for added Attendee with AuthCode of 
+Passed: Result returns the correct details for added Attendee with AuthCode of
 Passed: Number of attendees not incremented for record update: 7
 Passed: TestCanAddAnotherAttendee: Result returns the correct details for added Attendee
 Passed: TestReturnCountOfAttendees: Correct number of attendees returned: 8
@@ -92,4 +98,3 @@ Random Guy               somebody@somewhere.net                  DEF123035N00000
 Cover Broken             obviouscrusty@gmail.com                 EF1234035N0002017010301234 567 890 Fri0C
 Cynthia Underhill        cynthia234@hotmail.com                  F12345035N0002017010301234 567 890 Fri0C
 ````
-
