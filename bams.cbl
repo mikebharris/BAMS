@@ -29,10 +29,6 @@ input-output section.
             organization is indexed
             access mode is dynamic
             record key is AuthCode of AttendeeRecord
-            alternate record key is Name of AttendeeRecord
-                    with duplicates
-            alternate record key is Email of AttendeeRecord
-                    with duplicates
             file status is RecordStatus.
 
 data division.
@@ -179,7 +175,9 @@ screen section.
         03 line 24 column 78 to Command.
 
 procedure division.
-Initialisation section.
+    set environment 'COB_SCREEN_EXCEPTIONS' to 'Y'
+    set environment 'COB_SCREEN_ESC' to 'Y'
+
     accept CommandLineArgumentCount from argument-number
     if CommandLineArgumentCount equal to 1 then
         accept AttendeesFileName from argument-value
@@ -188,9 +186,6 @@ Initialisation section.
             inspect BackupFileName replacing all ".dat" by ".bak"
         end-if
     end-if
-
-    set environment 'COB_SCREEN_EXCEPTIONS' to 'Y'
-    set environment 'COB_SCREEN_ESC' to 'Y'
 .
 
 Main section.
@@ -243,7 +238,7 @@ SearchAttendee section.
     move spaces to AuthCode of Attendee
     accept SearchByAuthCodeScreen end-accept
     evaluate true
-        when OperationIsView call "AttendeesList" using by reference Authcode of Attendee
+        when OperationIsView call "ListAttendeesScreen" using by reference Authcode of Attendee
         when other move upper-case(AuthCode of Attendee) to AuthCode of Attendee
     end-evaluate
 .
@@ -251,6 +246,9 @@ SearchAttendee section.
 ViewAttendee section.
     initialize Attendee
     perform SearchAttendee
+    if AuthCode of Attendee is not HexNumber then
+        exit section
+    end-if
     open input AttendeesFile
     move Authcode of Attendee to AuthCode of AttendeeRecord
     read AttendeesFile record into Attendee
@@ -259,7 +257,7 @@ ViewAttendee section.
     end-read
     close AttendeesFile
 
-    if Name of Attendee is equal to high-values or AuthCode of Attendee is not HexNumber then
+    if Name of Attendee is equal to high-values then
         display "Invalid authcode or authcode not found"
     else
         perform until OperationIsBack or OperationIsExit

@@ -4,7 +4,7 @@
 >>DEFINE CONSTANT ENTER AS 0000
 
 identification division.
-program-id. AttendeesList is initial.
+program-id. ListAttendeesScreen is initial.
 
 environment division.
 configuration section.
@@ -19,9 +19,6 @@ input-output section.
             organization is indexed
             access mode is dynamic
             record key is AuthCode
-            alternate record key is Name
-            alternate record key is Email
-                    with duplicates
             file status is AttendeeStatus.
 
 data division.
@@ -125,10 +122,10 @@ procedure division using ReturnAuthCode.
         end-evaluate
     end-perform
 
-    if OperationIsFinish then
+    if OperationIsFinish and RecordSelected greater than zero then
         move AuthCode of Attendee(RecordSelected) to ReturnAuthCode
     end-if
 
     goback.
 
-end program AttendeesList.
+end program ListAttendeesScreen.

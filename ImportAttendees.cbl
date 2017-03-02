@@ -15,10 +15,6 @@ file-control.
         organization is indexed
         access mode is dynamic
         record key is AuthCode
-        alternate record key is Name
-                with duplicates
-        alternate record key is Email
-                with duplicates
         file status is RecordWriteStatus.
 
 data division.
