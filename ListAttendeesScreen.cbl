@@ -4,7 +4,7 @@
 >>DEFINE CONSTANT ENTER AS 0000
 
 identification division.
-program-id. AttendeesList is initial.
+program-id. ListAttendeesScreen is initial.
 
 environment division.
 configuration section.
@@ -122,10 +122,10 @@ procedure division using ReturnAuthCode.
         end-evaluate
     end-perform
 
-    if OperationIsFinish then
+    if OperationIsFinish and RecordSelected greater than zero then
         move AuthCode of Attendee(RecordSelected) to ReturnAuthCode
     end-if
 
     goback.
 
-end program AttendeesList.
+end program ListAttendeesScreen.
