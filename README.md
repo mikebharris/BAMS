@@ -61,7 +61,7 @@ or optionally with a specific data file:
 
 ## Run the test suite
 
-To run the test suite, you'll need to download and build [COBOL Test Suite](https://github.com/mikebharris/COBOL-Test-Suite).
+To run the test suite, you'll need to download [COBOL Test Suite](https://github.com/mikebharris/COBOL-Test-Suite).
 
 First import the test data (see above).
 
