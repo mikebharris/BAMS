@@ -26,6 +26,11 @@ To get version 2.0 of GNU COBOL compiler (cobc), download it from https://source
 make
 make install
 ```
+Check which version is running with:
+```
+which cobc
+```
+This should be the version '/usr/local/bin/cobc' but if it isn't, replace 'cobc' in the command lines to compile with '/usr/local/bin/cobc'.
 
 ## Setting up data
 
