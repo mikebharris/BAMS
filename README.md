@@ -15,10 +15,16 @@ I can compile it on Mac OS X 10.12 and under Debian GNU/Linux (kernel 3.16.0-4-a
 cobc -x -free -std=default bams.cbl Attendees.cbl createAuthCode.cbl ListAttdendeesScreen.cbl
 ```
 
-I have had huge problems trying to get it to compile under Linux using this modular approach, and so I had to merge it back down into a monolithic version
-and lose the test suite for it.  You can compile this version with:
+I have had huge problems trying to get it to compile under Linux using this modular approach, and so I had to merge it back down into a monolithic version and loose the test suite for it.  You can compile this version with:
 ```
 cobc -x -free -std=default -o bams  bams-monolith.cbl createAuthCode.cbl ListAttdendeesScreen.cbl
+```
+
+To get version 2.0 of GNU COBOL compiler (cobc), download it from https://sourceforge.net/projects/open-cobol/files/gnu-cobol/2.0/ (rc2 is the latest at the time of typing), untar/zip it, and (on Linux) do:
+```
+./configure --with-curses=check --prefix=/usr/local CPPFLAGS=-I/usr/local/include/ LDFLAGS=-L/usr/local/lib
+make
+make install
 ```
 
 ## Setting up data
