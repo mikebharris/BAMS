@@ -7,15 +7,13 @@ configuration section.
         class HexNumber is "0" thru "9",
                            "A" thru "F",
                            "a" thru "f".
-    repository.
-        function createAuthCode.
 
 data division.
 working-storage section.
     01 AuthCode pic x(6) value zero.
 
 procedure division.
-    move createAuthCode() to AuthCode
+    call "createAuthCode" using by reference AuthCode
     if AuthCode is HexNumber then
         display "Valid AuthCode returned " AuthCode
     else

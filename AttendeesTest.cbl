@@ -1,12 +1,6 @@
 identification division.
 program-id. AttendeesTest.
 
-environment division.
-configuration section.
-    repository.
-        function all intrinsic
-        function createAuthCode.
-
 data division.
 working-storage section.
 
@@ -92,7 +86,7 @@ TestCanAddAttendee.
     move "jose@cuervo.es" to Email of AttendeeExpected
     move 3 to NumberOfKids of AttendeeExpected
     set ArrivalDayIsWednesday of AttendeeExpected to true
-    move createAuthCode() to AuthCode of AttendeeExpected
+    call "createAuthCode" using by reference AuthCode of AttendeeExpected
     set AttendeeComing of AttendeeExpected to true
     call "AddAttendee" using by content AttendeeExpected
 

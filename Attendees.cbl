@@ -2,10 +2,6 @@ identification division.
 program-id. Attendees.
 
 environment division.
-configuration section.
-    repository.
-        function all intrinsic.
-
 input-output section.
     file-control.
         select optional AttendeesFile assign to AttendeeFileName

@@ -1,15 +1,3 @@
->>DEFINE CONSTANT F1 AS 1001
->>DEFINE CONSTANT F2 AS 1002
->>DEFINE CONSTANT F3 AS 1003
->>DEFINE CONSTANT F4 AS 1004
->>DEFINE CONSTANT F5 AS 1005
->>DEFINE CONSTANT F6 AS 1006
->>DEFINE CONSTANT F7 AS 1007
->>DEFINE CONSTANT F8 AS 1008
->>DEFINE CONSTANT F9 AS 1009
->>DEFINE CONSTANT F10 AS 1010
->>DEFINE CONSTANT ESC AS 2005
-
 identification division.
 program-id. BAMS.
 
@@ -18,10 +6,6 @@ configuration section.
     special-names.
         crt status is Operation.
         class HexNumber is "0" thru "9", "A" thru "F", "a" thru "f".
-
-    repository.
-        function all intrinsic
-        function createAuthCode.
 
 data division.
 working-storage section.
@@ -192,7 +176,7 @@ SearchAttendee section.
     accept SearchByAuthCodeScreen end-accept
     evaluate true
         when OperationIsView call "AttendeesList" using by reference Authcode of Attendee
-        when other move upper-case(AuthCode) to AuthCode
+        when other move function upper-case(AuthCode) to AuthCode
     end-evaluate
 .
 
@@ -248,7 +232,7 @@ EditAttendee section.
 
 AddAttendee section.
     initialize Attendee
-    move createAuthCode to AuthCode of Attendee
+    call "createAuthCode" using by reference AuthCode of Attendee
     move DayOfTheWeek(CurrentDayOfWeek) to ArrivalDay of Attendee
     set AttendeeArrived of Attendee to true
     set AttendeeNotPaid of Attendee to true

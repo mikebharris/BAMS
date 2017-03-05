@@ -1,5 +1,5 @@
 identification division.
-function-id. createAuthCode.
+program-id. createAuthCode.
 
 data division.
 local-storage section.
@@ -14,7 +14,7 @@ local-storage section.
 linkage section.
     01 NewAuthCode pic x(6) value zero.
 
-procedure division returning NewAuthCode.
+procedure division using NewAuthCode.
     accept CurrentTime from time
     compute DecimalDigit = function random(Seed)
     perform with test after varying CurrentDigit from 1 by 1
@@ -24,4 +24,4 @@ procedure division returning NewAuthCode.
     end-perform
     goback
     .
-end function createAuthCode.
+end program createAuthCode.
