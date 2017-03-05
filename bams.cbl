@@ -24,7 +24,6 @@ working-storage section.
         02 KidsOnSite pic 99 value zero.
         02 KidsToArrive pic 99 value zero.
         02 KidsToArriveToday pic 99 value zero.
-        02 NumberOfCancellations pic 99 value zero.
         02 TotalEstimatedAttendees pic 999 value zero.
         02 TotalEstimatedKids pic 99 value zero.
 
