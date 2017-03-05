@@ -1,8 +1,3 @@
->>DEFINE CONSTANT F10 AS 1010
->>DEFINE CONSTANT PGUP AS 2001
->>DEFINE CONSTANT PGDN AS 2002
->>DEFINE CONSTANT ENTER AS 0000
-
 identification division.
 program-id. ListAttendeesScreen is initial.
 
@@ -48,11 +43,7 @@ working-storage section.
 
     01 AttendeeFileName pic x(20) value "attendees.dat".
 
-    01 Operation pic 9999 value 9999.
-        88 OperationIsExit value 1010.
-        88 OperationIsNextPage value 2002.
-        88 OperationIsPrevPage value 2001.
-        88 OperationIsFinish value 0000.
+    copy Operation.
 
 linkage section.
     01 ReturnAuthCode pic x(6) value all "0".
