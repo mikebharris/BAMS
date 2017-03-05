@@ -11,7 +11,7 @@ input-output section.
         select optional AttendeesFile assign to AttendeesFileName
             organization is indexed
             access mode is dynamic
-            record key is AuthCode
+            record key is AuthCode of AttendeeRecord
             file status is AttendeeStatus.
 
 data division.
