@@ -29,7 +29,7 @@ working-storage section.
 
     01 RecordCount pic 999.
     01 RecordSelected pic 999.
-    01 RecordsPerPage constant 20.
+    78 RecordsPerPage value 20.
     01 PageOffset pic 999 value 1.
     01 FirstRecordToShow pic 999 value 1.
     01 LastRecordToShow pic 999 value 20.
