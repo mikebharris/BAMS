@@ -8,7 +8,7 @@ configuration section.
 
 input-output section.
     file-control.
-        select optional AttendeesFile assign to AttendeeFileName
+        select optional AttendeesFile assign to AttendeesFileName
             organization is indexed
             access mode is dynamic
             record key is AuthCode
@@ -41,11 +41,10 @@ working-storage section.
         88 RecordExists value "22".
         88 NoSuchRecord value "23".
 
-    01 AttendeeFileName pic x(20) value "attendees.dat".
-
     copy Operation.
 
 linkage section.
+    01 AttendeesFileName pic x(20) value "attendees.dat".
     01 ReturnAuthCode pic x(6) value all "0".
 
 screen section.
@@ -58,7 +57,7 @@ screen section.
         03 line 2 column 71 value "AuthCode" highlight underline.
         03 line 24 column 1 value "Commands: PgUp/PgDown to scroll, Enter number and press ENTER, F10 Exit        " reverse-video highlight.
 
-procedure division using ReturnAuthCode.
+procedure division using AttendeesFileName, ReturnAuthCode.
 
     set environment 'COB_SCREEN_EXCEPTIONS' to 'Y'
     set environment 'COB_SCREEN_ESC' to 'Y'

@@ -213,7 +213,8 @@ SearchAttendee section.
     move spaces to AuthCode of Attendee
     accept SearchByAuthCodeScreen end-accept
     evaluate true
-        when OperationIsView call "ListAttendeesScreen" using by reference Authcode of Attendee
+        when OperationIsView call "ListAttendeesScreen"
+            using by content AttendeesFileName by reference Authcode of Attendee
         when other move function upper-case(AuthCode of Attendee) to AuthCode of Attendee
     end-evaluate
 .
