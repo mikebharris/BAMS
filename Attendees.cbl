@@ -13,7 +13,7 @@ input-output section.
 data division.
 file section.
     fd AttendeesFile is global.
-        copy Attendee replacing Attendee by
+        copy DD-Attendee replacing Attendee by
             ==AttendeeRecord is global.
             88 EndOfAttendeesFile value high-values==.
 
@@ -35,7 +35,7 @@ linkage section.
     01 NumberOfAttendees pic 999 value zero.
     01 KidsToArrive pic 99 value zero.
     01 KidsOnSite pic 99 value zero.
-    copy Attendee replacing Attendee by ==ThisAttendee is global==.
+    copy DD-Attendee replacing Attendee by ==ThisAttendee is global==.
     01 ThisAuthCode pic x(6) value all "0".
     01 ThisEmail pic x(25) value spaces.
     01 ThisName pic x(25) value spaces.
