@@ -165,7 +165,6 @@ procedure division.
 Main section.
     perform until OperationIsExit
         accept CurrentDayOfWeek from day-of-week
-        move 5 to CurrentDayOfWeek
         initialize PeopleSignedUp, PeopleOnSite, PeopleToArrive, PeopleToArriveToday,
             KidsOnSite, KidsToArrive, KidsToArriveToday
         move zeroes to AuthCode of AttendeeRecord
