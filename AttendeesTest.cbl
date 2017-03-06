@@ -4,8 +4,8 @@ program-id. AttendeesTest.
 data division.
 working-storage section.
 
-    copy Attendee replacing Attendee by AttendeeExpected.
-    copy Attendee replacing Attendee by AttendeeReturned.
+    copy DD-Attendee replacing Attendee by AttendeeExpected.
+    copy DD-Attendee replacing Attendee by AttendeeReturned.
 
     01 AttendeesFileName pic x(20) value spaces.
     01 SourceFileName pic x(20) value spaces.

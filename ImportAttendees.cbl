@@ -24,14 +24,14 @@ fd CSVSourceFile.
         88 EndOfCSVFile value high-values.
 
 fd AttendeesFile is global.
-    copy Attendee replacing Attendee by
+    copy DD-Attendee replacing Attendee by
         ==AttendeeRecord is global.
         88 EndOfAttendeesFile value high-values==.
 
 working-storage section.
     01 CountOfLinesProcessed pic 999 value zero.
     01 CountOfLinesImported pic 999 value zero.
-    copy Attendee.
+    copy DD-Attendee.
 
     01 TempAttendeeData.
         02 PaidDateFromWeb pic x(10).

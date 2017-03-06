@@ -9,7 +9,7 @@ configuration section.
 
 data division.
 working-storage section.
-    copy Attendee.
+    copy DD-Attendee.
 
     01 AddAttendeeFlag pic 9 value 0.
         88 AddAttendeeFlagOn value 1 when set to false is 0.
@@ -27,7 +27,7 @@ working-storage section.
         02 TotalEstimatedAttendees pic 999 value zero.
         02 TotalEstimatedKids pic 99 value zero.
 
-    copy Operation.
+    copy DD-Operation.
 
     01 Command pic x.
 

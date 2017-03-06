@@ -17,7 +17,7 @@ input-output section.
 data division.
 file section.
     fd AttendeesFile is global.
-        copy Attendee replacing Attendee by
+        copy DD-Attendee replacing Attendee by
             ==AttendeeRecord is global.
             88 EndOfAttendeesFile value high-values==.
 
@@ -41,7 +41,7 @@ working-storage section.
         88 RecordExists value "22".
         88 NoSuchRecord value "23".
 
-    copy Operation.
+    copy DD-Operation.
 
 linkage section.
     01 AttendeesFileName pic x(20) value "attendees.dat".
