@@ -12,7 +12,7 @@ Firstly, Good Luck!  You'll need version 2.0 of [GNU COBOL](https://sourceforge.
 
 I can compile it on Mac OS X 10.12 and under Debian GNU/Linux (kernel 3.16.0-4-amd64) with:
 ```
-cobc -x -free -std=default bams.cbl Attendees.cbl createAuthCode.cbl ListAttdendeesScreen.cbl
+cobc -x -free -std=default bams.cbl Attendees.cbl createAuthCode.cbl ListAttendeesScreen.cbl
 ```
 
 I have had huge problems trying to get it to compile under Linux using this modular approach, and so I had to merge it back down into a monolithic version and loose the test suite for it.  You can compile this version with:
