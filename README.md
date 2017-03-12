@@ -59,6 +59,8 @@ or optionally with a specific data file:
  ./bams path/to/data-file.dat
  ```
 
+If you find that the function keys don't seem to do what they should, check that they haven't been captured by your window manager or terminal emulator. For example in MATE terminal, F10 brings up the emulator menu so you can't exit the application.
+
 ## Run the test suite
 
 To run the test suite, you'll need to download [COBOL Test Suite](https://github.com/mikebharris/COBOL-Test-Suite).
