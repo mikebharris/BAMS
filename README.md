@@ -17,7 +17,7 @@ cobc -x -free -std=default bams.cbl Attendees.cbl createAuthCode.cbl ListAttende
 
 I have had huge problems trying to get it to compile under Linux using this modular approach, and so I had to merge it back down into a monolithic version and loose the test suite for it.  You can compile this version with:
 ```
-cobc -x -free -std=default -o bams  bams-monolith.cbl createAuthCode.cbl ListAttdendeesScreen.cbl
+cobc -x -free -std=default -o bams  bams-monolith.cbl createAuthCode.cbl ListAttendeesScreen.cbl
 ```
 
 To get version 2.0 of GNU COBOL compiler (cobc), download it from https://sourceforge.net/projects/open-cobol/files/gnu-cobol/2.0/ (rc2 is the latest at the time of typing), untar/zip it, and (on Linux) do:
