@@ -109,3 +109,40 @@ Random Guy               somebody@somewhere.net                  DEF123035N00000
 Cover Broken             obviouscrusty@gmail.com                 EF1234035N0002017010301234 567 890 Fri0C
 Cynthia Underhill        cynthia234@hotmail.com                  F12345035N0002017010301234 567 890 Fri0C
 ````
+
+# Using BAMS
+
+## Home Screen
+
+The home screen looks like this:
+
+In the middle you can see what the day is, and you can immediately tell how many adults and children are attending and how many are on-site already, and are to arrive.  There are three function key options:
+
+F2 - View a given attendee, which takes you to the Enter Authcode Screen.
+F3 - Add a new attendee, which takes you to the Add Attendee Screen.
+F10 - Exit BAMS and return to the operating system.
+
+## Enter Authcode Screen
+
+Pressing F2 from the Home Screen will take you to the Enter Authcode Screen, which looks like this:
+![Screen shot of BAMS Enter Authcode Screen](screenshots/enter-authcode-screen.png "BAMS Enter Authcode Screen")
+
+You have four options:
+
+Type in the desired Authcode and press enter.  If the Authcode entered exists, you'll arrive at the View Attendee screen.
+F1 - go back to the Home Screen
+F2 - Rather than enter the Authcode, go to the List Attendees Screen to search for it
+F10 - Exit BAMS and return to the operating system
+
+## List Attendees Screen
+![Screen shot of BAMS List Attendees Screen](screenshots/list-attendees-screen.png "BAMS List Attendees Screen")
+
+## View Attendee Screen
+![Screen shot of BAMS View Attendee Screen](screenshots/view-attendee-screen.png "BAMS View Attendee Screen")
+
+## Edit Attendee Screen
+![Screen shot of BAMS Edit Attendee Screen](screenshots/edit-attendee-screen.png "BAMS Edit Attendee Screen")
+
+## Add Attendee Screen
+![Screen shot of BAMS Add Attendee Screen](screenshots/add-attendee-screen.png "BAMS Add Attendee Screen")
+
