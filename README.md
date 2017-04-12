@@ -112,15 +112,33 @@ Cynthia Underhill        cynthia234@hotmail.com                  F12345035N00020
 
 # Using BAMS
 
+BAMS is a classic console application that strives to use the keyboard to do things as much as possible.  To this end a set of different function and other control keys on a standard PC or Macintosh keyboard has been chosen to help you navigate the program.  We have striven to make the same key do the same kind of thing on every screen where it's used.   The operations of the keys are as follows:
+
+* F1 - Return to the BAM Home Screen (available on all screens about from the Home Screen itself).
+* F2 - Enter/Search for and View a given attendee already in the system.
+* F3 - Add a new attendee to the system.
+* F4 - Edit a given attendee already in the system.
+* F5 - Toggle the arrival day of an attendee between Wednesday, Thursday, Friday and Saturday.
+* F6 - Toggle the attendance status of an attendee between Coming, Arrived or Cancelled.
+* F7 - Toggle the payment status of an attendee between Paid and Not Paid.
+* F8 - Save and changes to the current attendee selected.
+* F10 - Exit BAMS and return to the operating system, or the BAMS Home Screen when using the List Attendees Screen (actually a subprogram).
+* PgUp/PgDown - Scroll screen-by-screen through a list of attendees.
+* ENTER - Tell BAMS to accept the data in the current input field and input.
+
+All other keys should more or less work as one might expect.
+
 ## Home Screen
 
 The home screen looks like this:
 
+![Screen shot of BAMS Home Screen](screenshots/home-screen.png "BAMS Home Screen")
+
 In the middle you can see what the day is, and you can immediately tell how many adults and children are attending and how many are on-site already, and are to arrive.  There are three function key options:
 
-F2 - View a given attendee, which takes you to the Enter Authcode Screen.
-F3 - Add a new attendee, which takes you to the Add Attendee Screen.
-F10 - Exit BAMS and return to the operating system.
+* F2 - View a given attendee, which takes you to the Enter Authcode Screen.
+* F3 - Add a new attendee, which takes you to the Add Attendee Screen.
+* F10 - Exit BAMS and return to the operating system.
 
 ## Enter Authcode Screen
 
@@ -129,10 +147,10 @@ Pressing F2 from the Home Screen will take you to the Enter Authcode Screen, whi
 
 You have four options:
 
-Type in the desired Authcode and press enter.  If the Authcode entered exists, you'll arrive at the View Attendee screen.
-F1 - go back to the Home Screen
-F2 - Rather than enter the Authcode, go to the List Attendees Screen to search for it
-F10 - Exit BAMS and return to the operating system
+* Type in the desired Authcode and press enter.  If the Authcode entered exists, you'll arrive at the View Attendee screen.
+* F1 - go back to the Home Screen
+* F2 - Rather than enter the Authcode, go to the List Attendees Screen to search for it
+* F10 - Exit BAMS and return to the operating system
 
 ## List Attendees Screen
 ![Screen shot of BAMS List Attendees Screen](screenshots/list-attendees-screen.png "BAMS List Attendees Screen")
