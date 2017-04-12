@@ -147,7 +147,7 @@ Pressing F2 from the Home Screen will take you to the Enter Authcode Screen, whi
 
 You have four options:
 
-* Type in the desired Authcode and press enter.  If the Authcode entered exists, you'll arrive at the View Attendee screen.
+* Type in the desired Authcode and press enter.  If the Authcode entered exists, you'll arrive at the View Attendee screen.  The input field is not case sensitve and the Authcode can therefore be entered in upper or lower case.
 * F1 - go back to the Home Screen
 * F2 - Rather than enter the Authcode, go to the List Attendees Screen to search for it
 * F10 - Exit BAMS and return to the operating system
@@ -162,5 +162,9 @@ You have four options:
 ![Screen shot of BAMS Edit Attendee Screen](screenshots/edit-attendee-screen.png "BAMS Edit Attendee Screen")
 
 ## Add Attendee Screen
+This is effecitvely the same screen as the Edit Screen, but a new attendee is created with a unique AuthCode.  See the screenshot below, but otherwise read the Edit Attendee Section for details of how to use it.
+
+Note: if you do not Save the new attendee any data you've entered will be lost!
+
 ![Screen shot of BAMS Add Attendee Screen](screenshots/add-attendee-screen.png "BAMS Add Attendee Screen")
 
