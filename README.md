@@ -159,7 +159,20 @@ You have four options:
 ![Screen shot of BAMS View Attendee Screen](screenshots/view-attendee-screen.png "BAMS View Attendee Screen")
 
 ## Edit Attendee Screen
+You'll arrive here from the List Attendees Screen or Enter Authcode Screen, and you'll see something like this:
 ![Screen shot of BAMS Edit Attendee Screen](screenshots/edit-attendee-screen.png "BAMS Edit Attendee Screen")
+
+You can edit most of the data pertaining to the attendee by navigating the fields with the cursor keys.  Lef and right work in a field, and up and down will move you between fields.  Note that typing wherever the cursor is will OVERWRITE the character under the cursor.  So for example, to change Zak to Zek, move the cursor to the 'a' and type 'e'.
+
+There are three fields that have special function keys used to edit them.  These are:
+
+* Arrival day - use the F5 key to toggle between Wednesday, Thursday, Friday and Saturday.
+* (Arrival) Status - use the F6 key to toggle between C for coming, A for arrived, or X for Cancelled.
+* Payment Status - use the F7 key to toggle between Y for yes, or N for no.
+
+Please complete as much of the data as possible before pressing the F8 key to save.  On hitting F8, you'll be returned to the View Attendee Screen.  If you don't save, any changes you make will be lost.
+
+Other function key options work as they do on the other screens.
 
 ## Add Attendee Screen
 This is effecitvely the same screen as the Edit Screen, but a new attendee is created with a unique AuthCode.  See the screenshot below, but otherwise read the Edit Attendee Section for details of how to use it.
@@ -168,3 +181,18 @@ Note: if you do not Save the new attendee any data you've entered will be lost!
 
 ![Screen shot of BAMS Add Attendee Screen](screenshots/add-attendee-screen.png "BAMS Add Attendee Screen")
 
+# Operations FAQ
+
+Here's a list of what to do in certain situations.
+
+## Someone arrives on said and says they have booked
+
+* Welcome them.  
+* From the Home Screen go to the Authcode Screen by pressing F2.  
+* If the person has brought their authcode with them, you can type it in and press ENTER on this screen to bring up their record.
+* If they are a new arrival their arrival status should be C.  If they paid in advance, their payment status (Paid?) will be Y.
+* Edit their record by pressing F4.
+* Press the F5 key until their Arrival Day matches today.
+* Press the F6 key until their Status is C.
+* If they are to pay on site, because they didn't pay in advance, press the F7 key to toggle Paid? to read Y.  Then edit the Pay amount field to be the amount they paid.
+* Make any other changes necessary and hit F8 to save.
