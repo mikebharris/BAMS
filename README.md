@@ -185,7 +185,7 @@ Note: if you do not Save the new attendee any data you've entered will be lost!
 
 Here's a list of what to do in certain situations.
 
-## Someone arrives on said and says they have booked
+## Someone arrives and says they have booked
 
 * Welcome them.  
 * From the Home Screen go to the Authcode Screen by pressing F2.  
@@ -193,6 +193,37 @@ Here's a list of what to do in certain situations.
 * If they are a new arrival their arrival status should be C.  If they paid in advance, their payment status (Paid?) will be Y.
 * Edit their record by pressing F4.
 * Press the F5 key until their Arrival Day matches today.
-* Press the F6 key until their Status is C.
+* Press the F6 key until their Status is A.
 * If they are to pay on site, because they didn't pay in advance, press the F7 key to toggle Paid? to read Y.  Then edit the Pay amount field to be the amount they paid.
+* Make any other changes necessary and hit F8 to save.
+
+## Someone arrives but hasn't booked
+
+* Slap them, gently.
+* Welcome them.  
+* From the Home Screen go to the Add Screen by pressing F3.  
+* Press the F5 key until their Arrival Day matches today.
+* Press the F6 key until their Status is A.
+* Press the F7 key to toggle Paid? to read Y.  
+* Then edit the Pay amount field to be the amount they paid.
+* Add any other details required and hit F8 to save.
+
+## Someone phones up and says they've cancelled
+
+* Comiserate with them.  
+* From the Home Screen go to the Authcode Screen by pressing F2.  
+* If the person knows their authcode, you can type it in and press ENTER on this screen to bring up their record.
+* Their arrival status should be C.  If they paid in advance, their payment status (Paid?) will be Y.
+* Edit their record by pressing F4.
+* Press the F6 key until their Status is X.
+* If they have already paid, say that they will get the many back, but a week or so after BarnCamp is over.
+* Hit F8 to save.
+
+## Someone phones up and says they are turning up on a different day to what they thought
+
+* From the Home Screen go to the Authcode Screen by pressing F2.  
+* If the person knows their authcode, you can type it in and press ENTER on this screen to bring up their record.
+* Their arrival status should be C.
+* Edit their record by pressing F4.
+* Press the F5 key until their Arrival Day matches the new day they think they will arrive on.
 * Make any other changes necessary and hit F8 to save.
