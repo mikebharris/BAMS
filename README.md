@@ -153,10 +153,18 @@ You have four options:
 * F10 - Exit BAMS and return to the operating system
 
 ## List Attendees Screen
+This screen shows a list of all attendees and allows you to page through them and then choose one to view.
 ![Screen shot of BAMS List Attendees Screen](screenshots/list-attendees-screen.png "BAMS List Attendees Screen")
 
+Use the PgUp and PgDn (page up and page down) keys on your keyboard to scroll through the list a page at a time until you find the attendee youre looking for.  
+
+When you spot them, look for the number under the leftmost (Num) column and enter this using the keyboard and then press ENTER; you'll be taken to the View Attendee Screen for that attendee.  Note that although the field has three 0s, it will accept you typing one or more digits.
+
 ## View Attendee Screen
+This screen shows the attendee's details:
 ![Screen shot of BAMS View Attendee Screen](screenshots/view-attendee-screen.png "BAMS View Attendee Screen")
+
+If you'd like to edit the details, press F4 to go to the Edit Attendee Screen.
 
 ## Edit Attendee Screen
 You'll arrive here from the List Attendees Screen or Enter Authcode Screen, and you'll see something like this:
