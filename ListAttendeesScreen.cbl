@@ -81,6 +81,9 @@ procedure division using AttendeesFileName, ReturnAuthCode.
         end-perform
     close AttendeesFile
 
+    sort Attendee
+        on descending key Name of Attendee
+
     move zero to PageOffset
     perform until OperationIsBack or OperationIsFinish
         display HomeScreen
