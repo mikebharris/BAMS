@@ -55,7 +55,7 @@ screen section.
         03 line 2 column 6 value "Name" highlight underline.
         03 line 2 column 31 value "Email" highlight underline.
         03 line 2 column 71 value "AuthCode" highlight underline.
-        03 line 24 column 1 value "Commands: PgUp/PgDown to scroll, Enter number and press ENTER, F10 Exit        " reverse-video highlight.
+        03 line 24 column 1 value "Commands: F1 Home, PgUp/PgDown to scroll, Enter number and press ENTER         " reverse-video highlight.
 
 procedure division using AttendeesFileName, ReturnAuthCode.
 
@@ -82,7 +82,7 @@ procedure division using AttendeesFileName, ReturnAuthCode.
     close AttendeesFile
 
     move zero to PageOffset
-    perform until OperationIsExit or OperationIsFinish
+    perform until OperationIsBack or OperationIsFinish
         display HomeScreen
         add 1 to PageOffset giving FirstRecordToShow
         move 3 to CurrentRow
