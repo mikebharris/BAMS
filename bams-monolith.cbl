@@ -149,21 +149,20 @@ screen section.
         03 line 24 column 78 to Command.
 
 procedure division.
-    set environment 'COB_SCREEN_EXCEPTIONS' to 'Y'
-    set environment 'COB_SCREEN_ESC' to 'Y'
-
-    accept CommandLineArgumentCount from argument-number
-    if CommandLineArgumentCount equal to 1 then
-        accept AttendeesFileName from argument-value
-        if AttendeesFileName not equal to spaces
-            move AttendeesFileName to BackupFileName
-            inspect BackupFileName replacing all ".dat" by ".bak"
-        end-if
-    end-if
+    perform EnableExtendedKeyInput
+    perform SetupAttendeesDataFileName
 .
 
 Main section.
     perform until OperationIsExit
+        perform LoadAttendeeRecords
+        perform DisplayHomeScreen
+    end-perform
+
+    stop run
+.
+
+LoadAttendeeRecords section.
         accept CurrentDayOfWeek from day-of-week
         initialize PeopleSignedUp, PeopleOnSite, PeopleToArrive, PeopleToArriveToday,
             KidsOnSite, KidsToArrive, KidsToArriveToday
@@ -196,30 +195,19 @@ Main section.
 
         add PeopleToArrive to PeopleOnSite giving TotalEstimatedAttendees
         add KidsToArrive to KidsOnSite giving TotalEstimatedKids
+        .
 
-        accept HomeScreen from crt end-accept
-        evaluate true
-            when OperationIsView perform ViewAttendee
-            when OperationIsAdd  perform AddAttendee
-        end-evaluate
-    end-perform
-
-    stop run
-.
-
-SearchAttendee section.
-    move spaces to AuthCode of Attendee
-    accept SearchByAuthCodeScreen end-accept
+DisplayHomeScreen section.
+    accept HomeScreen from crt end-accept
     evaluate true
-        when OperationIsView call "ListAttendeesScreen"
-            using by content AttendeesFileName by reference Authcode of Attendee
-        when other move function upper-case(AuthCode of Attendee) to AuthCode of Attendee
+        when OperationIsView perform ViewAttendee
+        when OperationIsAdd  perform AddAttendee
     end-evaluate
 .
 
 ViewAttendee section.
     initialize Attendee
-    perform SearchAttendee
+    perform DisplaySearchScreen
     if AuthCode of Attendee is not HexNumber then
         exit section
     end-if
@@ -243,37 +231,22 @@ ViewAttendee section.
     end-if
 .
 
+DisplaySearchScreen section.
+    move spaces to AuthCode of Attendee
+    accept SearchByAuthCodeScreen end-accept
+    evaluate true
+        when OperationIsView call "ListAttendeesScreen"
+            using by content AttendeesFileName by reference Authcode of Attendee
+        when other move function upper-case(AuthCode of Attendee) to AuthCode of Attendee
+    end-evaluate
+.
+
 EditAttendee section.
     perform until OperationIsBack or OperationIsExit or OperationIsSave
         accept EditAttendeeScreen end-accept
         evaluate true
             when OperationIsSave
-                evaluate true
-                    when AddAttendeeFlagOn
-                        call "C$COPY" using AttendeesFileName, BackupFileName, 0
-                        open i-o AttendeesFile
-                            write AttendeeRecord from Attendee
-                                invalid key
-                                    if RecordExists
-                                        display "Record for " Name of Attendee "  already exists"
-                                    else
-                                        display "Error - status is " RecordStatus
-                                    end-if
-                            end-write
-                        close AttendeesFile
-                    when not AddAttendeeFlagOn
-                        call "C$COPY" using AttendeesFileName, BackupFileName, 0
-                        open i-o AttendeesFile
-                            rewrite AttendeeRecord from Attendee
-                                invalid key
-                                    if NoSuchRecord
-                                        display "Record for " AuthCode of Attendee "  not found"
-                                    else
-                                        display "Error - status is " RecordStatus
-                                    end-if
-                            end-rewrite
-                        close AttendeesFile
-                end-evaluate
+                perform SaveAttendee
             when OperationIsTogglePaid
                 evaluate true
                     when AttendeePaid of Attendee set AttendeeNotPaid of Attendee to true
@@ -296,6 +269,32 @@ EditAttendee section.
     end-perform
 .
 
+SaveAttendee section.
+call "C$COPY" using AttendeesFileName, BackupFileName, 0
+open i-o AttendeesFile
+evaluate true
+    when AddAttendeeFlagOn
+        write AttendeeRecord from Attendee
+            invalid key
+                if RecordExists
+                    display "Record for " Name of Attendee "  already exists"
+                else
+                    display "Error - status is " RecordStatus
+                end-if
+        end-write
+    when not AddAttendeeFlagOn
+        rewrite AttendeeRecord from Attendee
+            invalid key
+                if NoSuchRecord
+                    display "Record for " AuthCode of Attendee "  not found"
+                else
+                    display "Error - status is " RecordStatus
+                end-if
+            end-rewrite
+end-evaluate
+close AttendeesFile
+.
+
 AddAttendee section.
     initialize Attendee
     call "createAuthCode" using by reference AuthCode of Attendee
@@ -310,6 +309,17 @@ AddAttendee section.
 EnableExtendedKeyInput section.
     set environment 'COB_SCREEN_EXCEPTIONS' to 'Y'
     set environment 'COB_SCREEN_ESC' to 'Y'
+.
+
+SetupAttendeesDataFileName section.
+    accept CommandLineArgumentCount from argument-number
+    if CommandLineArgumentCount equal to 1 then
+        accept AttendeesFileName from argument-value
+        if AttendeesFileName not equal to spaces
+            move AttendeesFileName to BackupFileName
+            inspect BackupFileName replacing all ".dat" by ".bak"
+        end-if
+    end-if
 .
 
 end program BAMS.
