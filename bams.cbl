@@ -222,7 +222,7 @@ ViewAttendee section.
     if Name of Attendee is equal to high-values then
         display "Invalid authcode or authcode not found"
     else
-        perform until OperationIsBack or OperationIsExit
+        perform until OperationIsBack
             accept ViewAttendeeScreen end-accept
             evaluate true
                 when OperationIsEdit perform EditAttendee
