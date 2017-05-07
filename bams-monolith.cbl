@@ -110,7 +110,7 @@ screen section.
         03 line 18 column 15 from PaymentStatus of Attendee.
         03 line 20 column 1 value "Diet issues:".
         03 line 20 column 15 from Diet of Attendee.
-        03 line 24 column 1 value "Commands: F1 Home, F4 Edit, F10 Exit                                         " reverse-video highlight.
+        03 line 24 column 1 value "Commands: F1 Home, F4 Edit                                                   " reverse-video highlight.
         03 line 24 column 78 to Command.
 
     01 SearchByAuthCodeScreen background-color 0 foreground-color 2.
@@ -118,7 +118,7 @@ screen section.
         03 line 1 column 1 value "    BarnCamp Attendee Management System v1.0   (c) copyleft 2017 HacktionLab    " reverse-video highlight.
         03 line 2 column 1 value "Enter AuthCode and press enter, F2 to find:".
         03 line 2 column plus 2 to AuthCode of Attendee required.
-        03 line 24 column 1 value "Commands: F1 Home, F2 Find, F10 Exit - type in authcode and press ENTER               " reverse-video highlight.
+        03 line 24 column 1 value "Commands: F1 Home, F2 Find - type in authcode and press ENTER                         " reverse-video highlight.
 
     01 EditAttendeeScreen background-color 0 foreground-color 2.
         03 blank screen.
@@ -145,7 +145,7 @@ screen section.
         03 line 18 column 15 from PaymentStatus of Attendee.
         03 line 20 column 1 value "Diet issues:".
         03 line 20 column 15 using Diet of Attendee.
-        03 line 24 column 1 value "Commands: F1 Home; Toggle: F5 Arrival, F6 Status, F7 Paid; F8 Save, F10 Exit  " reverse-video highlight.
+        03 line 24 column 1 value "Commands: F1 Home; Toggle: F5 Arrival, F6 Status, F7 Paid; F8 Save            " reverse-video highlight.
         03 line 24 column 78 to Command.
 
 procedure division.
@@ -242,7 +242,7 @@ DisplaySearchScreen section.
 .
 
 EditAttendee section.
-    perform until OperationIsBack or OperationIsExit or OperationIsSave
+    perform until OperationIsBack or OperationIsSave
         accept EditAttendeeScreen end-accept
         evaluate true
             when OperationIsSave
