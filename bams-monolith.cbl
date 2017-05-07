@@ -270,29 +270,29 @@ EditAttendee section.
 .
 
 SaveAttendee section.
-call "C$COPY" using AttendeesFileName, BackupFileName, 0
-open i-o AttendeesFile
-evaluate true
-    when AddAttendeeFlagOn
-        write AttendeeRecord from Attendee
-            invalid key
-                if RecordExists
-                    display "Record for " Name of Attendee "  already exists"
-                else
-                    display "Error - status is " RecordStatus
-                end-if
-        end-write
-    when not AddAttendeeFlagOn
-        rewrite AttendeeRecord from Attendee
-            invalid key
-                if NoSuchRecord
-                    display "Record for " AuthCode of Attendee "  not found"
-                else
-                    display "Error - status is " RecordStatus
-                end-if
-            end-rewrite
-end-evaluate
-close AttendeesFile
+    call "C$COPY" using AttendeesFileName, BackupFileName, 0
+    open i-o AttendeesFile
+    evaluate true
+        when AddAttendeeFlagOn
+            write AttendeeRecord from Attendee
+                invalid key
+                    if RecordExists
+                        display "Record for " Name of Attendee "  already exists"
+                    else
+                        display "Error - status is " RecordStatus
+                    end-if
+            end-write
+        when not AddAttendeeFlagOn
+            rewrite AttendeeRecord from Attendee
+                invalid key
+                    if NoSuchRecord
+                        display "Record for " AuthCode of Attendee "  not found"
+                    else
+                        display "Error - status is " RecordStatus
+                    end-if
+                end-rewrite
+    end-evaluate
+    close AttendeesFile
 .
 
 AddAttendee section.
