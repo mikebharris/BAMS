@@ -79,7 +79,7 @@ procedure division.
             StayingLateFromWeb,
             NumberOfKids of Attendee
         end-unstring
-        if Name of Attendee not equal to 'Name' then
+        if Name of Attendee not equal to 'Name' and Name of Attendee is not equal to spaces then
             add 1 to CountOfLinesProcessed
             move ArrivalDayFromWeb(1:3) to ArrivalDay of Attendee
             if PaidDateFromWeb is not equal to spaces then
