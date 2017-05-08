@@ -13,7 +13,7 @@ Firstly, Good Luck!  You'll need version 2.0 of [GNU COBOL](https://sourceforge.
 I can compile it on Mac OS X 10.12 and under Debian GNU/Linux (kernel 3.16.0-4-amd64) with:
 
 ```
-cobc -x -free -std=default -o bams bams-monolith.cbl createAuthCode.cbl ListAttendeesScreen.cbl
+cobc -x -free -std=default -o bams bams.cbl createAuthCode.cbl ListAttendeesScreen.cbl
 ```
 
 I had huge problems trying to get it to compile under Linux using the modular approach I'd originally intended.  The original code using the COBOL ENTRY points can be found in the file Attenees.cbl and it's accompanying test; see below.
