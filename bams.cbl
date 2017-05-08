@@ -29,12 +29,6 @@ working-storage section.
         88 AddAttendeeFlagOn value 1 when set to false is 0.
 
     01 AttendeesFileName pic x(20) value "attendees.dat".
-
-    01 RecordStatus   pic x(2).
-        88 Successful   value "00".
-        88 RecordExists value "22".
-        88 NoSuchRecord value "23".
-
     01 BackupFileName   pic x(20) value "attendees.bak".
 
     01 BarnCampStats.
@@ -49,21 +43,25 @@ working-storage section.
         02 TotalEstimatedAttendees pic 999 value zero.
         02 TotalEstimatedKids pic 99 value zero.
 
-    copy DD-Operation.
-
     01 Command pic x.
-
     01 CommandLineArgumentCount pic 9 value zero.
-
     01 CurrentDayOfWeek pic 9 value zero.
     01 DaysOfTheWeek value "MonTueWedThuFriSatSun".
         02 DayOfTheWeek pic x(3) occurs 7 times.
             88 ValidDayOfWeek values "Wed", "Thu", "Fri", "Sat", "Sun".
 
+    copy DD-ScreenHeader.
+    copy DD-Operation.
+
+    01 RecordStatus   pic x(2).
+        88 Successful   value "00".
+        88 RecordExists value "22".
+        88 NoSuchRecord value "23".
+
 screen section.
     01 HomeScreen background-color 0 foreground-color 2 highlight.
         03 blank screen background-color 0 foreground-color 5.
-        03 line 1 column 1 value "    BarnCamp Attendee Management System v1.0   (c) copyleft 2017 HacktionLab    " reverse-video.
+        03 line 1 column 1 from ScreenHeader reverse-video.
         03 line 5 column 34 value "Welcome to BAMS" underline.
         03 line 7 column 36 value "Today is ".
         03 line 7 column plus 1 from DayOfTheWeek(CurrentDayOfWeek).
@@ -87,12 +85,13 @@ screen section.
         03 pic z9 line 13 column plus 8 from TotalEstimatedKids.
         03 line 16 column 45 value "Kids to arrive today: ".
         03 pic z9 line 16 column plus 2 from KidsToArriveToday.
-        03 line 24 column 1 value "Commands: F2 View, F3 Add, F10 Exit                                           " reverse-video highlight.
+        03 line 24 column 1
+            value "Commands: F2 View, F3 Add, F10 Exit                                           " reverse-video highlight.
         03 line 24 column 78 to Command.
 
     01 ViewAttendeeScreen background-color 0 foreground-color 2.
         03 blank screen.
-        03 line 1 column 1 value "    BarnCamp Attendee Management System v1.0   (c) copyleft 2017 HacktionLab    " reverse-video highlight.
+        03 line 1 column 1 from ScreenHeader reverse-video.
         03 line 2 column 1 value "AuthCode:".
         03 line 2 column 15 from AuthCode of Attendee.
         03 line 4 column 1 value "Name:".
@@ -113,19 +112,21 @@ screen section.
         03 line 18 column 15 from PaymentStatus of Attendee.
         03 line 20 column 1 value "Diet issues:".
         03 line 20 column 15 from Diet of Attendee.
-        03 line 24 column 1 value "Commands: F1 Home, F4 Edit                                                   " reverse-video highlight.
+        03 line 24 column 1
+            value "Commands: F1 Home, F4 Edit                                                   " reverse-video highlight.
         03 line 24 column 78 to Command.
 
     01 SearchByAuthCodeScreen background-color 0 foreground-color 2.
         03 blank screen.
-        03 line 1 column 1 value "    BarnCamp Attendee Management System v1.0   (c) copyleft 2017 HacktionLab    " reverse-video highlight.
+        03 line 1 column 1 from ScreenHeader reverse-video.
         03 line 2 column 1 value "Enter AuthCode and press enter, F2 to find:".
         03 line 2 column plus 2 to AuthCode of Attendee required.
-        03 line 24 column 1 value "Commands: F1 Home, F2 Find - type in authcode and press ENTER                         " reverse-video highlight.
+        03 line 24 column 1
+            value "Commands: F1 Home, F2 Find - type in authcode and press ENTER                         " reverse-video highlight.
 
     01 EditAttendeeScreen background-color 0 foreground-color 2.
         03 blank screen.
-        03 line 1 column 1 value "    BarnCamp Attendee Management System v1.0   (c) copyleft 2017 HacktionLab    " reverse-video highlight.
+        03 line 1 column 1 from ScreenHeader reverse-video.
         03 line 2 column 1 value "AuthCode:".
         03 line 2 column 15 from AuthCode of Attendee.
         03 line 4 column 1 value "Name:".
