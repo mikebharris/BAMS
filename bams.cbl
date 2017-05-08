@@ -40,6 +40,7 @@ working-storage section.
     01 BarnCampStats.
         02 PeopleOnSite pic 999 value zero.
         02 PeopleSignedUp pic 999 value zero.
+        02 PeopleStayingTillMonday pic 999 value zero.
         02 PeopleToArrive pic 999 value zero.
         02 PeopleToArriveToday pic 999 value zero.
         02 KidsOnSite pic 99 value zero.
@@ -75,6 +76,8 @@ screen section.
         03 pic zzz9 line 13 column plus 2 from TotalEstimatedAttendees.
         03 line 16 column 5 value "To arrive today: ".
         03 pic zzz9 line 16 column plus 2 from PeopleToArriveToday.
+        03 line 18 column 5 value "Staying till Mon: ".
+        03 pic zzz9 line 18 column plus 1 from PeopleStayingTillMonday.
         03 line 10 column 50 value "Kids on-site: ".
         03 pic z9 line 10 column plus 5 from KidsOnSite.
         03 line 11 column 50 value "Kids to arrive: ".
@@ -177,6 +180,10 @@ LoadAttendeeRecords section.
                     when AttendeeArrived of AttendeeRecord
                         add 1 to PeopleOnSite
                         add NumberOfKids of AttendeeRecord to KidsOnSite
+                        evaluate true
+                            when CanStayTillMonday of AttendeeRecord
+                                add 1 to PeopleStayingTillMonday
+                        end-evaluate
                     when AttendeeComing of AttendeeRecord
                         add 1 to PeopleToArrive
                         add NumberOfKids of AttendeeRecord to KidsToArrive
