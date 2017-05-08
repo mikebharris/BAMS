@@ -27,21 +27,21 @@ working-storage section.
         02 Email    pic x(40) value spaces.
         02 AuthCode pic x(6) value all "0".
 
-    01 RecordCount pic 999.
-    01 RecordSelected pic 999.
-    78 RecordsPerPage value 20.
-    01 PageOffset pic 999 value 1.
-    01 FirstRecordToShow pic 999 value 1.
-    01 LastRecordToShow pic 999 value 20.
-    01 CurrentRow pic 99 value zero.
-    01 CurrentAttendeeNumber pic 999 value zero.
-
     01 AttendeeStatus   pic x(2).
         88 Successful   value "00".
         88 RecordExists value "22".
         88 NoSuchRecord value "23".
 
+    01 CurrentAttendeeNumber pic 999 value zero.
+    01 CurrentRow pic 99 value zero.
+    01 FirstRecordToShow pic 999 value 1.
+    copy DD-ScreenHeader.
+    01 LastRecordToShow pic 999 value 20.
     copy DD-Operation.
+    01 PageOffset pic 999 value 1.
+    01 RecordCount pic 999.
+    78 RecordsPerPage value 20.
+    01 RecordSelected pic 999.
 
 linkage section.
     01 AttendeesFileName pic x(20) value "attendees.dat".
@@ -50,12 +50,12 @@ linkage section.
 screen section.
     01 HomeScreen background-color 0 foreground-color 2 highlight.
         03 blank screen background-color 0 foreground-color 5.
-        03 line 1 column 1 value "    BarnCamp Attendee Management System v1.0   (c) copyleft 2017 HacktionLab    " reverse-video.
+        03 line 1 column 1 from ScreenHeader reverse-video.
         03 line 2 column 1 value "Num" highlight underline.
         03 line 2 column 6 value "Name" highlight underline.
         03 line 2 column 31 value "Email" highlight underline.
         03 line 2 column 71 value "AuthCode" highlight underline.
-        03 line 24 column 1 value "Commands: PgUp/PgDown to scroll, Enter number and press ENTER, F10 Exit        " reverse-video highlight.
+        03 line 24 column 1 value "Commands: F1 Home, PgUp/PgDown to scroll, Enter number and press ENTER         " reverse-video highlight.
 
 procedure division using AttendeesFileName, ReturnAuthCode.
 
@@ -81,8 +81,11 @@ procedure division using AttendeesFileName, ReturnAuthCode.
         end-perform
     close AttendeesFile
 
+    sort Attendee
+        on descending key Name of Attendee
+
     move zero to PageOffset
-    perform until OperationIsExit or OperationIsFinish
+    perform until OperationIsBack or OperationIsFinish
         display HomeScreen
         add 1 to PageOffset giving FirstRecordToShow
         move 3 to CurrentRow

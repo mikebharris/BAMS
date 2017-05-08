@@ -24,4 +24,6 @@
         88 AttendeeComing values "C", "c".
         88 AttendeeArrived values "A", "a".
         88 AttendeeCancelled values "X", "x".
+    02 StayingTillMonday pic 9 value 0.
+        88 CanStayTillMonday value 1 when set to false is 0.
     02 Diet pic x(60) value spaces.
