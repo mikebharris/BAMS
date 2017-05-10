@@ -31,6 +31,9 @@ working-storage section.
     01 AttendeesFileName pic x(20) value "attendees.dat".
     01 BackupFileName   pic x(20) value "attendees.bak".
 
+    01 AuthCodePresence pic 9 value 0 is global.
+        88 AuthCodeExists value 1 when set to false is 0.
+
     01 BarnCampStats.
         02 PeopleOnSite pic 999 value zero.
         02 PeopleSignedUp pic 999 value zero.
@@ -220,6 +223,12 @@ ViewAttendee section.
     if AuthCode of Attendee is not HexNumber then
         exit section
     end-if
+
+    perform AuthCodeIsInFile
+    if not AuthCodeExists
+        exit section
+    end-if
+
     open input AttendeesFile
     move Authcode of Attendee to AuthCode of AttendeeRecord
     read AttendeesFile record into Attendee
@@ -307,6 +316,10 @@ SaveAttendee section.
 AddAttendee section.
     initialize Attendee
     call "createAuthCode" using by reference AuthCode of Attendee
+    perform AuthCodeIsInFile
+    if AuthCodeExists
+        exit section
+    end-if
     set ArrivalDayIsFriday of Attendee to true
     set AttendeeArrived of Attendee to true
     set AttendeeNotPaid of Attendee to true
@@ -330,5 +343,16 @@ SetupAttendeesDataFileName section.
         end-if
     end-if
 .
+
+AuthCodeIsInFile section.
+    open input AttendeesFile
+    move AuthCode of Attendee to AuthCode of AttendeeRecord
+    start AttendeesFile
+        key is equal to AuthCode of AttendeeRecord
+        invalid key set AuthCodeExists to false
+        not invalid key set AuthCodeExists to true
+    end-start
+    close AttendeesFile
+    .
 
 end program BAMS.
