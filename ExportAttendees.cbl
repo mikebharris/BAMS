@@ -76,7 +76,6 @@ procedure division.
                 trim(Diet) delimited by size
                 into CSVFileOutputLine
             end-string
-            display CSVFileOutputLine
             write CSVFileOutputLine
             add 1 to CountOfLinesProcessed
             read AttendeesFile next record

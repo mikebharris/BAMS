@@ -50,13 +50,15 @@ working-storage section.
     01 CommandLineArgumentCount pic 9 value zero.
     01 CurrentDayOfWeek pic 9 value zero.
     01 DaysOfTheWeek value "MonTueWedThuFriSatSun".
-        02 DayOfTheWeek pic x(3) occurs 7 times.
+        02 DayOfTheWeek pic xxx occurs 7 times.
             88 ValidDayOfWeek values "Wed", "Thu", "Fri", "Sat", "Sun".
+
+    78 DefaultAmountToPay value 40.
 
     copy DD-ScreenHeader.
     copy DD-Operation.
 
-    01 RecordStatus   pic x(2).
+    01 RecordStatus   pic xx.
         88 Successful   value "00".
         88 RecordExists value "22".
         88 NoSuchRecord value "23".
@@ -323,7 +325,7 @@ AddAttendee section.
     set ArrivalDayIsFriday of Attendee to true
     set AttendeeArrived of Attendee to true
     set AttendeeNotPaid of Attendee to true
-    move 40 to AmountToPay of Attendee
+    move DefaultAmountToPay to AmountToPay of Attendee
     set AddAttendeeFlagOn to true
     perform EditAttendee
 .

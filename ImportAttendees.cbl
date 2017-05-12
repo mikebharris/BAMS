@@ -42,7 +42,7 @@ working-storage section.
     01 CSVSourceFileName pic x(30) value spaces.
     01 CommandLineArgumentCount pic 9 value zero.
 
-    01 RecordWriteStatus   pic x(2).
+    01 RecordWriteStatus   pic xx.
         88 Successful   value "00".
         88 RecordExists value "22".
         88 NoSuchRecord value "23".
