@@ -5,6 +5,7 @@ environment division.
 configuration section.
     special-names.
         crt status is Operation.
+        alphabet mixed is " ZzYyXxWwVvUuTtSsRrQqPpOoNnMmLlKkJjIiHhGgFfEeDdCcBbAa".
 
 input-output section.
     file-control.
@@ -84,6 +85,7 @@ procedure division using AttendeesFileName, ReturnAuthCode, ForegroundColour.
 
     sort Attendee
         on descending key Name of Attendee
+        collating sequence is mixed
 
     move zero to PageOffset
     perform until OperationIsBack or OperationIsFinish
