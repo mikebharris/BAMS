@@ -122,6 +122,7 @@ BAMS is a classic console application that strives to use the keyboard to do thi
 * F6 - Toggle the attendance status of an attendee between Coming, Arrived or Cancelled.
 * F7 - Toggle the payment status of an attendee between Paid and Not Paid.
 * F8 - Save and changes to the current attendee selected.
+* F9 - Cycle through a number of different foreground text colours (default is green).
 * F10 - Exit BAMS from the Home Screen and return to the operating system.
 * PgUp/PgDown - Scroll screen-by-screen through a list of attendees.
 * ENTER - Tell BAMS to accept the data in the current input field and input.
