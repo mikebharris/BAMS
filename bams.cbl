@@ -58,7 +58,7 @@ working-storage section.
     copy DD-ScreenHeader.
     copy DD-Operation.
 
-    01 ForegroundColour pic 99 value 2.
+    01 ForegroundColour pic 9 value 2.
 
     01 RecordStatus   pic xx.
         88 Successful   value "00".
@@ -67,7 +67,7 @@ working-storage section.
 
 screen section.
     01 HomeScreen background-color 0 foreground-color ForegroundColour highlight.
-        03 blank screen background-color 0 foreground-color 5.
+        03 blank screen.
         03 line 1 column 1 from ScreenHeader reverse-video.
         03 line 5 column 34 value "Welcome to BAMS" underline.
         03 line 7 column 36 value "Today is ".
@@ -96,7 +96,7 @@ screen section.
             value "Commands: F2 View, F3 Add, F10 Exit                                           " reverse-video highlight.
         03 line 24 column 78 to Command.
 
-    01 ViewAttendeeScreen background-color 0 foreground-color 2.
+    01 ViewAttendeeScreen background-color 0 foreground-color ForegroundColour.
         03 blank screen.
         03 line 1 column 1 from ScreenHeader reverse-video.
         03 line 2 column 1 value "AuthCode:".
@@ -123,7 +123,7 @@ screen section.
             value "Commands: F1 Home, F4 Edit                                                   " reverse-video highlight.
         03 line 24 column 78 to Command.
 
-    01 SearchByAuthCodeScreen background-color 0 foreground-color 2.
+    01 SearchByAuthCodeScreen background-color 0 foreground-color ForegroundColour.
         03 blank screen.
         03 line 1 column 1 from ScreenHeader reverse-video.
         03 line 2 column 1 value "Enter AuthCode and press enter, F2 to find:".
@@ -131,7 +131,7 @@ screen section.
         03 line 24 column 1
             value "Commands: F1 Home, F2 Find - type in authcode and press ENTER                         " reverse-video highlight.
 
-    01 EditAttendeeScreen background-color 0 foreground-color 2.
+    01 EditAttendeeScreen background-color 0 foreground-color ForegroundColour.
         03 blank screen.
         03 line 1 column 1 from ScreenHeader reverse-video.
         03 line 2 column 1 value "AuthCode:".
@@ -235,7 +235,7 @@ ViewAttendee section.
     end-if
 
     perform AuthCodeIsInFile
-    if not AuthCodeExists
+    if not AuthCodeExists then
         exit section
     end-if
 
@@ -264,7 +264,9 @@ DisplaySearchScreen section.
     accept SearchByAuthCodeScreen end-accept
     evaluate true
         when OperationIsView call "ListAttendeesScreen"
-            using by content AttendeesFileName by reference Authcode of Attendee
+            using by content AttendeesFileName
+                by reference Authcode of Attendee
+                by content ForegroundColour
         when other move function upper-case(AuthCode of Attendee) to AuthCode of Attendee
     end-evaluate
 .
@@ -304,7 +306,7 @@ SaveAttendee section.
         when AddAttendeeFlagOn
             write AttendeeRecord from Attendee
                 invalid key
-                    if RecordExists
+                    if RecordExists then
                         display "Record for " Name of Attendee "  already exists"
                     else
                         display "Error - status is " RecordStatus
@@ -313,7 +315,7 @@ SaveAttendee section.
         when not AddAttendeeFlagOn
             rewrite AttendeeRecord from Attendee
                 invalid key
-                    if NoSuchRecord
+                    if NoSuchRecord then
                         display "Record for " AuthCode of Attendee "  not found"
                     else
                         display "Error - status is " RecordStatus
@@ -327,9 +329,10 @@ AddAttendee section.
     initialize Attendee
     call "createAuthCode" using by reference AuthCode of Attendee
     perform AuthCodeIsInFile
-    if AuthCodeExists
+    if AuthCodeExists then
         exit section
     end-if
+
     set ArrivalDayIsFriday of Attendee to true
     set AttendeeArrived of Attendee to true
     set AttendeeNotPaid of Attendee to true
@@ -347,7 +350,7 @@ SetupAttendeesDataFileName section.
     accept CommandLineArgumentCount from argument-number
     if CommandLineArgumentCount equal to 1 then
         accept AttendeesFileName from argument-value
-        if AttendeesFileName not equal to spaces
+        if AttendeesFileName not equal to spaces then
             move AttendeesFileName to BackupFileName
             inspect BackupFileName replacing all ".dat" by ".bak"
         end-if

@@ -45,11 +45,12 @@ working-storage section.
 
 linkage section.
     01 AttendeesFileName pic x(20) value "attendees.dat".
+    01 ForegroundColour pic 9 value 2.
     01 ReturnAuthCode pic x(6) value all "0".
 
 screen section.
-    01 HomeScreen background-color 0 foreground-color 2 highlight.
-        03 blank screen background-color 0 foreground-color 5.
+    01 HomeScreen background-color 0 foreground-color ForegroundColour highlight.
+        03 blank screen.
         03 line 1 column 1 from ScreenHeader reverse-video.
         03 line 2 column 1 value "Num" highlight underline.
         03 line 2 column 6 value "Name" highlight underline.
@@ -57,7 +58,7 @@ screen section.
         03 line 2 column 71 value "AuthCode" highlight underline.
         03 line 24 column 1 value "Commands: F1 Home, PgUp/PgDown to scroll, Enter number and press ENTER         " reverse-video highlight.
 
-procedure division using AttendeesFileName, ReturnAuthCode.
+procedure division using AttendeesFileName, ReturnAuthCode, ForegroundColour.
 
     set environment 'COB_SCREEN_EXCEPTIONS' to 'Y'
     set environment 'COB_SCREEN_ESC' to 'Y'
@@ -95,16 +96,16 @@ procedure division using AttendeesFileName, ReturnAuthCode.
                 CurrentAttendeeNumber greater than RecordCount
             display CurrentAttendeeNumber
                 at line CurrentRow
-                foreground-color 2
+                foreground-color ForegroundColour
             end-display
             display Attendee(CurrentAttendeeNumber)
                 at line CurrentRow
                 column 6
-                foreground-color 2
+                foreground-color ForegroundColour
             end-display
             add 1 to CurrentRow
         end-perform
-        accept RecordSelected at line 24 column 78 foreground-color 2
+        accept RecordSelected at line 24 column 78 foreground-color ForegroundColour
         evaluate true also true
             when OperationIsNextPage also LastRecordToShow is less than RecordCount
                 add RecordsPerPage to PageOffset
