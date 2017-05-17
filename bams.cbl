@@ -58,13 +58,15 @@ working-storage section.
     copy DD-ScreenHeader.
     copy DD-Operation.
 
+    01 ForegroundColour pic 99 value 2.
+
     01 RecordStatus   pic xx.
         88 Successful   value "00".
         88 RecordExists value "22".
         88 NoSuchRecord value "23".
 
 screen section.
-    01 HomeScreen background-color 0 foreground-color 2 highlight.
+    01 HomeScreen background-color 0 foreground-color ForegroundColour highlight.
         03 blank screen background-color 0 foreground-color 5.
         03 line 1 column 1 from ScreenHeader reverse-video.
         03 line 5 column 34 value "Welcome to BAMS" underline.
@@ -216,6 +218,12 @@ DisplayHomeScreen section.
     evaluate true
         when OperationIsView perform ViewAttendee
         when OperationIsAdd  perform AddAttendee
+        when OperationIsToggleColour
+            if ForegroundColour is equal to 7 then
+                move 2 to ForegroundColour
+            else
+                add 1 to ForegroundColour
+            end-if
     end-evaluate
 .
 

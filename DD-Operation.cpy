@@ -8,6 +8,7 @@
         88 OperationIsNextPage value 2002. *> PgDn
         88 OperationIsPrevPage value 2001. *> PgUp
         88 OperationIsToggleArrivalDay value 1005. *> F5
+        88 OperationIsToggleColour value 1009. *> F9
         88 OperationIsTogglePaid value 1007. *> F7
         88 OperationIsToggleStatus value 1006. *> F6
         88 OperationIsView value 1002. *> F2
