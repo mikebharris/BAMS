@@ -196,8 +196,7 @@ LoadAttendeeRecords section.
                         add 1 to PeopleToArrive
                         add NumberOfKids of AttendeeRecord to KidsToArrive
                         if ValidDayOfWeek(CurrentDayOfWeek) and
-                            ArrivalDay of AttendeeRecord is equal to DayOfTheWeek(CurrentDayOfWeek) or
-                            ArrivalDay of AttendeeRecord is greater than DayOfTheWeek(CurrentDayOfWeek) then
+                            ArrivalDay of AttendeeRecord is greater than or equal to DayOfTheWeek(CurrentDayOfWeek) then
                             add 1 to PeopleToArriveToday
                             add NumberOfKids of AttendeeRecord to KidsToArriveToday
                         end-if
