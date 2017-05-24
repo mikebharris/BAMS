@@ -40,6 +40,7 @@ working-storage section.
         02 PeopleStayingTillMonday pic 999 value zero.
         02 PeopleToArrive pic 999 value zero.
         02 PeopleToArriveToday pic 999 value zero.
+        02 PeopleToBeOnSiteToday pic 999 value zero.
         02 KidsOnSite pic 99 value zero.
         02 KidsToArrive pic 99 value zero.
         02 KidsToArriveToday pic 99 value zero.
@@ -81,8 +82,10 @@ screen section.
         03 pic zzz9 line 13 column plus 2 from TotalEstimatedAttendees.
         03 line 16 column 5 value "To arrive today: ".
         03 pic zzz9 line 16 column plus 2 from PeopleToArriveToday.
-        03 line 18 column 5 value "Staying till Mon: ".
-        03 pic zzz9 line 18 column plus 1 from PeopleStayingTillMonday.
+        03 line 17 column 5 value "To be onsite today: ".
+        03 pic zzz9 line 17 column minus 1 from PeopleToBeOnSiteToday.
+        03 line 19 column 5 value "Staying till Mon: ".
+        03 pic zzz9 line 19 column plus 1 from PeopleStayingTillMonday.
         03 line 10 column 50 value "Kids on-site: ".
         03 pic z9 line 10 column plus 5 from KidsOnSite.
         03 line 11 column 50 value "Kids to arrive: ".
@@ -202,6 +205,7 @@ LoadAttendeeRecords section.
                         end-if
                 end-evaluate
                 add 1 to PeopleSignedUp
+                add PeopleToArriveToday to PeopleOnSite giving PeopleToBeOnSiteToday
                 read AttendeesFile next record
                     at end set EndOfAttendeesFile to true
                 end-read
