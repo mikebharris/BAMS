@@ -41,7 +41,7 @@ working-storage section.
     copy DD-Operation.
     01 PageOffset pic 999 value 1.
     01 RecordCount pic 999.
-    78 RecordsPerPage value 20.
+    01 RecordsPerPage constant as 20.
     01 RecordSelected pic 999.
 
 linkage section.

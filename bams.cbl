@@ -54,7 +54,7 @@ working-storage section.
         02 DayOfTheWeek pic xxx occurs 7 times.
             88 ValidDayOfWeek values "Wed", "Thu", "Fri", "Sat", "Sun".
 
-    78 DefaultAmountToPay value 40.
+    01 DefaultAmountToPay constant as 40.
 
     copy DD-ScreenHeader.
     copy DD-Operation.
