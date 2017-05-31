@@ -8,7 +8,7 @@ A system for managing the Welcome Desk at [BarnCamp](https://barncamp.org.uk) wr
 
 ## Compiling
 
-Firstly, Good Luck!  You'll need version 2.0 of [GNU COBOL](https://sourceforge.net/projects/open-cobol/) to compile this code.
+Firstly, Good Luck!  You'll need the latest version 2.0-rc2 of [GNU COBOL](https://sourceforge.net/projects/open-cobol/) to compile this code.  Version 1.x of the compile will not work as BAMS uses a number of ISO COBOL 2002 and ISO COBOL 2014 extensions.
 
 I can compile it on Mac OS X 10.12 and under Debian GNU/Linux (kernel 3.16.0-4-amd64) with:
 
@@ -60,6 +60,8 @@ or optionally with a specific data file:
 If you find that the function keys don't seem to do what they should, check that they haven't been captured by your window manager or terminal emulator. For example in MATE terminal, F10 brings up the emulator menu so you can't exit the application.
 
 ## Run the test suite
+
+Note that the test suite tests the Attendees.cbl code, which was an attempt to take an object-orientated-esque approach using ENTRY, but this wouldn't compile under Linux, so it was dropped in favour of a monolithic version.  Attendees.cbl is however still used by the Stats.cbl program.
 
 To run the test suite, you'll need to download [COBOL Test Suite](https://github.com/mikebharris/COBOL-Test-Suite).
 
