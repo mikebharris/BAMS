@@ -96,7 +96,7 @@ screen section.
         03 line 16 column 45 value "Kids to arrive today: ".
         03 pic z9 line 16 column plus 2 from KidsToArriveToday.
         03 line 24 column 1
-            value "Commands: F2 View, F3 Add, F10 Exit                                           " reverse-video highlight.
+            value "Commands: F2 View, F3 Add, F10 Exit                                           " reverse-video.
         03 line 24 column 78 to Command.
 
     01 ViewAttendeeScreen background-color 0 foreground-color ForegroundColour.
