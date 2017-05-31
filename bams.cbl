@@ -191,10 +191,9 @@ LoadAttendeeRecords section.
                     when AttendeeArrived of AttendeeRecord
                         add 1 to PeopleOnSite
                         add NumberOfKids of AttendeeRecord to KidsOnSite
-                        evaluate true
-                            when CanStayTillMonday of AttendeeRecord
-                                add 1 to PeopleStayingTillMonday
-                        end-evaluate
+                        if CanStayTillMonday of AttendeeRecord then
+                            add 1 to PeopleStayingTillMonday
+                        end-if
                     when AttendeeComing of AttendeeRecord
                         add 1 to PeopleToArrive
                         add NumberOfKids of AttendeeRecord to KidsToArrive

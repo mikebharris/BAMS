@@ -96,7 +96,7 @@ procedure division.
                 move zero to NumberOfKids of Attendee
             end-if
             set AttendeeComing of Attendee to true
-            if StayingLateFromWeb equal to "true" then
+            if trim(StayingLateFromWeb) is equal to "true" then
                 set CanStayTillMonday of Attendee to true
             else
                 set CanStayTillMonday of Attendee to false
