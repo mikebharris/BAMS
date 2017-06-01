@@ -16,7 +16,7 @@ I can compile it on Mac OS X 10.12 and under Debian GNU/Linux (kernel 3.16.0-4-a
 cobc -x -free -std=default -o bams bams.cbl createAuthCode.cbl ListAttendeesScreen.cbl
 ```
 
-I had huge problems trying to get it to compile under Linux using the modular approach I'd originally intended.  The original code using the COBOL ENTRY points can be found in the file Attenees.cbl and it's accompanying test; see below.
+I had huge problems trying to get it to compile under Linux (but not under OS X) using the modular approach I'd originally intended.  The original code using the COBOL ENTRY points can be found in the file Attenees.cbl and it's accompanying test; see below.
 
 To get version 2.0 of GNU COBOL compiler (cobc), download it from https://sourceforge.net/projects/open-cobol/files/gnu-cobol/2.0/ (rc2 is the latest at the time of typing), untar/zip it, and (on Linux) do:
 ```
@@ -239,3 +239,30 @@ Here's a list of what to do in certain situations.
 * Edit their record by pressing F4.
 * Press the F5 key until their Arrival Day matches the new day they think they will arrive on.
 * Make any other changes necessary and hit F8 to save.
+
+# Other Utilities
+
+Here are some supplimentary utilities also included.
+
+## BarnCampReport
+
+Produces some useful stats about how many people are on site and when, what their diets are, etc.
+
+Compile this with:
+```
+cobc -std=default -x -free BarnCampReport.cbl Attendee.cbl
+```
+
+## Export Utility
+
+This tool allows you to re-export the data from BAMS to a CSV file for use in other programs.
+
+Compile this with:
+```
+cobc -std=default -x -free ExportAttendees.cbl
+```
+
+And run with:
+```
+./ExportAttendees <attendees.dat file> <output.csv file>
+```
