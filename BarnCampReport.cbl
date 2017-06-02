@@ -24,12 +24,20 @@ working-storage section.
         88 NoSuchRecord value "23".
 
     01 HeadCounts.
-        02 HeadCountWednesday pic 99 value zero.
-        02 HeadCountThursday pic 99 value zero.
-        02 HeadCountFriday pic 99 value zero.
-        02 HeadCountSaturday pic 99 value zero.
-        02 HeadCountSunday pic 99 value zero.
-        02 HeadCountMonday pic 99 value zero.
+        02 ActualHeadCounts.
+            03 HeadCountWednesday pic 99 value zero.
+            03 HeadCountThursday pic 99 value zero.
+            03 HeadCountFriday pic 99 value zero.
+            03 HeadCountSaturday pic 99 value zero.
+            03 HeadCountSunday pic 99 value zero.
+            03 HeadCountMonday pic 99 value zero.
+        02 EstimatedHeadCounts.
+            03 EstimatedHeadCountWednesday pic 99 value zero.
+            03 EstimatedHeadCountThursday pic 99 value zero.
+            03 EstimatedHeadCountFriday pic 99 value zero.
+            03 EstimatedHeadCountSaturday pic 99 value zero.
+            03 EstimatedHeadCountSunday pic 99 value zero.
+            03 EstimatedHeadCountMonday pic 99 value zero.
 
     01 TotalNightsCamping pic 999 value zero.
     01 CostPerNight constant as 2.
@@ -78,6 +86,15 @@ procedure division.
                     add 1 to HeadCountMonday
                 end-if
             end-if
+            if AttendeeComing or AttendeeArrived then
+                evaluate true
+                    when ArrivalDayIsWednesday add 1 to EstimatedHeadCountWednesday
+                    when ArrivalDayIsThursday add 1 to EstimatedHeadCountThursday
+                    when ArrivalDayIsFriday add 1 to EstimatedHeadCountFriday
+                    when ArrivalDayIsSaturday add 1 to EstimatedHeadCountSaturday
+                    when CanStayTillMonday add 1 to HeadCountMonday
+                end-evaluate
+            end-if
             read AttendeesFile next record
                 at end set EndOfAttendeesFile to true
             end-read
@@ -89,24 +106,32 @@ procedure division.
     add HeadCountFriday to HeadCountSaturday
     add HeadCountSaturday to HeadCountSunday
 
+    add EstimatedHeadCountWednesday to EstimatedHeadCountThursday
+    add EstimatedHeadCountThursday to EstimatedHeadCountFriday
+    add EstimatedHeadCountFriday to EstimatedHeadCountSaturday
+    add EstimatedHeadCountSaturday to EstimatedHeadCountSunday
+
     display spaces
     display "Attendance report"
     display "================"
 
-    display "Wednesday: " HeadCountWednesday
-    display "Thursday:  " HeadCountThursday
-    display "Friday:    " HeadCountFriday
-    display "Saturday:  " HeadCountSaturday
-    display "Sunday:    " HeadCountSunday
-    display "Monday:    " HeadCountMonday
+    display "           Act (Est)"
+    display "Wednesday:  " HeadCountWednesday "  (" EstimatedHeadCountWednesday ")"
+    display "Thursday:   " HeadCountThursday "  (" EstimatedHeadCountThursday ")"
+    display "Friday:     " HeadCountFriday "  (" EstimatedHeadCountFriday ")"
+    display "Saturday:   " HeadCountSaturday "  (" EstimatedHeadCountSaturday ")"
+    display "Sunday:     " HeadCountSunday "  (" EstimatedHeadCountSunday ")"
+    display "Monday:     " HeadCountMonday "  (" EstimatedHeadCountMonday ")"
+
+    display spaces
+    display "Camping report"
+    display "=============="
 
     compute TotalNightsCamping = HeadCountWednesday + HeadCountThursday + HeadCountFriday + HeadCountSaturday + HeadCountMonday
     multiply CostPerNight by TotalNightsCamping giving TotalCampingCharge
 
-    display "-----------------"
-
-    display "Nights:    " TotalNightsCamping
-    display "Charge:    " TotalCampingCharge
+    display "Nights camped:  " TotalNightsCamping
+    display "Camping charge: " TotalCampingCharge
 
     display spaces
     display "Financial report"
