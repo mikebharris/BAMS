@@ -95,6 +95,13 @@ procedure division.
                     when CanStayTillMonday add 1 to HeadCountMonday
                 end-evaluate
             end-if
+            if AttendeeComing or AttendeeArrived then
+                add 1 to NumberOfAttendees
+            end-if
+            evaluate true
+                when AttendeePaid add AmountPaid to TotalPaid
+                when AttendeeNotPaid add AmountToPay of AttendeeRecord to TotalToPay
+            end-evaluate
             read AttendeesFile next record
                 at end set EndOfAttendeesFile to true
             end-read
@@ -137,9 +144,6 @@ procedure division.
     display "Financial report"
     display "================"
 
-    call "Attendees"
-    call "FinancialStats" using by reference TotalPaid, TotalToPay
-
     display spaces
     move TotalPaid to FigureOutput
     display "Total paid is:   " FigureOutput
@@ -150,7 +154,6 @@ procedure division.
     display "-------------------------"
     display "Total income is: " FigureOutput
 
-    call "AttendeeStats" using by reference NumberOfAttendees, IgnoredValue, IgnoredValue, IgnoredValue, IgnoredValue
     divide TotalIncome by NumberOfAttendees giving AveragePaid rounded mode is away-from-zero
     display spaces
     display "Average paid is:    " AveragePaid
