@@ -266,8 +266,7 @@ DisplaySearchScreen section.
     accept SearchByAuthCodeScreen end-accept
     evaluate true
         when OperationIsView call "ListAttendeesScreen"
-            using by content AttendeesFileName
-                by reference Authcode of Attendee
+            using by reference Authcode of Attendee
                 by content ForegroundColour
         when other move function upper-case(AuthCode of Attendee) to AuthCode of Attendee
     end-evaluate

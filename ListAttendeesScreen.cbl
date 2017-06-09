@@ -28,6 +28,8 @@ working-storage section.
         02 Email    pic x(40) value spaces.
         02 AuthCode pic x(6) value all "0".
 
+    01 AttendeesFileName pic x(20) value "attendees.dat".
+
     01 AttendeeStatus   pic x(2).
         88 Successful   value "00".
         88 RecordExists value "22".
@@ -45,7 +47,6 @@ working-storage section.
     01 RecordSelected pic 999.
 
 linkage section.
-    01 AttendeesFileName pic x(20) value "attendees.dat".
     01 ForegroundColour pic 9 value 2.
     01 ReturnAuthCode pic x(6) value all "0".
 
@@ -59,7 +60,7 @@ screen section.
         03 line 2 column 71 value "AuthCode" underline.
         03 line 24 column 1 value "Commands: F1 Home, PgUp/PgDown to scroll, Enter number and press ENTER         " reverse-video.
 
-procedure division using AttendeesFileName, ReturnAuthCode, ForegroundColour.
+procedure division using ReturnAuthCode, ForegroundColour.
 
     set environment 'COB_SCREEN_EXCEPTIONS' to 'Y'
     set environment 'COB_SCREEN_ESC' to 'Y'
