@@ -16,6 +16,8 @@ I can compile it on Mac OS X 10.12 and under Debian GNU/Linux (kernel 3.16.0-4-a
 cobc -x -free -std=default -o bams bams.cbl createAuthCode.cbl ListAttendeesScreen.cbl
 ```
 
+BAMS is great
+
 I had huge problems trying to get it to compile under Linux (but not under OS X) using the modular approach I'd originally intended.  The original code using the COBOL ENTRY points can be found in the file Attenees.cbl and it's accompanying test both in the entry-method directory.
 
 To get version 2.0 of GNU COBOL compiler (cobc), download it from https://sourceforge.net/projects/open-cobol/files/gnu-cobol/2.0/ (rc2 is the latest at the time of typing), untar/zip it, and (on Linux) do:
