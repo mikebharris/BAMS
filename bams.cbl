@@ -96,43 +96,16 @@ screen section.
         03 line 16 column 45 value "Kids to arrive today: ".
         03 pic z9 line 16 column plus 2 from KidsToArriveToday.
         03 line 24 column 1
-            value "Commands: F2 View, F3 Add, F10 Exit                                           " reverse-video.
-        03 line 24 column 78 to Command.
-
-    01 ViewAttendeeScreen background-color 0 foreground-color ForegroundColour.
-        03 blank screen.
-        03 line 1 column 1 from ScreenHeader reverse-video.
-        03 line 2 column 1 value "AuthCode:".
-        03 line 2 column 15 from AuthCode of Attendee.
-        03 line 4 column 1 value "Name:".
-        03 line 4 column 15 from Name of Attendee.
-        03 line 6 column 1 value "Email:".
-        03 line 6 column 15 from Email of Attendee.
-        03 line 8 column 1 value "Telephone:".
-        03 line 8 column 15 from Telephone of Attendee.
-        03 line 10 column 1 value "Arrival day:".
-        03 line 10 column 15 from ArrivalDay of Attendee.
-        03 line 12 column 1 value "Status:".
-        03 line 12 column 15 from AttendanceStatus of Attendee.
-        03 line 14 column 1 value "Kids:".
-        03 line 14 column 15 from NumberOfKids of Attendee.
-        03 line 16 column 1 value "Pay amount:".
-        03 pic 999 line 16 column 15 from AmountToPay of Attendee.
-        03 line 18 column 1 value "Paid?:".
-        03 line 18 column 15 from PaymentStatus of Attendee.
-        03 line 20 column 1 value "Diet issues:".
-        03 line 20 column 15 from Diet of Attendee.
-        03 line 24 column 1
-            value "Commands: F1 Home, F4 Edit                                                   " reverse-video highlight.
+            value "Commands: F3 Add, F4 Edit, F10 Exit                                           " reverse-video.
         03 line 24 column 78 to Command.
 
     01 SearchByAuthCodeScreen background-color 0 foreground-color ForegroundColour.
         03 blank screen.
         03 line 1 column 1 from ScreenHeader reverse-video.
-        03 line 2 column 1 value "Enter AuthCode and press enter, F2 to find:".
+        03 line 2 column 1 value "Enter AuthCode and press enter, F2 to list all attendees:".
         03 line 2 column plus 2 to AuthCode of Attendee required.
         03 line 24 column 1
-            value "Commands: F1 Home, F2 Find - type in authcode and press ENTER                         " reverse-video highlight.
+            value "Commands: F1 Home, F2 List all - type in authcode and press ENTER                  " reverse-video highlight.
 
     01 EditAttendeeScreen background-color 0 foreground-color ForegroundColour.
         03 blank screen.
@@ -218,7 +191,7 @@ LoadAttendeeRecords section.
 DisplayHomeScreen section.
     accept HomeScreen from crt end-accept
     evaluate true
-        when OperationIsView perform ViewAttendee
+        when OperationIsEdit perform SearchAttendees
         when OperationIsAdd  perform AddAttendee
         when OperationIsToggleColour
             if ForegroundColour is equal to 7 then
@@ -229,7 +202,7 @@ DisplayHomeScreen section.
     end-evaluate
 .
 
-ViewAttendee section.
+SearchAttendees section.
     initialize Attendee
     perform DisplaySearchScreen
     if AuthCode of Attendee is not HexNumber then
@@ -252,12 +225,7 @@ ViewAttendee section.
     if Name of Attendee is equal to high-values then
         display "Invalid authcode or authcode not found"
     else
-        perform until OperationIsBack
-            accept ViewAttendeeScreen end-accept
-            evaluate true
-                when OperationIsEdit perform EditAttendee
-            end-evaluate
-        end-perform
+        perform EditAttendee
     end-if
 .
 
