@@ -73,12 +73,12 @@ screen section.
         03 line 5 column 34 value "Welcome to BAMS" underline.
         03 line 7 column 36 value "Today is ".
         03 line 7 column plus 1 from DayOfTheWeek(CurrentDayOfWeek).
-        03 line 10 column 5 value "People on site: ".
+        03 line 10 column 5 value "Adults on site: ".
         03 pic zzz9 line 10 column plus 3 from PeopleOnSite.
-        03 line 11 column 5 value "People to arrive: ".
+        03 line 11 column 5 value "Adults to arrive: ".
         03 pic zzz9 line 11 column plus 1 from PeopleToArrive.
         03 line 12 column 5 value "                " underline.
-        03 line 13 column 5 value "Total attendees: ".
+        03 line 13 column 5 value "Total adults:    ".
         03 pic zzz9 line 13 column plus 2 from TotalEstimatedAttendees.
         03 line 16 column 5 value "To arrive today: ".
         03 pic zzz9 line 16 column plus 2 from PeopleToArriveToday.
