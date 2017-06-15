@@ -4,7 +4,7 @@ program-id. ListAttendeesScreen is initial.
 environment division.
 configuration section.
     special-names.
-        crt status is Operation.
+        crt status is CommandKeys.
         alphabet mixed is " ZzYyXxWwVvUuTtSsRrQqPpOoNnMmLlKkJjIiHhGgFfEeDdCcBbAa".
 
 input-output section.
@@ -40,7 +40,7 @@ working-storage section.
     01 FirstRecordToShow pic 999 value 1.
     copy DD-ScreenHeader.
     01 LastRecordToShow pic 999 value 20.
-    copy DD-Operation.
+    copy DD-CommandKeys.
     01 PageOffset pic 999 value 1.
     01 RecordCount pic 999.
     01 RecordsPerPage constant as 20.
@@ -89,7 +89,7 @@ procedure division using ReturnAuthCode, ForegroundColour.
         collating sequence is mixed
 
     move zero to PageOffset
-    perform until OperationIsBack or OperationIsFinish
+    perform until CommandKeyIsF1 or CommandKeyIsEnter
         display HomeScreen
         add 1 to PageOffset giving FirstRecordToShow
         move 3 to CurrentRow
@@ -110,14 +110,14 @@ procedure division using ReturnAuthCode, ForegroundColour.
         end-perform
         accept RecordSelected at line 24 column 78 foreground-color ForegroundColour
         evaluate true also true
-            when OperationIsNextPage also LastRecordToShow is less than RecordCount
+            when CommandKeyIsPgDn also LastRecordToShow is less than RecordCount
                 add RecordsPerPage to PageOffset
-            when OperationIsPrevPage also PageOffset is greater than or equal to RecordsPerPage
+            when CommandKeyIsPgUp also PageOffset is greater than or equal to RecordsPerPage
                 subtract RecordsPerPage from PageOffset
         end-evaluate
     end-perform
 
-    if OperationIsFinish and RecordSelected greater than zero then
+    if CommandKeyIsEnter and RecordSelected greater than zero then
         move AuthCode of Attendee(RecordSelected) to ReturnAuthCode
     end-if
 

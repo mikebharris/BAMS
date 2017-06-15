@@ -4,7 +4,7 @@ program-id. BAMS.
 environment division.
 configuration section.
     special-names.
-        crt status is Operation.
+        crt status is CommandKeys.
         class HexNumber is "0" thru "9", "A" thru "F", "a" thru "f".
 
 input-output section.
@@ -57,7 +57,7 @@ working-storage section.
     01 DefaultAmountToPay constant as 40.
 
     copy DD-ScreenHeader.
-    copy DD-Operation.
+    copy DD-CommandKeys.
 
     01 ForegroundColour pic 9 value 2.
 
@@ -168,7 +168,7 @@ procedure division.
 .
 
 Main section.
-    perform until OperationIsExit
+    perform until CommandKeyIsF10
         perform LoadAttendeeRecords
         perform DisplayHomeScreen
     end-perform
@@ -218,9 +218,9 @@ LoadAttendeeRecords section.
 DisplayHomeScreen section.
     accept HomeScreen from crt end-accept
     evaluate true
-        when OperationIsView perform ViewAttendee
-        when OperationIsAdd  perform AddAttendee
-        when OperationIsToggleColour
+        when CommandKeyIsF2 perform ViewAttendee
+        when CommandKeyIsF3  perform AddAttendee
+        when CommandKeyIsF9
             if ForegroundColour is equal to 7 then
                 move 2 to ForegroundColour
             else
@@ -252,10 +252,10 @@ ViewAttendee section.
     if Name of Attendee is equal to high-values then
         display "Invalid authcode or authcode not found"
     else
-        perform until OperationIsBack
+        perform until CommandKeyIsF1
             accept ViewAttendeeScreen end-accept
             evaluate true
-                when OperationIsEdit perform EditAttendee
+                when CommandKeyIsF4 perform EditAttendee
             end-evaluate
         end-perform
     end-if
@@ -265,7 +265,7 @@ DisplaySearchScreen section.
     move spaces to AuthCode of Attendee
     accept SearchByAuthCodeScreen end-accept
     evaluate true
-        when OperationIsView call "ListAttendeesScreen"
+        when CommandKeyIsF2 call "ListAttendeesScreen"
             using by reference Authcode of Attendee
                 by content ForegroundColour
         when other move function upper-case(AuthCode of Attendee) to AuthCode of Attendee
@@ -273,24 +273,24 @@ DisplaySearchScreen section.
 .
 
 EditAttendee section.
-    perform until OperationIsBack or OperationIsSave
+    perform until CommandKeyIsF1 or CommandKeyIsF8
         accept EditAttendeeScreen end-accept
         evaluate true
-            when OperationIsSave
+            when CommandKeyIsF8
                 perform SaveAttendee
-            when OperationIsTogglePaid
+            when CommandKeyIsF7
                 evaluate true
                     when AttendeePaid of Attendee set AttendeeNotPaid of Attendee to true
                     when AttendeeNotPaid of Attendee set AttendeePaid of Attendee to true
                 end-evaluate
-            when OperationIsToggleArrivalDay
+            when CommandKeyIsF5
                 evaluate true
                     when ArrivalDayIsWednesday of Attendee set ArrivalDayIsThursday of Attendee to true
                     when ArrivalDayIsThursday of Attendee set ArrivalDayIsFriday of Attendee to true
                     when ArrivalDayIsFriday of Attendee set ArrivalDayIsSaturday of Attendee to true
                     when ArrivalDayIsSaturday of Attendee set ArrivalDayIsWednesday of Attendee to true
                 end-evaluate
-            when OperationIsToggleStatus
+            when CommandKeyIsF6
                 evaluate true
                     when AttendeeComing of Attendee set AttendeeArrived of Attendee to true
                     when AttendeeArrived of Attendee set AttendeeCancelled of Attendee to true
