@@ -13,6 +13,8 @@ input-output section.
             organization is indexed
             access mode is dynamic
             record key is AuthCode of AttendeeRecord
+            alternate record key is Name of AttendeeRecord
+            alternate record key is Email of AttendeeRecord
             file status is RecordStatus.
 
 data division.
@@ -31,8 +33,8 @@ working-storage section.
     01 AttendeesFileName pic x(20) value "attendees.dat".
     01 BackupFileName   pic x(20) value "attendees.bak".
 
-    01 AuthCodePresence pic 9 value 0 is global.
-        88 AuthCodeExists value 1 when set to false is 0.
+    01 RecordPresence pic 9 value 0 is global.
+        88 RecordFound value 1 when set to false is 0.
 
     01 BarnCampStats.
         02 PeopleOnSite pic 999 value zero.
@@ -67,7 +69,7 @@ working-storage section.
         88 NoSuchRecord value "23".
 
 screen section.
-    01 HomeScreen background-color 0 foreground-color ForegroundColour highlight.
+    01 HomeScreen background-color 0 foreground-color ForegroundColour.
         03 blank screen.
         03 line 1 column 1 from ScreenHeader reverse-video.
         03 line 5 column 34 value "Welcome to BAMS" underline.
@@ -96,7 +98,7 @@ screen section.
         03 line 16 column 45 value "Kids to arrive today: ".
         03 pic z9 line 16 column plus 2 from KidsToArriveToday.
         03 line 24 column 1
-            value "Commands: F2 View, F3 Add, F10 Exit                                           " reverse-video.
+            value "Commands: F2 List, F3 Add, F4 Edit, F10 Exit                                 " reverse-video.
         03 line 24 column 78 to Command.
 
     01 ViewAttendeeScreen background-color 0 foreground-color ForegroundColour.
@@ -123,16 +125,21 @@ screen section.
         03 line 20 column 1 value "Diet issues:".
         03 line 20 column 15 from Diet of Attendee.
         03 line 24 column 1
-            value "Commands: F1 Home, F4 Edit                                                   " reverse-video highlight.
+            value "Commands: F1 Home, F4 Edit                                                   " reverse-video.
         03 line 24 column 78 to Command.
 
     01 SearchByAuthCodeScreen background-color 0 foreground-color ForegroundColour.
         03 blank screen.
         03 line 1 column 1 from ScreenHeader reverse-video.
-        03 line 2 column 1 value "Enter AuthCode and press enter, F2 to find:".
-        03 line 2 column plus 2 to AuthCode of Attendee required.
+        03 line 2 column 1 value "Enter AuthCode, Name, or Email and search with F5, F6, or F7 respectively - F2 to list all attendees:".
+        03 line 4 column 1 value "AuthCode: ".
+        03 line 4 column plus 2 to AuthCode of Attendee.
+        03 line 6 column 1 value "Name:     ".
+        03 line 6 column plus 2 to Name of Attendee.
+        03 line 8 column 1 value "Email:    ".
+        03 line 8 column plus 2 to Email of Attendee.
         03 line 24 column 1
-            value "Commands: F1 Home, F2 Find - type in authcode and press ENTER                         " reverse-video highlight.
+            value "Commands: F1 Home, F2 List all - type in authcode and press ENTER                  " reverse-video.
 
     01 EditAttendeeScreen background-color 0 foreground-color ForegroundColour.
         03 blank screen.
@@ -159,7 +166,7 @@ screen section.
         03 line 18 column 15 from PaymentStatus of Attendee.
         03 line 20 column 1 value "Diet issues:".
         03 line 20 column 15 using Diet of Attendee.
-        03 line 24 column 1 value "Commands: F1 Home; Toggle: F5 Arrival, F6 Status, F7 Paid; F8 Save            " reverse-video highlight.
+        03 line 24 column 1 value "Commands: F1 Home; Toggle: F5 Arrival, F6 Status, F7 Paid; F8 Save            " reverse-video.
         03 line 24 column 78 to Command.
 
 procedure division.
@@ -218,8 +225,9 @@ LoadAttendeeRecords section.
 DisplayHomeScreen section.
     accept HomeScreen from crt end-accept
     evaluate true
-        when CommandKeyIsF2 perform ViewAttendee
-        when CommandKeyIsF3  perform AddAttendee
+        when CommandKeyIsF2 perform ListAttendees
+        when CommandKeyIsF3 perform AddAttendee
+        when CommandKeyIsF4 perform SearchAttendees
         when CommandKeyIsF9
             if ForegroundColour is equal to 7 then
                 move 2 to ForegroundColour
@@ -229,15 +237,28 @@ DisplayHomeScreen section.
     end-evaluate
 .
 
-ViewAttendee section.
-    initialize Attendee
-    perform DisplaySearchScreen
-    if AuthCode of Attendee is not HexNumber then
-        exit section
-    end-if
+ListAttendees section.
+    call "ListAttendeesScreen"
+            using by reference Authcode of Attendee
+                by content ForegroundColour
+.
 
-    perform AuthCodeIsInFile
-    if not AuthCodeExists then
+SearchAttendees section.
+    initialize Attendee
+    accept SearchByAuthCodeScreen from crt end-accept
+    evaluate true
+        when CommandKeyIsF2 call "ListAttendeesScreen"
+            using by reference Authcode of Attendee
+                by content ForegroundColour
+        when CommandKeyIsF5 perform SearchByAuthCode
+        when CommandKeyIsF6 perform SearchByName
+        when CommandKeyIsF7 perform SearchByEmail
+    end-evaluate
+.
+
+SearchByAuthCode section.
+    move function upper-case(AuthCode of Attendee) to AuthCode of Attendee
+    if AuthCode of Attendee is not HexNumber then
         exit section
     end-if
 
@@ -245,39 +266,61 @@ ViewAttendee section.
     move Authcode of Attendee to AuthCode of AttendeeRecord
     read AttendeesFile record into Attendee
         key is AuthCode of AttendeeRecord
-        invalid key display "Record for " Authcode of Attendee " not found - " RecordStatus
+        invalid key set RecordFound to false
+        not invalid key set RecordFound to true
     end-read
     close AttendeesFile
 
-    if Name of Attendee is equal to high-values then
-        display "Invalid authcode or authcode not found"
-    else
-        perform until CommandKeyIsF1
-            accept ViewAttendeeScreen end-accept
-            evaluate true
-                when CommandKeyIsF4 perform EditAttendee
-            end-evaluate
-        end-perform
+    if RecordFound then
+        perform EditAttendee
     end-if
 .
 
-DisplaySearchScreen section.
-    move spaces to AuthCode of Attendee
-    accept SearchByAuthCodeScreen end-accept
-    evaluate true
-        when CommandKeyIsF2 call "ListAttendeesScreen"
-            using by reference Authcode of Attendee
-                by content ForegroundColour
-        when other move function upper-case(AuthCode of Attendee) to AuthCode of Attendee
-    end-evaluate
+SearchByName section.
+    if Name of Attendee is equal to spaces then
+        exit section
+    end-if
+
+    open input AttendeesFile
+    move Name of Attendee to Name of AttendeeRecord
+    read AttendeesFile record into Attendee
+        key is Name of AttendeeRecord
+        invalid key set RecordFound to false
+        not invalid key set RecordFound to true
+    end-read
+    close AttendeesFile
+
+    if RecordFound then
+        perform EditAttendee
+    end-if
+.
+
+SearchByEmail section.
+    if Email of Attendee is equal to spaces then
+        exit section
+    end-if
+
+    open input AttendeesFile
+    move Email of Attendee to Email of AttendeeRecord
+    read AttendeesFile record into Attendee
+        key is Email of AttendeeRecord
+        invalid key set RecordFound to false
+        not invalid key set RecordFound to true
+    end-read
+    close AttendeesFile
+
+    if RecordFound then
+        perform EditAttendee
+    end-if
 .
 
 EditAttendee section.
     perform until CommandKeyIsF1 or CommandKeyIsF8
-        accept EditAttendeeScreen end-accept
+        accept EditAttendeeScreen from crt end-accept
         evaluate true
             when CommandKeyIsF8
                 perform SaveAttendee
+                perform ViewAttendee
             when CommandKeyIsF7
                 evaluate true
                     when AttendeePaid of Attendee set AttendeeNotPaid of Attendee to true
@@ -326,11 +369,20 @@ SaveAttendee section.
     close AttendeesFile
 .
 
+ViewAttendee section.
+    perform until CommandKeyIsF1
+        accept ViewAttendeeScreen end-accept
+        evaluate true
+            when CommandKeyIsF4 perform EditAttendee
+        end-evaluate
+    end-perform
+.
+
 AddAttendee section.
     initialize Attendee
     call "createAuthCode" using by reference AuthCode of Attendee
-    perform AuthCodeIsInFile
-    if AuthCodeExists then
+    perform FindAuthCodeInFile
+    if RecordFound then
         exit section
     end-if
 
@@ -358,13 +410,13 @@ SetupAttendeesDataFileName section.
     end-if
 .
 
-AuthCodeIsInFile section.
+FindAuthCodeInFile section.
     open input AttendeesFile
     move AuthCode of Attendee to AuthCode of AttendeeRecord
     start AttendeesFile
         key is equal to AuthCode of AttendeeRecord
-        invalid key set AuthCodeExists to false
-        not invalid key set AuthCodeExists to true
+        invalid key set RecordFound to false
+        not invalid key set RecordFound to true
     end-start
     close AttendeesFile
     .
