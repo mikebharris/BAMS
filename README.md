@@ -69,9 +69,9 @@ If you find that the function keys don't seem to do what they should, check that
 BAMS is a classic console application that strives to use the keyboard to do things as much as possible.  To this end a set of different function and other control keys on a standard PC or Macintosh keyboard has been chosen to help you navigate the program.  We have striven to make the same key do the same kind of thing on every screen where it's used.   The operations of the keys are as follows:
 
 * F1 - Return to the BAMS Home Screen (available on all screens except from the Home Screen itself).
-* F2 - View list of all attendees (from Search screen).
+* F2 - Enter/Search for and View a given attendee already in the system.
 * F3 - Add a new attendee to the system.
-* F4 - Enter/Search for and Edit a given attendee already in the system.
+* F4 - Edit a given attendee already in the system.
 * F5 - Toggle the arrival day of an attendee between Wednesday, Thursday, Friday and Saturday.
 * F6 - Toggle the attendance status of an attendee between Coming, Arrived or Cancelled.
 * F7 - Toggle the payment status of an attendee between Paid and Not Paid.
@@ -97,12 +97,12 @@ In the middle you can see what the day is, and you can immediately tell how many
 
 ## Enter Authcode Screen
 
-Pressing F4 from the Home Screen will take you to the Enter Authcode Screen, which looks like this:
+Pressing F2 from the Home Screen will take you to the Enter Authcode Screen, which looks like this:
 ![Screen shot of BAMS Enter Authcode Screen](screenshots/enter-authcode-screen.png "BAMS Enter Authcode Screen")
 
 You have three options:
 
-* Type in the desired Authcode and press enter.  If the Authcode entered exists, you'll arrive at the Edit Attendee screen.  The input field is not case sensitve and the Authcode can therefore be entered in upper or lower case.
+* Type in the desired Authcode and press enter.  If the Authcode entered exists, you'll arrive at the View Attendee screen.  The input field is not case sensitve and the Authcode can therefore be entered in upper or lower case.
 * F1 - go back to the Home Screen
 * F2 - Rather than enter the Authcode, go to the List Attendees Screen to search for it
 
@@ -112,9 +112,15 @@ This screen shows a list of all attendees and allows you to page through them an
 
 Use the PgUp and PgDn (page up and page down) keys on your keyboard to scroll through the list a page at a time until you find the attendee youre looking for.  
 
-When you spot them, look for the number under the leftmost (Num) column and enter this using the keyboard and then press ENTER; you'll be taken to the Edit Attendee Screen for that attendee.  Note that although the field has three 0s, it will accept you typing one or more digits.
+When you spot them, look for the number under the leftmost (Num) column and enter this using the keyboard and then press ENTER; you'll be taken to the View Attendee Screen for that attendee.  Note that although the field has three 0s, it will accept you typing one or more digits.
 
 Press F1 to return to the BAMS Home Screen.
+
+## View Attendee Screen
+This screen shows the attendee's details:
+![Screen shot of BAMS View Attendee Screen](screenshots/view-attendee-screen.png "BAMS View Attendee Screen")
+
+If you'd like to edit the details, press F4 to go to the Edit Attendee Screen.
 
 ## Edit Attendee Screen
 You'll arrive here from the List Attendees Screen or Enter Authcode Screen, and you'll see something like this:
