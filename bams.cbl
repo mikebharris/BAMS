@@ -131,7 +131,7 @@ screen section.
     01 SearchByAuthCodeScreen background-color 0 foreground-color ForegroundColour.
         03 blank screen.
         03 line 1 column 1 from ScreenHeader reverse-video.
-        03 line 2 column 1 value "Enter AuthCode, Name, or Email and search with F5, F6, or F7 respectively - F2 to list all attendees:".
+        03 line 2 column 1 value "Enter AuthCode, Name, or Email and search - F2 to list all attendees:".
         03 line 4 column 1 value "AuthCode: ".
         03 line 4 column plus 2 to AuthCode of Attendee.
         03 line 6 column 1 value "Name:     ".
@@ -139,7 +139,7 @@ screen section.
         03 line 8 column 1 value "Email:    ".
         03 line 8 column plus 2 to Email of Attendee.
         03 line 24 column 1
-            value "Commands: F1 Home, F2 List all - type in authcode and press ENTER                  " reverse-video.
+            value "Commands: F1 Home, F2 List; Search: F5 AuthCode, F6 Name, F7 Email           " reverse-video.
 
     01 EditAttendeeScreen background-color 0 foreground-color ForegroundColour.
         03 blank screen.
@@ -241,19 +241,22 @@ ListAttendees section.
     call "ListAttendeesScreen"
             using by reference Authcode of Attendee
                 by content ForegroundColour
+    perform SearchByAuthCode
 .
 
 SearchAttendees section.
     initialize Attendee
     accept SearchByAuthCodeScreen from crt end-accept
     evaluate true
-        when CommandKeyIsF2 call "ListAttendeesScreen"
-            using by reference Authcode of Attendee
-                by content ForegroundColour
+        when CommandKeyIsF2 perform ListAttendees
         when CommandKeyIsF5 perform SearchByAuthCode
         when CommandKeyIsF6 perform SearchByName
         when CommandKeyIsF7 perform SearchByEmail
     end-evaluate
+
+    if RecordFound then
+        perform EditAttendee
+    end-if
 .
 
 SearchByAuthCode section.
@@ -270,10 +273,6 @@ SearchByAuthCode section.
         not invalid key set RecordFound to true
     end-read
     close AttendeesFile
-
-    if RecordFound then
-        perform EditAttendee
-    end-if
 .
 
 SearchByName section.
@@ -289,10 +288,6 @@ SearchByName section.
         not invalid key set RecordFound to true
     end-read
     close AttendeesFile
-
-    if RecordFound then
-        perform EditAttendee
-    end-if
 .
 
 SearchByEmail section.
@@ -308,10 +303,6 @@ SearchByEmail section.
         not invalid key set RecordFound to true
     end-read
     close AttendeesFile
-
-    if RecordFound then
-        perform EditAttendee
-    end-if
 .
 
 EditAttendee section.
@@ -381,7 +372,16 @@ ViewAttendee section.
 AddAttendee section.
     initialize Attendee
     call "createAuthCode" using by reference AuthCode of Attendee
-    perform FindAuthCodeInFile
+
+    open input AttendeesFile
+    move AuthCode of Attendee to AuthCode of AttendeeRecord
+    start AttendeesFile
+        key is equal to AuthCode of AttendeeRecord
+        invalid key set RecordFound to false
+        not invalid key set RecordFound to true
+    end-start
+    close AttendeesFile
+
     if RecordFound then
         exit section
     end-if
@@ -409,16 +409,5 @@ SetupAttendeesDataFileName section.
         end-if
     end-if
 .
-
-FindAuthCodeInFile section.
-    open input AttendeesFile
-    move AuthCode of Attendee to AuthCode of AttendeeRecord
-    start AttendeesFile
-        key is equal to AuthCode of AttendeeRecord
-        invalid key set RecordFound to false
-        not invalid key set RecordFound to true
-    end-start
-    close AttendeesFile
-    .
 
 end program BAMS.
