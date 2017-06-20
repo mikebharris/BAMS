@@ -266,6 +266,7 @@ DisplayHomeScreen section.
     evaluate true
         when CommandKeyIsF2
             perform ListAttendees
+            set AddAttendeeFlagOn to false
             perform EditAttendee
         when CommandKeyIsF3 perform AddAttendee
         when CommandKeyIsF4 perform SearchAttendees
