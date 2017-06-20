@@ -498,14 +498,8 @@ SearchByAuthCode section.
         at end
             set RecordFound to false
         when upper-case(AuthCode of Attendee(AttendeeIndex)) is equal to upper-case(AuthCodeToSearchFor)
-            set RowNumberFound to AttendeeIndex
-            set RecordFound to true
+            perform SetCurrentAttendeeToFound
     end-search
-
-    if RecordFound then
-        move Attendee(RowNumberFound) to CurrentAttendee
-        move RowNumberFound to CurrentAttendeeNumber
-    end-if
 .
 
 SearchByName section.
@@ -513,14 +507,8 @@ SearchByName section.
         at end
             set RecordFound to false
         when upper-case(Name of Attendee(AttendeeIndex)) is equal to upper-case(NameToSearchFor)
-            set RowNumberFound to AttendeeIndex
-            set RecordFound to true
+            perform SetCurrentAttendeeToFound
     end-search
-
-    if RecordFound then
-        move Attendee(RowNumberFound) to CurrentAttendee
-        move RowNumberFound to CurrentAttendeeNumber
-    end-if
 .
 
 SearchByEmail section.
@@ -528,14 +516,14 @@ SearchByEmail section.
         at end
             set RecordFound to false
         when upper-case(Email of Attendee(AttendeeIndex)) is equal to upper-case(EmailToSearchFor)
-            set RowNumberFound to AttendeeIndex
-            set RecordFound to true
+            perform SetCurrentAttendeeToFound
     end-search
+.
 
-    if RecordFound then
-        move Attendee(RowNumberFound) to CurrentAttendee
-        move RowNumberFound to CurrentAttendeeNumber
-    end-if
+SetCurrentAttendeeToFound section.
+            set CurrentAttendeeNumber to AttendeeIndex
+            move Attendee(CurrentAttendeeNumber) to CurrentAttendee
+            set RecordFound to true
 .
 
 EnableExtendedKeyInput section.
