@@ -99,7 +99,7 @@ working-storage section.
 
     01 EmailToSearchFor pic x(40) value spaces.
     01 NameToSearchFor pic x(25).
-    01 NumberOfAttendees pic 999 value 1.
+    01 NumberOfAttendees pic 999.
 
     01 Command pic x.
     copy DD-CommandKeys.
@@ -291,7 +291,7 @@ ListAttendees section.
         add PageOffset to RecordsPerPage giving LastRecordToShow
         perform varying CurrentAttendeeNumber from FirstRecordToShow by 1
             until CurrentAttendeeNumber greater than LastRecordToShow or
-                CurrentAttendeeNumber greater than NumberOfAttendees
+                CurrentAttendeeNumber equal to NumberOfAttendees
             display CurrentAttendeeNumber
                 at line CurrentRow
                 foreground-color ForegroundColour
@@ -355,12 +355,14 @@ LoadDataFileIntoTable section.
         read AttendeesFile next record
             at end set EndOfAttendeesFile to true
         end-read
-        perform varying NumberOfAttendees from 1 by 1 until EndOfAttendeesFile
-            move AttendeeRecord to Attendee(NumberOfAttendees)
-            read AttendeesFile next record
-                at end set EndOfAttendeesFile to true
-            end-read
-        end-perform
+        if not EndOfAttendeesFile then
+            perform with test before varying NumberOfAttendees from 1 by 1 until EndOfAttendeesFile
+                move AttendeeRecord to Attendee(NumberOfAttendees)
+                read AttendeesFile next record
+                    at end set EndOfAttendeesFile to true
+                end-read
+            end-perform
+        end-if
     close AttendeesFile
 
     sort Attendee
@@ -372,9 +374,8 @@ SetupHomeScreenStats section.
         accept CurrentDayOfWeek from day-of-week
         initialize PeopleSignedUp, PeopleOnSite, PeopleToArrive, PeopleToArriveToday,
             KidsOnSite, KidsToArrive, KidsToArriveToday
-        *> move zeroes to AuthCode of AttendeeRecord
         perform varying CurrentAttendeeNumber from 1 by 1
-            until CurrentAttendeeNumber greater than NumberOfAttendees
+            until CurrentAttendeeNumber equal to NumberOfAttendees
                 evaluate true
                     when AttendeeArrived of Attendee(CurrentAttendeeNumber)
                         add 1 to PeopleOnSite
@@ -459,7 +460,6 @@ SaveAttendee section.
     open i-o AttendeesFile
     evaluate true
         when AddAttendeeFlagOn
-            set CurrentAttendeeNumber to NumberOfAttendees
             add 1 to CurrentAttendeeNumber
             set NumberOfAttendees to CurrentAttendeeNumber
             move CurrentAttendee to Attendee(CurrentAttendeeNumber)
