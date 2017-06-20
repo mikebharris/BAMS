@@ -554,7 +554,7 @@ CreateTimeStampedBackupFile section.
     move concatenate(formatted-current-date("YYYYMMDDThhmmss"), ".bak") to BackupFileName
     open output BackupFile
     perform varying CurrentRow from 1 by 1
-        until CurrentRow greater than NumberOfAttendees
+        until CurrentRow equal to NumberOfAttendees
         move Attendee(CurrentRow) to BackupRecord
         write BackupRecord
     end-perform
