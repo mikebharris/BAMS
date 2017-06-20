@@ -421,7 +421,7 @@ EditAttendee section.
         evaluate true
             when CommandKeyIsF8
                 perform SaveAttendee
-                *> perform ViewAttendee
+                perform ViewAttendee
             when CommandKeyIsF7
                 evaluate true
                     when AttendeePaid of CurrentAttendee set AttendeeNotPaid of CurrentAttendee to true
