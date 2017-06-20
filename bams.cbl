@@ -195,12 +195,6 @@ screen section.
         03 line 24 column 1 value "Commands: F1 Home; Toggle: F5 Arrival, F6 Status, F7 Paid; F8 Save            " reverse-video.
         03 line 24 column 78 to Command.
 
-    01 ErrorScreen background-color 0.
-        03 blank screen.
-        03 line 1 column 1 from ScreenHeader reverse-video.
-        03 line 2 column 1 value "Error reading file " .
-        03 line 2 column plus 2 using AttendeesFileName.
-
     01 ListScreen background-color 0 foreground-color ForegroundColour.
         03 blank screen.
         03 line 1 column 1 from ScreenHeader reverse-video.
@@ -252,14 +246,6 @@ screen section.
 
 
 procedure division.
-
-*> declaratives.
-*> handle-errors section.
-    *> use after standard error procedure on AttendeesFile.
-*> handle-error.
-    *> accept ErrorScreen from crt end-accept
-    *> .
-*> end declaratives.
 
 Setup section.
     perform EnableExtendedKeyInput
