@@ -408,6 +408,7 @@ AddAttendee section.
     set AttendeeNotPaid of CurrentAttendee to true
     move DefaultAmountToPay to AmountToPay of CurrentAttendee
     set AddAttendeeFlagOn to true
+    set RecordFound to true
     perform EditAttendee
 .
 
@@ -458,6 +459,7 @@ SaveAttendee section.
     open i-o AttendeesFile
     evaluate true
         when AddAttendeeFlagOn
+            set CurrentAttendeeNumber to NumberOfAttendees
             add 1 to CurrentAttendeeNumber
             set NumberOfAttendees to CurrentAttendeeNumber
             move CurrentAttendee to Attendee(CurrentAttendeeNumber)
