@@ -18,6 +18,9 @@ input-output section.
             record key is AuthCode of AttendeeRecord
             file status is AttendeeStatus.
 
+        select optional BackupFile assign to BackupFileName
+            organization is line sequential.
+
 data division.
 file section.
     fd AttendeesFile is global.
@@ -25,12 +28,18 @@ file section.
             ==AttendeeRecord is global.
             88 EndOfAttendeesFile value high-values==.
 
+    fd BackupFile.
+        copy DD-Attendee replacing Attendee by
+            ==BackupRecord.
+            88 EndOfBackupFile value high-values==.
+
 working-storage section.
 
     01 AddAttendeeFlag pic 9 value 0.
         88 AddAttendeeFlagOn value 1 when set to false is 0.
 
     01 AttendeesFileName pic x(20) value "attendees.dat".
+    01 BackupFileName pic x(20) value "attendees.bak".
 
     01 AttendeeStatus   pic x(2).
         88 Successful   value "00".
@@ -441,7 +450,7 @@ ViewAttendee section.
 .
 
 SaveAttendee section.
-    *> call "C$COPY" using AttendeesFileName, BackupFileName, 0
+    perform CreateTimeStampedBackupFile
     open i-o AttendeesFile
     evaluate true
         when AddAttendeeFlagOn
@@ -528,6 +537,17 @@ SetupAttendeesDataFileName section.
     if CommandLineArgumentCount equal to 1 then
         accept AttendeesFileName from argument-value
     end-if
+.
+
+CreateTimeStampedBackupFile section.
+    move concatenate(formatted-current-date("YYYYMMDDThhmmss"), ".bak") to BackupFileName
+    open output BackupFile
+    perform varying CurrentRow from 1 by 1
+        until CurrentRow greater than NumberOfAttendees
+        move Attendee(CurrentRow) to BackupRecord
+        write BackupRecord
+    end-perform
+    close BackupFile
 .
 
 end program BAMS.
