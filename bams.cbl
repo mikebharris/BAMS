@@ -170,6 +170,8 @@ screen section.
         03 line 1 column 1 from ScreenHeader reverse-video.
         03 line 2 column 1 value "AuthCode:".
         03 line 2 column 15 from AuthCode of CurrentAttendee.
+        03 line 2 column 76 value "#".
+        03 line 2 column plus 1 from CurrentAttendeeNumber.
         03 line 4 column 1 value "Name:".
         03 line 4 column 15 using Name of CurrentAttendee required.
         03 line 6 column 1 value "Email:".
@@ -308,9 +310,24 @@ ListAttendees section.
                 at line CurrentRow
                 foreground-color ForegroundColour
             end-display
-            display Attendee(CurrentAttendeeNumber)
+            display Name of Attendee(CurrentAttendeeNumber)
                 at line CurrentRow
                 column 6
+                foreground-color ForegroundColour
+            end-display
+            display Email of Attendee(CurrentAttendeeNumber)
+                at line CurrentRow
+                column 31
+                foreground-color ForegroundColour
+            end-display
+            display AuthCode of Attendee(CurrentAttendeeNumber)
+                at line CurrentRow
+                column 71
+                foreground-color ForegroundColour
+            end-display
+            display AttendanceStatus of Attendee(CurrentAttendeeNumber)
+                at line CurrentRow
+                column 80
                 foreground-color ForegroundColour
             end-display
             add 1 to CurrentRow
@@ -326,6 +343,7 @@ ListAttendees section.
 
     if CommandKeyIsEnter and RecordSelected greater than zero then
         move Attendee(RecordSelected) to CurrentAttendee
+        set RecordFound to true
     end-if
 .
 
@@ -510,6 +528,7 @@ SearchByName section.
 
     if RecordFound then
         move Attendee(RowNumberFound) to CurrentAttendee
+        move RowNumberFound to CurrentAttendeeNumber
     end-if
 .
 
@@ -524,6 +543,7 @@ SearchByEmail section.
 
     if RecordFound then
         move Attendee(RowNumberFound) to CurrentAttendee
+        move RowNumberFound to CurrentAttendeeNumber
     end-if
 .
 
