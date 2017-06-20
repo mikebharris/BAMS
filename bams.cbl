@@ -335,13 +335,16 @@ ListAttendees section.
 
 SearchAttendees section.
     initialize CurrentAttendee
-    accept SearchScreen from crt end-accept
-    evaluate true
-        when CommandKeyIsF2 perform ListAttendees
-        when CommandKeyIsF5 perform SearchByAuthCode
-        when CommandKeyIsF6 perform SearchByName
-        when CommandKeyIsF7 perform SearchByEmail
-    end-evaluate
+    perform until CommandKeyIsF1 or CommandKeyIsF2 or CommandKeyIsF5
+        or CommandKeyIsF6 or CommandKeyIsF7
+        accept SearchScreen from crt end-accept
+        evaluate true
+            when CommandKeyIsF2 perform ListAttendees
+            when CommandKeyIsF5 perform SearchByAuthCode
+            when CommandKeyIsF6 perform SearchByName
+            when CommandKeyIsF7 perform SearchByEmail
+        end-evaluate
+    end-perform
 
     if RecordFound then
         perform EditAttendee
@@ -403,7 +406,6 @@ SetupHomeScreenStats section.
 AddAttendee section.
     initialize CurrentAttendee
     call "createAuthCode" using by reference AuthCode of CurrentAttendee
-
     move DayOfTheWeek(CurrentDayOfWeek) to ArrivalDay of CurrentAttendee
     set AttendeeArrived of CurrentAttendee to true
     set AttendeeNotPaid of CurrentAttendee to true
