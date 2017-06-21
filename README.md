@@ -1,8 +1,7 @@
 # BAMS
-The BarnCamp Attendee Management System
+The BarnCamp Attendee Management System 2.0
 
-A system for managing the Welcome Desk at [BarnCamp](https://barncamp.org.uk) written in GNU COBOL.
-
+A legacy system for managing the Welcome Desk at [BarnCamp](https://barncamp.org.uk) written in GNU COBOL.
 
 ![Screen shot of BAMS Home Screen](homepage.png "BAMS Home Screen")
 
@@ -13,10 +12,8 @@ Firstly, Good Luck!  You'll need the latest version 2.0-rc2 of [GNU COBOL](https
 I can compile it on Mac OS X 10.12 and under Debian GNU/Linux (kernel 3.16.0-4-amd64) with:
 
 ```
-cobc -x -free -std=default -o bams bams.cbl createAuthCode.cbl ListAttendeesScreen.cbl
+cobc -x -free -std=default -o bams bams.cbl createAuthCode.cbl
 ```
-
-BAMS is great
 
 I had huge problems trying to get it to compile under Linux (but not under OS X) using the modular approach I'd originally intended.  The original code using the COBOL ENTRY points can be found in the file Attenees.cbl and it's accompanying test both in the entry-method directory.
 
@@ -69,17 +66,17 @@ If you find that the function keys don't seem to do what they should, check that
 BAMS is a classic console application that strives to use the keyboard to do things as much as possible.  To this end a set of different function and other control keys on a standard PC or Macintosh keyboard has been chosen to help you navigate the program.  We have striven to make the same key do the same kind of thing on every screen where it's used.   The operations of the keys are as follows:
 
 * F1 - Return to the BAMS Home Screen (available on all screens except from the Home Screen itself).
-* F2 - Enter/Search for and View a given attendee already in the system.
+* F2 - List all attendees in the system and choose one to edit.
 * F3 - Add a new attendee to the system.
-* F4 - Edit a given attendee already in the system.
-* F5 - Toggle the arrival day of an attendee between Wednesday, Thursday, Friday and Saturday.
-* F6 - Toggle the attendance status of an attendee between Coming, Arrived or Cancelled.
-* F7 - Toggle the payment status of an attendee between Paid and Not Paid.
-* F8 - Save and changes to the current attendee selected.
+* F4 - Search for by AuthCode, Name or Email, and then Edit a given attendee already in the system.
+* F5 - Screen specific function.  On Edit toggles the arrival day.  On Search searches by AuthCode.
+* F6 - Screen specific function.  On Edit toggles the attendance status.  On Search searches by Name.
+* F7 - Screen specific function.  On Edit toggles the payment status.  On Search searches by Email.
+* F8 - Save changes to the current attendee being edited.
 * F9 - Cycle through a number of different foreground text colours (default is green).
 * F10 - Exit BAMS from the Home Screen and return to the operating system.
 * PgUp/PgDown - Scroll screen-by-screen through a list of attendees.
-* ENTER - Tell BAMS to accept the data in the current input field and input.
+* ENTER - Tell BAMS to display the Edit Screen for the record number entered on the List Screen.
 
 All other keys should more or less work as one might expect.
 
@@ -91,39 +88,45 @@ The home screen looks like this:
 
 In the middle you can see what the day is, and you can immediately tell how many adults and children are attending and how many are on-site already, and are to arrive.  There are three function key options:
 
-* F2 - View a given attendee, which takes you to the Enter Authcode Screen.
+* F2 - List all attendees, and choose one to Edit.
 * F3 - Add a new attendee, which takes you to the Add Attendee Screen.
+* F3 - Edit an attendee, which takes you firstly to the Search Screen.
+* F9 - Toggle the screen colours.
 * F10 - Exit BAMS and return to the operating system.
 
-## Enter Authcode Screen
+## Search Screen
 
-Pressing F2 from the Home Screen will take you to the Enter Authcode Screen, which looks like this:
+Pressing F4 from the Home Screen will take you to the Search Screen, which looks like this:
 ![Screen shot of BAMS Enter Authcode Screen](screenshots/enter-authcode-screen.png "BAMS Enter Authcode Screen")
 
 You have three options:
 
-* Type in the desired Authcode and press enter.  If the Authcode entered exists, you'll arrive at the View Attendee screen.  The input field is not case sensitve and the Authcode can therefore be entered in upper or lower case.
+* Enter the AuthCode and press F5 to search by authcode.
+* Enter the Name and press F6 to search by name.
+* Enter the Email and press F7 to search by email.
 * F1 - go back to the Home Screen
-* F2 - Rather than enter the Authcode, go to the List Attendees Screen to search for it
+* F2 - Rather than enter the Authcode, go to the List Attendees Screen to locate the attendee you want.
+
+When entering the AuthCode, Name or Email note that the match is case-insensitive, but it is an exact string match.  Therefore "Mike" will not locate "Mike Harris".  In addition if there are multiple records with the same data in the search field, the first record encountered is returned.
 
 ## List Attendees Screen
 This screen shows a list of all attendees and allows you to page through them and then choose one to view.
 ![Screen shot of BAMS List Attendees Screen](screenshots/list-attendees-screen.png "BAMS List Attendees Screen")
 
-Use the PgUp and PgDn (page up and page down) keys on your keyboard to scroll through the list a page at a time until you find the attendee youre looking for.  
+Use the PgUp and PgDn (page up and page down) keys on your keyboard to scroll through the list a page at a time until you find the attendee youre looking for.
 
-When you spot them, look for the number under the leftmost (Num) column and enter this using the keyboard and then press ENTER; you'll be taken to the View Attendee Screen for that attendee.  Note that although the field has three 0s, it will accept you typing one or more digits.
+When you spot them, look for the number under the leftmost (Num) column and enter this using the keyboard and then press ENTER; you'll be taken to the Edit Attendee Screen for that attendee.  Note that although the field has three 0s, it will accept you typing one or more digits.
 
 Press F1 to return to the BAMS Home Screen.
 
 ## View Attendee Screen
-This screen shows the attendee's details:
+This screen shows the attendee's details and is only shown as a confirmation screen when an attendee record has been edited and saved:
 ![Screen shot of BAMS View Attendee Screen](screenshots/view-attendee-screen.png "BAMS View Attendee Screen")
 
 If you'd like to edit the details, press F4 to go to the Edit Attendee Screen.
 
 ## Edit Attendee Screen
-You'll arrive here from the List Attendees Screen or Enter Authcode Screen, and you'll see something like this:
+You'll arrive here from the List Attendees Screen or Search Screen, and you'll see something like this:
 ![Screen shot of BAMS Edit Attendee Screen](screenshots/edit-attendee-screen.png "BAMS Edit Attendee Screen")
 
 You can edit most of the data pertaining to the attendee by navigating the fields with the cursor keys.  Lef and right work in a field, and up and down will move you between fields.  Note that typing wherever the cursor is will OVERWRITE the character under the cursor.  So for example, to change Zak to Zek, move the cursor to the 'a' and type 'e'.
@@ -134,7 +137,7 @@ There are three fields that have special function keys used to edit them.  These
 * (Arrival) Status - use the F6 key to toggle between C for coming, A for arrived, or X for Cancelled.
 * Payment Status - use the F7 key to toggle between Y for yes, or N for no.
 
-Please complete as much of the data as possible before pressing the F8 key to save.  On hitting F8, you'll be returned to the View Attendee Screen.  If you don't save, any changes you make will be lost.
+Please complete as much of the data as possible before pressing the F8 key to save.  On hitting F8, you'll be taken to the View Attendee Screen.  If you don't save, any changes you make will be lost.
 
 Other function key options work as they do on the other screens.
 
@@ -151,11 +154,10 @@ Here's a list of what to do in certain situations.
 
 ## Someone arrives and says they have booked
 
-* Welcome them.  
-* From the Home Screen go to the Authcode Screen by pressing F2.  
-* If the person has brought their authcode with them, you can type it in and press ENTER on this screen to bring up their record.
+* Welcome them.
+* From the Home Screen go to the Search Screen by pressing F4.
+* Search for them using their AuthCode, Name or Email, using F5, F6 or F7 respectively.
 * If they are a new arrival their arrival status should be C.  If they paid in advance, their payment status (Paid?) will be Y.
-* Edit their record by pressing F4.
 * Press the F5 key until their Arrival Day matches today.
 * Press the F6 key until their Status is A.
 * If they are to pay on site, because they didn't pay in advance, press the F7 key to toggle Paid? to read Y.  Then edit the Pay amount field to be the amount they paid.
@@ -164,31 +166,29 @@ Here's a list of what to do in certain situations.
 ## Someone arrives but hasn't booked
 
 * Slap them, gently.
-* Welcome them.  
-* From the Home Screen go to the Add Screen by pressing F3.  
+* Welcome them.
+* From the Home Screen go to the Add Screen by pressing F3.
 * Press the F5 key until their Arrival Day matches today.
 * Press the F6 key until their Status is A.
-* Press the F7 key to toggle Paid? to read Y.  
+* Press the F7 key to toggle Paid? to read Y.
 * Then edit the Pay amount field to be the amount they paid.
 * Add any other details required and hit F8 to save.
 
 ## Someone phones up and says they've cancelled
 
-* Comiserate with them.  
-* From the Home Screen go to the Authcode Screen by pressing F2.  
-* If the person knows their authcode, you can type it in and press ENTER on this screen to bring up their record.
+* Comiserate with them.
+* From the Home Screen go to the Search Screen by pressing F4.
+* Search for them using their AuthCode, Name or Email, using F5, F6 or F7 respectively.
 * Their arrival status should be C.  If they paid in advance, their payment status (Paid?) will be Y.
-* Edit their record by pressing F4.
 * Press the F6 key until their Status is X.
 * If they have already paid, say that they will get the many back, but a week or so after BarnCamp is over.
 * Hit F8 to save.
 
 ## Someone phones up and says they are turning up on a different day to what they thought
 
-* From the Home Screen go to the Authcode Screen by pressing F2.  
-* If the person knows their authcode, you can type it in and press ENTER on this screen to bring up their record.
+* From the Home Screen go to the Search Screen by pressing F4.
+* Search for them using their AuthCode, Name or Email, using F5, F6 or F7 respectively.
 * Their arrival status should be C.
-* Edit their record by pressing F4.
 * Press the F5 key until their Arrival Day matches the new day they think they will arrive on.
 * Make any other changes necessary and hit F8 to save.
 
@@ -202,12 +202,12 @@ Produces some useful stats about how many people are on site and when, what thei
 
 Compile this with:
 ```
-cobc -std=default -x -free BarnCampReport.cbl Attendee.cbl
+cobc -std=default -x -free BarnCampReport.cbl
 ```
 
 ## Export Utility
 
-This tool allows you to re-export the data from BAMS to a CSV file for use in other programs.
+This tool allows you to re-export the data from BAMS to a CSV file for use in other non-legacy programs.
 
 Compile this with:
 ```
