@@ -7,7 +7,7 @@ input-output section.
         select optional AttendeesFile assign to AttendeesFileName
             organization is indexed
             access mode is dynamic
-            record key is AuthCode of AttendeeRecord
+            record key is AuthCode
             file status is AttendeeStatus.
 
 data division.
@@ -65,8 +65,8 @@ procedure division.
     display spaces
     display "Special diet report"
     display "==================="
-    move zeroes to AuthCode of AttendeeRecord
-    start AttendeesFile key is greater than AuthCode of AttendeeRecord
+    move zeroes to AuthCode
+    start AttendeesFile key is greater than AuthCode
     open input AttendeesFile
         read AttendeesFile next record
             at end set EndOfAttendeesFile to true
@@ -100,7 +100,7 @@ procedure division.
             end-if
             evaluate true
                 when AttendeePaid add AmountPaid to TotalPaid
-                when AttendeeNotPaid add AmountToPay of AttendeeRecord to TotalToPay
+                when AttendeeNotPaid add AmountToPay to TotalToPay
             end-evaluate
             read AttendeesFile next record
                 at end set EndOfAttendeesFile to true

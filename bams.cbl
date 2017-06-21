@@ -23,9 +23,9 @@ input-output section.
 
 data division.
 file section.
-    fd AttendeesFile is global.
+    fd AttendeesFile.
         copy DD-Attendee replacing Attendee by
-            ==AttendeeRecord is global.
+            ==AttendeeRecord.
             88 EndOfAttendeesFile value high-values==.
 
     fd BackupFile.
@@ -352,6 +352,7 @@ ListAttendees section.
 
 SearchAttendees section.
     initialize CurrentAttendee
+    set RecordFound to false
     perform until CommandKeyIsF1 or CommandKeyIsF2 or CommandKeyIsF5
         or CommandKeyIsF6 or CommandKeyIsF7
         accept SearchScreen from crt end-accept
@@ -492,13 +493,10 @@ SaveAttendee section.
 
 SearchByAuthCode section.
     if AuthCodeToSearchFor is not HexNumber then
-        set RecordFound to false
         exit section
     end-if
 
     search Attendee
-        at end
-            set RecordFound to false
         when upper-case(AuthCode of Attendee(AttendeeIndex)) is equal to upper-case(AuthCodeToSearchFor)
             perform SetCurrentAttendeeToFound
     end-search
@@ -506,8 +504,6 @@ SearchByAuthCode section.
 
 SearchByName section.
     search Attendee
-        at end
-            set RecordFound to false
         when upper-case(Name of Attendee(AttendeeIndex)) is equal to upper-case(NameToSearchFor)
             perform SetCurrentAttendeeToFound
     end-search
@@ -515,17 +511,15 @@ SearchByName section.
 
 SearchByEmail section.
     search Attendee
-        at end
-            set RecordFound to false
         when upper-case(Email of Attendee(AttendeeIndex)) is equal to upper-case(EmailToSearchFor)
             perform SetCurrentAttendeeToFound
     end-search
 .
 
 SetCurrentAttendeeToFound section.
-            set CurrentAttendeeNumber to AttendeeIndex
-            move Attendee(CurrentAttendeeNumber) to CurrentAttendee
-            set RecordFound to true
+    set CurrentAttendeeNumber to AttendeeIndex
+    move Attendee(CurrentAttendeeNumber) to CurrentAttendee
+    set RecordFound to true
 .
 
 EnableExtendedKeyInput section.
