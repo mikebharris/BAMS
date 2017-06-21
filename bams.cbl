@@ -16,7 +16,7 @@ input-output section.
             organization is indexed
             access mode is dynamic
             record key is AuthCode of AttendeeRecord
-            file status is AttendeeStatus.
+            file status is DataFileStatus.
 
         select optional BackupFile assign to BackupFileName
             organization is line sequential.
@@ -39,9 +39,9 @@ working-storage section.
         88 AddAttendeeFlagOn value 1 when set to false is 0.
 
     01 AttendeesFileName pic x(20) value "attendees.dat".
-    01 BackupFileName pic x(20) value "attendees.bak".
+    01 BackupFileName pic x(20).
 
-    01 AttendeeStatus   pic x(2).
+    01 DataFileStatus   pic x(2).
         88 Successful   value "00".
         88 RecordExists value "22".
         88 NoSuchRecord value "23".
@@ -122,8 +122,6 @@ working-storage section.
     01 FirstRecordToShow pic 999 value 1.
     01 ForegroundColour pic 9 value 2.
 
-    01 RowNumberFound pic 999 value zero.
-    copy DD-ScreenHeader.
     01 LastRecordToShow pic 999 value 20.
     01 PageOffset pic 999 value 1.
     01 RecordsPerPage constant as 20.
@@ -131,6 +129,8 @@ working-storage section.
 
     01 RecordStatus pic 9 value 0.
         88 RecordFound value 1 when set to false is 0.
+
+    copy DD-ScreenHeader.
 
 screen section.
     01 HomeScreen background-color 0 foreground-color ForegroundColour.
@@ -165,7 +165,7 @@ screen section.
             value "Commands: F2 List, F3 Add, F4 Edit, F10 Exit                                 " reverse-video.
         03 line 24 column 78 to Command.
 
-    01 EditAttendeeScreen background-color 0 foreground-color ForegroundColour.
+    01 EditScreen background-color 0 foreground-color ForegroundColour.
         03 blank screen.
         03 line 1 column 1 from ScreenHeader reverse-video.
         03 line 2 column 1 value "AuthCode:".
@@ -217,7 +217,7 @@ screen section.
         03 line 24 column 1
             value "Commands: F1 Home, F2 List; Search: F5 AuthCode, F6 Name, F7 Email           " reverse-video.
 
-    01 ViewAttendeeScreen background-color 0 foreground-color ForegroundColour.
+    01 ViewScreen background-color 0 foreground-color ForegroundColour.
         03 blank screen.
         03 line 1 column 1 from ScreenHeader reverse-video.
         03 line 2 column 1 value "AuthCode:".
@@ -247,7 +247,7 @@ screen section.
 
 procedure division.
 
-Setup section.
+Initialisation section.
     perform EnableExtendedKeyInput
     perform SetupAttendeesDataFileName
     perform LoadDataFileIntoTable
@@ -266,7 +266,6 @@ DisplayHomeScreen section.
     evaluate true
         when CommandKeyIsF2
             perform ListAttendees
-            set AddAttendeeFlagOn to false
             perform EditAttendee
         when CommandKeyIsF3 perform AddAttendee
         when CommandKeyIsF4 perform SearchAttendees
@@ -328,9 +327,15 @@ ListAttendees section.
         end-evaluate
     end-perform
 
-    if CommandKeyIsEnter and RecordSelected greater than zero then
+    if CommandKeyIsEnter
+            and RecordSelected greater than zero
+            and RecordSelected is less than or equal to NumberOfAttendees then
         move Attendee(RecordSelected) to CurrentAttendee
+        move RecordSelected to CurrentAttendeeNumber
         set RecordFound to true
+        set AddAttendeeFlagOn to false
+    else
+        set RecordFound to false
     end-if
 .
 
@@ -422,7 +427,7 @@ EditAttendee section.
     end-if
 
     perform until CommandKeyIsF1 or CommandKeyIsF8
-        accept EditAttendeeScreen from crt end-accept
+        accept EditScreen from crt end-accept
         evaluate true
             when CommandKeyIsF8
                 perform SaveAttendee
@@ -451,7 +456,7 @@ EditAttendee section.
 
 ViewAttendee section.
     perform until CommandKeyIsF1
-        accept ViewAttendeeScreen end-accept
+        accept ViewScreen end-accept
         evaluate true
             when CommandKeyIsF4 perform EditAttendee
         end-evaluate
@@ -467,23 +472,9 @@ SaveAttendee section.
             set NumberOfAttendees to CurrentAttendeeNumber
             move CurrentAttendee to Attendee(CurrentAttendeeNumber)
             write AttendeeRecord from Attendee(CurrentAttendeeNumber)
-                invalid key
-                    if RecordExists then
-                        display "Record for " Name of Attendee(CurrentAttendeeNumber) "  already exists"
-                    else
-                        display "Error - status is " RecordStatus
-                    end-if
-            end-write
         when not AddAttendeeFlagOn
             move CurrentAttendee to Attendee(CurrentAttendeeNumber)
             rewrite AttendeeRecord from Attendee(CurrentAttendeeNumber)
-                invalid key
-                    if NoSuchRecord then
-                        display "Record for " AuthCode of Attendee(CurrentAttendeeNumber) "  not found"
-                    else
-                        display "Error - status is " RecordStatus
-                    end-if
-                end-rewrite
     end-evaluate
     close AttendeesFile
 .
