@@ -120,7 +120,12 @@ working-storage section.
     01 DefaultAmountToPay constant as 50.
 
     01 FirstRecordToShow pic 999 value 1.
-    01 ForegroundColour pic 9 value 2.
+
+    01 ColourScheme.
+        88 ColourSchemeIsMonochrome value 02.
+        88 ColourSchemeIsColour value 17.
+        02 BackgroundColour pic 9 value 0.
+        02 ForegroundColour pic 9 value 2.
 
     01 LastRecordToShow pic 999 value 20.
     01 PageOffset pic 999 value 1.
@@ -133,7 +138,7 @@ working-storage section.
     copy DD-ScreenHeader.
 
 screen section.
-    01 HomeScreen background-color 0 foreground-color ForegroundColour.
+    01 HomeScreen background-color BackgroundColour foreground-color ForegroundColour lowlight.
         03 blank screen.
         03 line 1 column 1 from ScreenHeader reverse-video.
         03 line 5 column 34 value "Welcome to BAMS" underline.
@@ -162,7 +167,7 @@ screen section.
         03 line 16 column 45 value "Kids to arrive today: ".
         03 pic z9 line 16 column plus 2 from KidsToArriveToday.
         03 line 24 column 1
-            value "Commands: F2 List, F3 Add, F4 Edit, F10 Exit                                 " reverse-video.
+            value "Commands: F2 List, F3 Add, F4 Edit, F9 Mono/Colour, F10 Exit                       " reverse-video.
         03 line 24 column 78 to Command.
 
     01 EditScreen background-color 0 foreground-color ForegroundColour.
@@ -251,6 +256,7 @@ Initialisation section.
     perform EnableExtendedKeyInput
     perform SetupAttendeesDataFileName
     perform LoadDataFileIntoTable
+    set ColourSchemeIsColour to true
 .
 
 Main section.
@@ -270,10 +276,10 @@ DisplayHomeScreen section.
         when CommandKeyIsF3 perform AddAttendee
         when CommandKeyIsF4 perform SearchAttendees
         when CommandKeyIsF9
-            if ForegroundColour is equal to 7 then
-                move 2 to ForegroundColour
+            if ColourSchemeIsMonochrome then
+                set ColourSchemeIsColour to true
             else
-                add 1 to ForegroundColour
+                set ColourSchemeIsMonochrome to true
             end-if
     end-evaluate
 .
