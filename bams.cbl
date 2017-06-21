@@ -138,7 +138,7 @@ working-storage section.
     copy DD-ScreenHeader.
 
 screen section.
-    01 HomeScreen background-color BackgroundColour foreground-color ForegroundColour lowlight.
+    01 HomeScreen background-color BackgroundColour foreground-color ForegroundColour.
         03 blank screen.
         03 line 1 column 1 from ScreenHeader reverse-video.
         03 line 5 column 34 value "Welcome to BAMS" underline.
@@ -170,7 +170,7 @@ screen section.
             value "Commands: F2 List, F3 Add, F4 Edit, F9 Mono/Colour, F10 Exit                       " reverse-video.
         03 line 24 column 78 to Command.
 
-    01 EditScreen background-color 0 foreground-color ForegroundColour.
+    01 EditScreen background-color BackgroundColour foreground-color ForegroundColour.
         03 blank screen.
         03 line 1 column 1 from ScreenHeader reverse-video.
         03 line 2 column 1 value "AuthCode:".
@@ -200,7 +200,7 @@ screen section.
         03 line 24 column 1 value "Commands: F1 Home; Toggle: F5 Arrival, F6 Status, F7 Paid; F8 Save            " reverse-video.
         03 line 24 column 78 to Command.
 
-    01 ListScreen background-color 0 foreground-color ForegroundColour.
+    01 ListScreen background-color BackgroundColour foreground-color ForegroundColour.
         03 blank screen.
         03 line 1 column 1 from ScreenHeader reverse-video.
         03 line 2 column 1 value "Num" underline.
@@ -209,7 +209,7 @@ screen section.
         03 line 2 column 71 value "AuthCode" underline.
         03 line 24 column 1 value "Commands: F1 Home, PgUp/PgDown to scroll, Enter number and press ENTER         " reverse-video.
 
-    01 SearchScreen background-color 0 foreground-color ForegroundColour.
+    01 SearchScreen background-color BackgroundColour foreground-color ForegroundColour.
         03 blank screen.
         03 line 1 column 1 from ScreenHeader reverse-video.
         03 line 2 column 1 value "Enter AuthCode, Name, or Email and search - F2 to list all attendees:".
@@ -222,7 +222,7 @@ screen section.
         03 line 24 column 1
             value "Commands: F1 Home, F2 List; Search: F5 AuthCode, F6 Name, F7 Email           " reverse-video.
 
-    01 ViewScreen background-color 0 foreground-color ForegroundColour.
+    01 ViewScreen background-color BackgroundColour foreground-color ForegroundColour.
         03 blank screen.
         03 line 1 column 1 from ScreenHeader reverse-video.
         03 line 2 column 1 value "AuthCode:".
@@ -300,26 +300,31 @@ ListAttendees section.
                 CurrentAttendeeNumber equal to NumberOfAttendees
             display CurrentAttendeeNumber
                 at line CurrentRow
+                background-color BackgroundColour
                 foreground-color ForegroundColour
             end-display
             display Name of Attendee(CurrentAttendeeNumber)
                 at line CurrentRow
                 column 6
+                background-color BackgroundColour
                 foreground-color ForegroundColour
             end-display
             display Email of Attendee(CurrentAttendeeNumber)
                 at line CurrentRow
                 column 31
+                background-color BackgroundColour
                 foreground-color ForegroundColour
             end-display
             display AuthCode of Attendee(CurrentAttendeeNumber)
                 at line CurrentRow
                 column 71
+                background-color BackgroundColour
                 foreground-color ForegroundColour
             end-display
             display AttendanceStatus of Attendee(CurrentAttendeeNumber)
                 at line CurrentRow
                 column 80
+                background-color BackgroundColour
                 foreground-color ForegroundColour
             end-display
             add 1 to CurrentRow
