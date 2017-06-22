@@ -1,8 +1,0 @@
-Name,Email,Code,Amount to pay,Paid amount,Paid date,Phone,Arrival,Diet,Staying late,Number of kids
-Zak Mindwarp,zak@mindwarp.io,ABCDEF,50,50,2017-01-01,01234 567 890,Wednesday ,I eat anything,TRUE,0
-Ronald Chump,r.chump@whitehouse.gov,BCDEF1,50,0,,01234 567 890,Friday AM,,TRUE,1
-Joe Bloggs,joe@bloggs.com,CDEF12,35,0,2017-01-01,01234 567 890,Friday AM,,TRUE,2
-Random Guy,somebody@somewhere.net,DEF123,35,0,,01234 567 890,Wednesday ,,TRUE,0
-Undercover Agent,obviouscrusty@gmail.com,EF1234,35,0,2017-01-03,01234 567 890,Friday AM,,TRUE,0
-Cynthia Underhill,cynthia234@hotmail.com,F12345,35,0,2017-01-03,01234 567 890,Friday AM,,TRUE,0
-Cyder Punk,anicedrop@riseup.net,123456,35,0,2017-01-04,01234 567 890,Friday AM,Milk allergy - but that's not a problem with vegan food :),FALSE,0
