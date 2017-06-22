@@ -15,8 +15,6 @@ file-control.
         organization is indexed
         access mode is dynamic
         record key is AuthCode
-        alternate record key is Name
-        alternate record key is Email
         file status is RecordWriteStatus.
 
 data division.
@@ -81,7 +79,7 @@ procedure division.
             StayingLateFromWeb,
             NumberOfKids of Attendee
         end-unstring
-        if Name of Attendee not equal to 'Name' and Name of Attendee is not equal to spaces then
+        if AuthCode of Attendee not equal to 'Code' and AuthCode of Attendee is not equal to spaces then
             add 1 to CountOfLinesProcessed
             move ArrivalDayFromWeb(1:3) to ArrivalDay of Attendee
             if PaidDateFromWeb is not equal to spaces then
