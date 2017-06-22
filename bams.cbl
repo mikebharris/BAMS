@@ -252,19 +252,52 @@ screen section.
 
 procedure division.
 
-Initialisation section.
+Main section.
     perform EnableExtendedKeyInput
     perform SetupAttendeesDataFileName
     perform LoadDataFileIntoTable
     set ColourSchemeIsColour to true
-.
 
-Main section.
     perform until CommandKeyIsF10
         perform DisplayHomeScreen
     end-perform
 
-    stop run.
+    stop run
+.
+
+EnableExtendedKeyInput section.
+    set environment 'COB_SCREEN_EXCEPTIONS' to 'Y'
+    set environment 'COB_SCREEN_ESC' to 'Y'
+.
+
+SetupAttendeesDataFileName section.
+    accept CommandLineArgumentCount from argument-number
+    if CommandLineArgumentCount equal to 1 then
+        accept AttendeesFileName from argument-value
+    end-if
+.
+
+LoadDataFileIntoTable section.
+    move zeroes to AuthCode of AttendeeRecord
+    start AttendeesFile key is greater than AuthCode of AttendeeRecord
+    open input AttendeesFile
+        read AttendeesFile next record
+            at end set EndOfAttendeesFile to true
+        end-read
+        if not EndOfAttendeesFile then
+            perform with test before varying NumberOfAttendees from 1 by 1 until EndOfAttendeesFile
+                move AttendeeRecord to Attendee(NumberOfAttendees)
+                read AttendeesFile next record
+                    at end set EndOfAttendeesFile to true
+                end-read
+            end-perform
+        end-if
+    close AttendeesFile
+
+    sort Attendee
+        on descending key Name of Attendee
+        collating sequence is mixed
+.
 
 DisplayHomeScreen section.
     perform SetupHomeScreenStats
@@ -282,6 +315,36 @@ DisplayHomeScreen section.
                 set ColourSchemeIsMonochrome to true
             end-if
     end-evaluate
+.
+
+SetupHomeScreenStats section.
+    accept CurrentDayOfWeek from day-of-week
+    initialize PeopleSignedUp, PeopleOnSite, PeopleToArrive, PeopleToArriveToday,
+        KidsOnSite, KidsToArrive, KidsToArriveToday
+    perform varying CurrentAttendeeNumber from 1 by 1
+        until CurrentAttendeeNumber equal to NumberOfAttendees
+            evaluate true
+                when AttendeeArrived of Attendee(CurrentAttendeeNumber)
+                    add 1 to PeopleOnSite
+                    add NumberOfKids of Attendee(CurrentAttendeeNumber) to KidsOnSite
+                    if CanStayTillMonday of Attendee(CurrentAttendeeNumber) then
+                        add 1 to PeopleStayingTillMonday
+                    end-if
+                when AttendeeComing of Attendee(CurrentAttendeeNumber)
+                    add 1 to PeopleToArrive
+                    add NumberOfKids of Attendee(CurrentAttendeeNumber) to KidsToArrive
+                    if ValidDayOfWeek(CurrentDayOfWeek) and
+                        ArrivalDay of Attendee(CurrentAttendeeNumber) is greater than or equal to DayOfTheWeek(CurrentDayOfWeek) then
+                        add 1 to PeopleToArriveToday
+                        add NumberOfKids of Attendee(CurrentAttendeeNumber) to KidsToArriveToday
+                    end-if
+            end-evaluate
+            add 1 to PeopleSignedUp
+            add PeopleToArriveToday to PeopleOnSite giving PeopleToBeOnSiteToday
+        end-perform
+
+    add PeopleToArrive to PeopleOnSite giving TotalEstimatedAttendees
+    add KidsToArrive to KidsOnSite giving TotalEstimatedKids
 .
 
 ListAttendees section.
@@ -350,89 +413,6 @@ ListAttendees section.
     end-if
 .
 
-SearchAttendees section.
-    initialize CurrentAttendee
-    set RecordFound to false
-    perform until CommandKeyIsF1 or CommandKeyIsF2 or CommandKeyIsF5
-        or CommandKeyIsF6 or CommandKeyIsF7
-        accept SearchScreen from crt end-accept
-        evaluate true
-            when CommandKeyIsF2 perform ListAttendees
-            when CommandKeyIsF5 perform SearchByAuthCode
-            when CommandKeyIsF6 perform SearchByName
-            when CommandKeyIsF7 perform SearchByEmail
-        end-evaluate
-    end-perform
-
-    if RecordFound then
-        perform EditAttendee
-    end-if
-.
-
-LoadDataFileIntoTable section.
-    move zeroes to AuthCode of AttendeeRecord
-    start AttendeesFile key is greater than AuthCode of AttendeeRecord
-    open input AttendeesFile
-        read AttendeesFile next record
-            at end set EndOfAttendeesFile to true
-        end-read
-        if not EndOfAttendeesFile then
-            perform with test before varying NumberOfAttendees from 1 by 1 until EndOfAttendeesFile
-                move AttendeeRecord to Attendee(NumberOfAttendees)
-                read AttendeesFile next record
-                    at end set EndOfAttendeesFile to true
-                end-read
-            end-perform
-        end-if
-    close AttendeesFile
-
-    sort Attendee
-        on descending key Name of Attendee
-        collating sequence is mixed
-.
-
-SetupHomeScreenStats section.
-        accept CurrentDayOfWeek from day-of-week
-        initialize PeopleSignedUp, PeopleOnSite, PeopleToArrive, PeopleToArriveToday,
-            KidsOnSite, KidsToArrive, KidsToArriveToday
-        perform varying CurrentAttendeeNumber from 1 by 1
-            until CurrentAttendeeNumber equal to NumberOfAttendees
-                evaluate true
-                    when AttendeeArrived of Attendee(CurrentAttendeeNumber)
-                        add 1 to PeopleOnSite
-                        add NumberOfKids of Attendee(CurrentAttendeeNumber) to KidsOnSite
-                        if CanStayTillMonday of Attendee(CurrentAttendeeNumber) then
-                            add 1 to PeopleStayingTillMonday
-                        end-if
-                    when AttendeeComing of Attendee(CurrentAttendeeNumber)
-                        add 1 to PeopleToArrive
-                        add NumberOfKids of Attendee(CurrentAttendeeNumber) to KidsToArrive
-                        if ValidDayOfWeek(CurrentDayOfWeek) and
-                            ArrivalDay of Attendee(CurrentAttendeeNumber) is greater than or equal to DayOfTheWeek(CurrentDayOfWeek) then
-                            add 1 to PeopleToArriveToday
-                            add NumberOfKids of Attendee(CurrentAttendeeNumber) to KidsToArriveToday
-                        end-if
-                end-evaluate
-                add 1 to PeopleSignedUp
-                add PeopleToArriveToday to PeopleOnSite giving PeopleToBeOnSiteToday
-            end-perform
-
-        add PeopleToArrive to PeopleOnSite giving TotalEstimatedAttendees
-        add KidsToArrive to KidsOnSite giving TotalEstimatedKids
-        .
-
-AddAttendee section.
-    initialize CurrentAttendee
-    call "createAuthCode" using by reference AuthCode of CurrentAttendee
-    move DayOfTheWeek(CurrentDayOfWeek) to ArrivalDay of CurrentAttendee
-    set AttendeeArrived of CurrentAttendee to true
-    set AttendeeNotPaid of CurrentAttendee to true
-    move DefaultAmountToPay to AmountToPay of CurrentAttendee
-    set AddAttendeeFlagOn to true
-    set RecordFound to true
-    perform EditAttendee
-.
-
 EditAttendee section.
     if not RecordFound then
         exit section
@@ -466,15 +446,6 @@ EditAttendee section.
     end-perform
 .
 
-ViewAttendee section.
-    perform until CommandKeyIsF1
-        accept ViewScreen end-accept
-        evaluate true
-            when CommandKeyIsF4 perform EditAttendee
-        end-evaluate
-    end-perform
-.
-
 SaveAttendee section.
     perform CreateTimeStampedBackupFile
     open i-o AttendeesFile
@@ -489,6 +460,57 @@ SaveAttendee section.
             rewrite AttendeeRecord from Attendee(CurrentAttendeeNumber)
     end-evaluate
     close AttendeesFile
+.
+
+CreateTimeStampedBackupFile section.
+    move concatenate(formatted-current-date("YYYYMMDDThhmmss"), ".bak") to BackupFileName
+    open output BackupFile
+    perform varying CurrentRow from 1 by 1
+        until CurrentRow equal to NumberOfAttendees
+        move Attendee(CurrentRow) to BackupRecord
+        write BackupRecord
+    end-perform
+    close BackupFile
+.
+
+ViewAttendee section.
+    perform until CommandKeyIsF1
+        accept ViewScreen end-accept
+        evaluate true
+            when CommandKeyIsF4 perform EditAttendee
+        end-evaluate
+    end-perform
+.
+
+AddAttendee section.
+    initialize CurrentAttendee
+    call "createAuthCode" using by reference AuthCode of CurrentAttendee
+    move DayOfTheWeek(CurrentDayOfWeek) to ArrivalDay of CurrentAttendee
+    set AttendeeArrived of CurrentAttendee to true
+    set AttendeeNotPaid of CurrentAttendee to true
+    move DefaultAmountToPay to AmountToPay of CurrentAttendee
+    set AddAttendeeFlagOn to true
+    set RecordFound to true
+    perform EditAttendee
+.
+
+SearchAttendees section.
+    initialize CurrentAttendee
+    set RecordFound to false
+    perform until CommandKeyIsF1 or CommandKeyIsF2 or CommandKeyIsF5
+        or CommandKeyIsF6 or CommandKeyIsF7
+        accept SearchScreen from crt end-accept
+        evaluate true
+            when CommandKeyIsF2 perform ListAttendees
+            when CommandKeyIsF5 perform SearchByAuthCode
+            when CommandKeyIsF6 perform SearchByName
+            when CommandKeyIsF7 perform SearchByEmail
+        end-evaluate
+    end-perform
+
+    if RecordFound then
+        perform EditAttendee
+    end-if
 .
 
 SearchByAuthCode section.
@@ -520,29 +542,6 @@ SetCurrentAttendeeToFound section.
     set CurrentAttendeeNumber to AttendeeIndex
     move Attendee(CurrentAttendeeNumber) to CurrentAttendee
     set RecordFound to true
-.
-
-EnableExtendedKeyInput section.
-    set environment 'COB_SCREEN_EXCEPTIONS' to 'Y'
-    set environment 'COB_SCREEN_ESC' to 'Y'
-.
-
-SetupAttendeesDataFileName section.
-    accept CommandLineArgumentCount from argument-number
-    if CommandLineArgumentCount equal to 1 then
-        accept AttendeesFileName from argument-value
-    end-if
-.
-
-CreateTimeStampedBackupFile section.
-    move concatenate(formatted-current-date("YYYYMMDDThhmmss"), ".bak") to BackupFileName
-    open output BackupFile
-    perform varying CurrentRow from 1 by 1
-        until CurrentRow equal to NumberOfAttendees
-        move Attendee(CurrentRow) to BackupRecord
-        write BackupRecord
-    end-perform
-    close BackupFile
 .
 
 end program BAMS.
