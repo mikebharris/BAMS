@@ -38,7 +38,7 @@ working-storage section.
     01 AddAttendeeFlag pic 9 value 0.
         88 AddAttendeeFlagOn value 1 when set to false is 0.
 
-    01 AttendeesFileName pic x(20) value "attendees.dat".
+    01 AttendeesFileName pic x(20).
     01 BackupFileName pic x(20).
 
     01 DataFileStatus   pic x(2).
@@ -98,6 +98,12 @@ working-storage section.
         02 TotalEstimatedKids pic 99 value zero.
 
     01 EmailToSearchFor pic x(40) value spaces.
+
+    01 EventTable.
+        02 EventFileName pic x(20) value "attendees.dat".
+        02 EventName pic x(30) value "BarnCamp".
+        02 EventNamePosition pic 99 value 8.
+
     01 NameToSearchFor pic x(25).
     01 NumberOfAttendees pic 999.
 
@@ -141,8 +147,8 @@ screen section.
     01 HomeScreen background-color BackgroundColour foreground-color ForegroundColour.
         03 blank screen.
         03 line 1 column 1 from ScreenHeader reverse-video.
-        03 line 5 column 34 value "Welcome to BAMS" underline.
-        03 line 7 column 36 value "Today is ".
+        03 line 5 column EventNamePosition from EventName.
+        03 line 7 column 34 value "Today is ".
         03 line 7 column plus 1 from DayOfTheWeek(CurrentDayOfWeek).
         03 line 10 column 5 value "Adults on site: ".
         03 pic zzz9 line 10 column plus 3 from PeopleOnSite.
@@ -249,11 +255,11 @@ screen section.
             value "Commands: F1 Home, F4 Edit                                                   " reverse-video.
         03 line 24 column 78 to Command.
 
-
 procedure division.
 
 Main section.
     perform EnableExtendedKeyInput
+    perform LoadEventDetails
     perform SetupAttendeesDataFileName
     perform LoadDataFileIntoTable
     set ColourSchemeIsColour to true
@@ -270,10 +276,16 @@ EnableExtendedKeyInput section.
     set environment 'COB_SCREEN_ESC' to 'Y'
 .
 
+LoadEventDetails section.
+    compute EventNamePosition = 40 - (length(trim(EventName)) / 2)
+.
+
 SetupAttendeesDataFileName section.
     accept CommandLineArgumentCount from argument-number
     if CommandLineArgumentCount equal to 1 then
         accept AttendeesFileName from argument-value
+    else
+        move EventFileName to AttendeesFileName
     end-if
 .
 
