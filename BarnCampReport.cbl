@@ -12,48 +12,48 @@ input-output section.
 
 data division.
 file section.
-    fd AttendeesFile is global.
-        copy DD-Attendee replacing Attendee by
-            ==AttendeeRecord is global.
-            88 EndOfAttendeesFile value high-values==.
+fd AttendeesFile is global.
+copy DD-Attendee replacing Attendee by
+    ==AttendeeRecord is global.
+    88 EndOfAttendeesFile value high-values==.
 
 working-storage section.
-    01 AttendeeStatus   pic x(2).
-        88 Successful   value "00".
-        88 RecordExists value "22".
-        88 NoSuchRecord value "23".
+01 AttendeeStatus   pic x(2).
+    88 Successful   value "00".
+    88 RecordExists value "22".
+    88 NoSuchRecord value "23".
 
-    01 HeadCounts.
-        02 ActualHeadCounts.
-            03 HeadCountWednesday pic 99 value zero.
-            03 HeadCountThursday pic 99 value zero.
-            03 HeadCountFriday pic 99 value zero.
-            03 HeadCountSaturday pic 99 value zero.
-            03 HeadCountSunday pic 99 value zero.
-            03 HeadCountMonday pic 99 value zero.
-        02 EstimatedHeadCounts.
-            03 EstimatedHeadCountWednesday pic 99 value zero.
-            03 EstimatedHeadCountThursday pic 99 value zero.
-            03 EstimatedHeadCountFriday pic 99 value zero.
-            03 EstimatedHeadCountSaturday pic 99 value zero.
-            03 EstimatedHeadCountSunday pic 99 value zero.
-            03 EstimatedHeadCountMonday pic 99 value zero.
+01 HeadCounts.
+    02 ActualHeadCounts.
+        03 HeadCountWednesday pic 99 value zero.
+        03 HeadCountThursday pic 99 value zero.
+        03 HeadCountFriday pic 99 value zero.
+        03 HeadCountSaturday pic 99 value zero.
+        03 HeadCountSunday pic 99 value zero.
+        03 HeadCountMonday pic 99 value zero.
+    02 EstimatedHeadCounts.
+        03 EstimatedHeadCountWednesday pic 99 value zero.
+        03 EstimatedHeadCountThursday pic 99 value zero.
+        03 EstimatedHeadCountFriday pic 99 value zero.
+        03 EstimatedHeadCountSaturday pic 99 value zero.
+        03 EstimatedHeadCountSunday pic 99 value zero.
+        03 EstimatedHeadCountMonday pic 99 value zero.
 
-    01 TotalNightsCamping pic 999 value zero.
-    01 CostPerNight constant as 2.
-    01 TotalCampingCharge pic 999v99 value 0.00.
+01 TotalNightsCamping pic 999 value zero.
+01 CostPerNight constant as 2.
+01 TotalCampingCharge pic 999v99 value 0.00.
 
-    01 TotalPaid pic 9(4) value zero.
-    01 TotalToPay pic 9(4) value zero.
-    01 TotalIncome pic 9(4) value zero.
-    01 NumberOfAttendees pic 9(3) value zero.
-    01 AveragePaid pic 99v99 value zero.
-    01 IgnoredValue pic 9(4).
+01 TotalPaid pic 9(4) value zero.
+01 TotalToPay pic 9(4) value zero.
+01 TotalIncome pic 9(4) value zero.
+01 NumberOfAttendees pic 9(3) value zero.
+01 AveragePaid pic 99v99 value zero.
+01 IgnoredValue pic 9(4).
 
-    01 FigureOutput pic z,z99.99.
+01 FigureOutput pic z,z99.99.
 
-    01 AttendeesFileName pic x(20) value spaces.
-    01 CommandLineArgumentCount pic 9 value zero.
+01 AttendeesFileName pic x(20) value spaces.
+01 CommandLineArgumentCount pic 9 value zero.
 
 procedure division.
     accept CommandLineArgumentCount from argument-number

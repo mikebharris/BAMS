@@ -3,16 +3,16 @@ program-id. createAuthCode.
 
 data division.
 local-storage section.
-    01 CurrentTime.
-        02 filler   pic 9(4).
-        02 Seed     pic 9(4).
+01 CurrentTime.
+    02 filler   pic 9(4).
+    02 Seed     pic 9(4).
 
-    01 DecimalDigit pic 99 value zero.
-    01 CurrentDigit pic 9 value zero.
-    01 HexDigits    pic x(16) value "0123456789ABCDEF".
+01 DecimalDigit pic 99 value zero.
+01 CurrentDigit pic 9 value zero.
+01 HexDigits    pic x(16) value "0123456789ABCDEF".
 
 linkage section.
-    01 NewAuthCode pic x(6) value zero.
+01 NewAuthCode pic x(6) value zero.
 
 procedure division using NewAuthCode.
     accept CurrentTime from time

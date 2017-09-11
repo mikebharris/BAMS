@@ -2,9 +2,9 @@ identification division.
 program-id. ImportAttendees.
 
 environment division.
-    configuration section.
-        repository.
-            function all intrinsic.
+configuration section.
+    repository.
+        function all intrinsic.
 
 input-output section.
 file-control.
@@ -20,32 +20,32 @@ file-control.
 data division.
 file section.
 fd CSVSourceFile.
-    01 CSVFileInputLine pic x(255).
-        88 EndOfCSVFile value high-values.
+01 CSVFileInputLine pic x(255).
+    88 EndOfCSVFile value high-values.
 
 fd AttendeesFile is global.
-    copy DD-Attendee replacing Attendee by
-        ==AttendeeRecord is global.
-        88 EndOfAttendeesFile value high-values==.
+copy DD-Attendee replacing Attendee by
+    ==AttendeeRecord is global.
+    88 EndOfAttendeesFile value high-values==.
 
 working-storage section.
-    01 CountOfLinesProcessed pic 999 value zero.
-    01 CountOfLinesImported pic 999 value zero.
-    copy DD-Attendee.
+01 CountOfLinesProcessed pic 999 value zero.
+01 CountOfLinesImported pic 999 value zero.
+copy DD-Attendee.
 
-    01 TempAttendeeData.
-        02 PaidDateFromWeb pic x(10).
-        02 ArrivalDayFromWeb pic x(10).
-        02 StayingLateFromWeb pic x(5).
+01 TempAttendeeData.
+    02 PaidDateFromWeb pic x(10).
+    02 ArrivalDayFromWeb pic x(10).
+    02 StayingLateFromWeb pic x(5).
 
-    01 AttendeesFileName pic x(20) value spaces.
-    01 CSVSourceFileName pic x(30) value spaces.
-    01 CommandLineArgumentCount pic 9 value zero.
+01 AttendeesFileName pic x(20) value spaces.
+01 CSVSourceFileName pic x(30) value spaces.
+01 CommandLineArgumentCount pic 9 value zero.
 
-    01 RecordWriteStatus   pic xx.
-        88 Successful   value "00".
-        88 RecordExists value "22".
-        88 NoSuchRecord value "23".
+01 RecordWriteStatus   pic xx.
+    88 Successful   value "00".
+    88 RecordExists value "22".
+    88 NoSuchRecord value "23".
 
 procedure division.
     accept CommandLineArgumentCount from argument-number
