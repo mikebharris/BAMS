@@ -46,40 +46,13 @@ working-storage section.
     88 NoSuchRecord value "23".
 
 01 AttendeesTable.
-    02 Attendee occurs 1 to 200 times
+copy DD-Attendee replacing 01 by 02 Attendee by
+    ==Attendee occurs 1 to 200 times
             depending on NumberOfAttendees
             ascending key is Name
             ascending key is Email
             ascending key is AuthCode
-            indexed by AttendeeIndex.
-        03 Name     pic x(25) value spaces.
-        03 Email    pic x(40) value spaces.
-        03 AuthCode pic x(6) value all "0".
-        03 AmountToPay pic 999 value 40.
-        03 PaymentStatus pic a value "N".
-            88 AttendeePaid values "Y", "y".
-            88 AttendeeNotPaid values "N", "n".
-        03 AmountPaid  pic 999 value zero.
-        03 DatePaid value zeroes.
-            04 CentuaryPaid pic 99.
-            04 YearPaid pic 99.
-            04 MonthPaid pic 99.
-            04 DayPaid pic 99.
-        03 Telephone    pic x(14) value spaces.
-        03 ArrivalDay   pic xxx value spaces.
-            88 ArrivalDayIsValid values "Wed", "Thu", "Fri", "Sat".
-            88 ArrivalDayIsWednesday value "Wed".
-            88 ArrivalDayIsThursday value "Thu".
-            88 ArrivalDayIsFriday value "Fri".
-            88 ArrivalDayIsSaturday value "Sat".
-        03 NumberOfKids pic 9 value zero.
-        03 AttendanceStatus pic a value "C".
-            88 AttendeeComing values "C", "c".
-            88 AttendeeArrived values "A", "a".
-            88 AttendeeCancelled values "X", "x".
-        03 StayingTillMonday pic 9 value 0.
-            88 CanStayTillMonday value 1 when set to false is 0.
-        03 Diet pic x(60) value spaces.
+            indexed by AttendeeIndex==.
 
 01 AuthCodeToSearchFor pic x(6) value all "0".
 

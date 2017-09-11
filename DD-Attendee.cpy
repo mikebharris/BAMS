@@ -1,29 +1,29 @@
 01 Attendee.
-    02 Name     pic x(25) value spaces.
-    02 Email    pic x(40) value spaces.
-    02 AuthCode pic x(6) value all "0".
-    02 AmountToPay pic 999 value 40.
-    02 PaymentStatus pic a value "N".
+    05 Name     pic x(25) value spaces.
+    05 Email    pic x(40) value spaces.
+    05 AuthCode pic x(6) value all "0".
+    05 AmountToPay pic 999 value 40.
+    05 PaymentStatus pic a value "N".
         88 AttendeePaid values "Y", "y".
         88 AttendeeNotPaid values "N", "n".
-    02 AmountPaid  pic 999 value zero.
-    02 DatePaid value zeroes.
-        03 CentuaryPaid pic 99.
-        03 YearPaid pic 99.
-        03 MonthPaid pic 99.
-        03 DayPaid pic 99.
-    02 Telephone    pic x(14) value spaces.
-    02 ArrivalDay   pic xxx value spaces.
+    05 AmountPaid  pic 999 value zero.
+    05 DatePaid value zeroes.
+        10 CentuaryPaid pic 99.
+        10 YearPaid pic 99.
+        10 MonthPaid pic 99.
+        10 DayPaid pic 99.
+    05 Telephone    pic x(14) value spaces.
+    05 ArrivalDay   pic xxx value spaces.
         88 ArrivalDayIsValid values "Wed", "Thu", "Fri", "Sat".
         88 ArrivalDayIsWednesday value "Wed".
         88 ArrivalDayIsThursday value "Thu".
         88 ArrivalDayIsFriday value "Fri".
         88 ArrivalDayIsSaturday value "Sat".
-    02 NumberOfKids pic 9 value zero.
-    02 AttendanceStatus pic a value "C".
+    05 NumberOfKids pic 9 value zero.
+    05 AttendanceStatus pic a value "C".
         88 AttendeeComing values "C", "c".
         88 AttendeeArrived values "A", "a".
         88 AttendeeCancelled values "X", "x".
-    02 StayingTillMonday pic 9 value 0.
+    05 StayingTillMonday pic 9 value 0.
         88 CanStayTillMonday value 1 when set to false is 0.
-    02 Diet pic x(60) value spaces.
+    05 Diet pic x(60) value spaces.
