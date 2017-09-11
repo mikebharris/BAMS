@@ -7,9 +7,9 @@ A legacy system for managing the Welcome Desk at [BarnCamp](https://barncamp.org
 
 ## Compiling
 
-Firstly, Good Luck!  You'll need the latest version 2.0-rc2 of [GNU COBOL](https://sourceforge.net/projects/open-cobol/) to compile this code.  Version 1.x of the compile will not work as BAMS uses a number of ISO COBOL 2002 and ISO COBOL 2014 extensions.
+Firstly, Good Luck!  You'll need the latest version (2.2) of [GNU COBOL](https://sourceforge.net/projects/open-cobol/) to compile this code.  Version 1.x of the compile will not work as BAMS uses a number of ISO COBOL 2002 and ISO COBOL 2014 extensions.
 
-I can compile it on Mac OS X 10.12 and under Debian GNU/Linux (kernel 3.16.0-4-amd64) with:
+I can compile it on Mac OS X 10.13 and under Debian GNU/Linux (kernel 3.16.0-4-amd64) with:
 
 ```
 cobc -x -free -std=default -o bams bams.cbl createAuthCode.cbl
@@ -17,7 +17,7 @@ cobc -x -free -std=default -o bams bams.cbl createAuthCode.cbl
 
 I had huge problems trying to get it to compile under Linux (but not under OS X) using the modular approach I'd originally intended.  The original code using the COBOL ENTRY points can be found in the file Attenees.cbl and it's accompanying test both in the entry-method directory.
 
-To get version 2.0 of GNU COBOL compiler (cobc), download it from https://sourceforge.net/projects/open-cobol/files/gnu-cobol/2.0/ (rc2 is the latest at the time of typing), untar/zip it, and (on Linux) do:
+To get version 2.2 of GNU COBOL compiler (cobc), download it from https://sourceforge.net/projects/open-cobol/files/gnu-cobol/2.2/ (2.2 is the latest at the time of typing), untar/zip it, and (on Linux) do:
 ```
 ./configure --with-curses=check --prefix=/usr/local CPPFLAGS=-I/usr/local/include/ LDFLAGS=-L/usr/local/lib
 make
