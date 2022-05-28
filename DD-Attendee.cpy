@@ -1,5 +1,5 @@
 01 Attendee.
-    05 Name     pic x(25) value spaces.
+    05 AttendeeName pic x(25) value spaces.
     05 Email    pic x(40) value spaces.
     05 AuthCode pic x(6) value all "0".
     05 AmountToPay pic 999 value 40.

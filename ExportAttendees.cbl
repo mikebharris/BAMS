@@ -55,7 +55,7 @@ procedure division.
             string
                 trim(AuthCode) delimited by size
                 ","
-                trim(Name) delimited by size
+                trim(AttendeeName) delimited by size
                 ","
                 trim(Email) delimited by size
                 ","

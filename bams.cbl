@@ -49,7 +49,7 @@ working-storage section.
 copy DD-Attendee replacing 01 by 02 Attendee by
     ==Attendee occurs 1 to 200 times
             depending on NumberOfAttendees
-            ascending key is Name
+            ascending key is AttendeeName
             ascending key is Email
             ascending key is AuthCode
             indexed by AttendeeIndex==.
@@ -156,7 +156,7 @@ screen section.
     03 line 2 column 76 value "#".
     03 line 2 column plus 1 from CurrentAttendeeNumber.
     03 line 4 column 1 value "Name:".
-    03 line 4 column 15 using Name of CurrentAttendee required.
+    03 line 4 column 15 using AttendeeName of CurrentAttendee required.
     03 line 6 column 1 value "Email:".
     03 line 6 column 15 using Email of CurrentAttendee.
     03 line 8 column 1 value "Telephone:".
@@ -206,7 +206,7 @@ screen section.
     03 line 2 column 1 value "AuthCode:".
     03 line 2 column 15 from AuthCode of CurrentAttendee.
     03 line 4 column 1 value "Name:".
-    03 line 4 column 15 from Name of CurrentAttendee.
+    03 line 4 column 15 from AttendeeName of CurrentAttendee.
     03 line 6 column 1 value "Email:".
     03 line 6 column 15 from Email of CurrentAttendee.
     03 line 8 column 1 value "Telephone:".
@@ -279,7 +279,7 @@ LoadDataFileIntoTable section.
     close AttendeesFile
 
     sort Attendee
-        on descending key Name of Attendee
+        on descending key AttendeeName of Attendee
         collating sequence is mixed
 .
 
@@ -333,7 +333,7 @@ SetupHomeScreenStats section.
 
 ListAttendees section.
     sort Attendee
-        on descending key Name of Attendee
+        on descending key AttendeeName of Attendee
         collating sequence is mixed
 
     move zero to PageOffset
@@ -350,7 +350,7 @@ ListAttendees section.
                 background-color BackgroundColour
                 foreground-color ForegroundColour
             end-display
-            display Name of Attendee(CurrentAttendeeNumber)
+            display AttendeeName of Attendee(CurrentAttendeeNumber)
                 at line CurrentRow
                 column 6
                 background-color BackgroundColour
@@ -510,7 +510,7 @@ SearchByAuthCode section.
 
 SearchByName section.
     search Attendee
-        when upper-case(Name of Attendee(AttendeeIndex)) is equal to upper-case(NameToSearchFor)
+        when upper-case(AttendeeName of Attendee(AttendeeIndex)) is equal to upper-case(NameToSearchFor)
             perform SetCurrentAttendeeToFound
     end-search
 .

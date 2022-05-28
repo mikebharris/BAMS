@@ -73,7 +73,7 @@ procedure division.
         end-read
         perform until EndOfAttendeesFile
             if function length(function trim(Diet)) is greater than 5  then
-                display function trim(Name) " says '" function trim (Diet) "'"
+                display function trim(AttendeeName) " says '" function trim (Diet) "'"
             end-if
             if AttendeeArrived then
                 evaluate true

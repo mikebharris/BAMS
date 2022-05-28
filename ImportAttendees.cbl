@@ -67,7 +67,7 @@ procedure division.
         unstring CSVFileInputLine
             delimited by ","
             into
-            Name of Attendee,
+            AttendeeName of Attendee,
             Email of Attendee,
             AuthCode of Attendee,
             AmountToPay of Attendee,
