@@ -7,13 +7,29 @@ A legacy system for managing the Welcome Desk at [BarnCamp](https://barncamp.org
 
 ## Compiling
 
-Firstly, Good Luck!  You'll need the latest version (2.2) of [GNU COBOL](https://sourceforge.net/projects/open-cobol/) to compile this code.  Version 1.x of the compile will not work as BAMS uses a number of ISO COBOL 2002 and ISO COBOL 2014 extensions.
+Firstly, Good Luck! The code should compile using version 2.2 or later of [GNU COBOL](https://sourceforge.net/projects/open-cobol/).  Version 1.x of the compile will not work as BAMS uses a number of ISO COBOL 2002 and ISO COBOL 2014 extensions.  
 
-I can compile it on Mac OS X 10.13 and under Debian GNU/Linux (kernel 3.16.0-4-amd64) with:
+### macOS
+
+BAMS compilation and usage has been well tested on Mac computers, and is proven to compile on any version from 10.13 (High Sierra) onwards. 
+
+I can compile it on macOS Monterey 12.3.1 using GNU COBOL 3.1.2.0.
+
+To install GNU COBOL use the [Homebrew package manager](https://brew.sh/):
+
+```shell
+% brew install gnu-cobol
+```
+
+And compile it with:
 
 ```
 cobc -x -free -std=default -o bams bams.cbl createAuthCode.cbl
 ```
+
+Or use the included [build.sh](build.sh) script to build everything you need to also import, export or product reports.
+
+### Linux 
 
 I had huge problems trying to get it to compile under Linux (but not under OS X) using the modular approach I'd originally intended.  The original code using the COBOL ENTRY points can be found in the file Attenees.cbl and it's accompanying test both in the entry-method directory.
 
@@ -28,6 +44,8 @@ Check which version is running with:
 which cobc
 ```
 This should be the version '/usr/local/bin/cobc' but if it isn't, replace 'cobc' in the command lines to compile with '/usr/local/bin/cobc'.
+
+If you manage to build BAMS on Linux more cleanly than the above, please raise a PR.  Thank you.
 
 ## Setting up data
 
