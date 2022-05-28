@@ -63,7 +63,7 @@ Or real data:
 ```
 ## Build script
 
-The file build.sh can be used to build all four programs in one got.  Try it!
+The shell script [build.sh](build.sh) can be used to build all four programs in one go.  Try it!
 
 ## Run BAMS
 
