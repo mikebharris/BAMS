@@ -1,5 +1,5 @@
 # BAMS
-This is the source code of The BarnCamp/HacktionLab Attendee Management System 2.1 now with cloud integration to [CLAMS](https://github.com/mikebharris/CLAMS).  BAMS is a legacy system written in GNU COBOL for managing the Welcome Desk at [BarnCamp](https://barncamp.org.uk), [HacktionLab](https://hacktionlab.org) and other events.
+This is the source code of The BarnCamp/HacktionLab Attendee Management System 2.1.1 now with cloud integration to [CLAMS](https://github.com/mikebharris/CLAMS).  BAMS is a legacy system written in GNU COBOL for managing the Welcome Desk at [BarnCamp](https://barncamp.org.uk), [HacktionLab](https://hacktionlab.org) and other events.
 
 ![Screen shot of BAMS Home Screen](homepage.png "BAMS Home Screen")
 
