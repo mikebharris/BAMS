@@ -145,7 +145,7 @@ screen section.
     03 line 16 column 45 value "Kids to arrive today: ".
     03 pic z9 line 16 column plus 2 from KidsToArriveToday.
     03 line 24 column 1
-        value "Commands: F2 List, F3 Add, F4 Edit, F9 Mono/Colour, F10 Exit                       " reverse-video.
+        value "Commands: F2 List, F3 Add, F4 Edit, F9 Mono/Colour, F10 Exit, F12 CLAMS            " reverse-video.
     03 line 24 column 78 to Command.
 
 01 EditScreen background-color BackgroundColour foreground-color ForegroundColour.
@@ -226,7 +226,7 @@ screen section.
     03 line 24 column 1
         value "Commands: F1 Home, F4 Edit                                                   " reverse-video.
     03 line 24 column 78 to Command.
-
+       
 procedure division.
 
 Main section.
@@ -298,6 +298,7 @@ DisplayHomeScreen section.
             else
                 set ColourSchemeIsMonochrome to true
             end-if
+        when CommandKeyIsF12 perform UploadToClams
     end-evaluate
 .
 
@@ -526,6 +527,10 @@ SetCurrentAttendeeToFound section.
     set CurrentAttendeeNumber to AttendeeIndex
     move Attendee(CurrentAttendeeNumber) to CurrentAttendee
     set RecordFound to true
+.
+
+UploadToClams section.
+    call "SYSTEM" using "./clams-upload.sh"
 .
 
 end program BAMS.

@@ -1,7 +1,5 @@
 # BAMS
-This is the source code of The BarnCamp/HacktionLab Attendee Management System 2.1
-
-A legacy system written in GNU COBOL for managing the Welcome Desk at [BarnCamp](https://barncamp.org.uk), [HacktionLab](https://hacktionlab.org) and other events.
+This is the source code of The BarnCamp/HacktionLab Attendee Management System 2.1 now with cloud integration to [CLAMS](https://github.com/mikebharris/CLAMS).  BAMS is a legacy system written in GNU COBOL for managing the Welcome Desk at [BarnCamp](https://barncamp.org.uk), [HacktionLab](https://hacktionlab.org) and other events.
 
 ![Screen shot of BAMS Home Screen](homepage.png "BAMS Home Screen")
 
@@ -90,9 +88,10 @@ BAMS is a classic console application that strives to use the keyboard to do thi
 * F5 - Screen specific function.  On Edit toggles the arrival day.  On Search searches by AuthCode.
 * F6 - Screen specific function.  On Edit toggles the attendance status.  On Search searches by Name.
 * F7 - Screen specific function.  On Edit toggles the payment status.  On Search searches by Email.
-* F8 - Save changes to the current attendee being edited.
+* F8 - Screen specific function. Save changes to the current attendee being edited.
 * F9 - Toggle the screen colours between monochrome and colour (default is colour).
 * F10 - Exit BAMS from the Home Screen and return to the operating system.
+* F12 - Upload to CLAMS (BAMS in the Cloud)
 * PgUp/PgDown - Scroll screen-by-screen through a list of attendees.
 * ENTER - Tell BAMS to display the Edit Screen for the record number entered on the List Screen.
 
@@ -111,6 +110,11 @@ In the middle you can see what the day is, and you can immediately tell how many
 * F3 - Edit an attendee, which takes you firstly to the Search Screen.
 * F9 - Toggle the screen colours between monochrome and colour.
 * F10 - Exit BAMS and return to the operating system.
+* F12 - Upload to CLAMS
+
+### Upload to CLAMS functionality
+
+This will upload to [CLAMS](https://github.com/mikebharris/CLAMS).  You will need to run BAMS with some AWS credentials in your environment and have the CLAMS Uploader utility in the same directory as BAMS.  For more information on setting this up refer to https://github.com/mikebharris/CLAMS/blob/main/uploader/README.md
 
 ## Search Screen
 
