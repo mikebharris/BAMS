@@ -17,16 +17,24 @@ input-output section.
             access mode is dynamic
             record key is AuthCode of AttendeeRecord
             file status is DataFileStatus.
+            
+        select EventFile assign to "event.dat"
+            organization is line sequential.
 
         select optional BackupFile assign to BackupFileName
             organization is line sequential.
-
+            
 data division.
 file section.
 fd AttendeesFile.
 copy DD-Attendee replacing Attendee by
     ==AttendeeRecord.
     88 EndOfAttendeesFile value high-values==.
+
+fd EventFile.
+copy DD-HlEvent replacing HlEvent by
+    ==EventRecord.
+    88 EndOfEventFile value high-values==.
 
 fd BackupFile.
 copy DD-Attendee replacing Attendee by
@@ -72,9 +80,12 @@ copy DD-Attendee replacing 01 by 02 Attendee by
 01 EmailToSearchFor pic x(40) value spaces.
 
 01 EventTable.
-    02 EventFileName pic x(20) value "attendees.dat".
-    02 EventName pic x(30) value "BarnCamp".
-    02 EventNamePosition pic 99 value 8.
+    02 EventName pic x(40) value "HacktionLab".
+    02 EventBaseCharge pic 999 value zero.
+    02 EventStartDay value "Fri".
+    02 EventEndDay value "Sun".
+    
+01 EventNamePosition pic 99 value 8.
 
 01 NameToSearchFor pic x(25).
 01 NumberOfAttendees pic 999.
@@ -94,9 +105,7 @@ copy DD-Attendee replacing Attendee by
 01 DaysOfTheWeek value "MonTueWedThuFriSatSun".
     02 DayOfTheWeek pic xxx occurs 7 times.
         88 ValidDayOfWeek values "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun".
-
-01 DefaultAmountToPay constant as 50.
-
+        
 01 FirstRecordToShow pic 999 value 1.
 
 01 ColourScheme.
@@ -119,7 +128,7 @@ screen section.
 01 HomeScreen background-color BackgroundColour foreground-color ForegroundColour.
     03 blank screen.
     03 line 1 column 1 from ScreenHeader reverse-video.
-    03 line 5 column EventNamePosition from EventName.
+    03 line 4 column EventNamePosition from EventName of EventTable.
     03 line 7 column 34 value "Today is ".
     03 line 7 column plus 1 from DayOfTheWeek(CurrentDayOfWeek).
     03 line 10 column 5 value "Adults on site: ".
@@ -249,7 +258,15 @@ EnableExtendedKeyInput section.
 .
 
 LoadEventDetails section.
-    compute EventNamePosition = 40 - (length(trim(EventName)) / 2)
+    open input EventFile
+       read EventFile next record
+           at end set EndOfEventFile to true
+       end-read
+       if not EndOfEventFile then
+           move EventRecord to EventTable
+       end-if
+    close EventFile
+    compute EventNamePosition = 40 - (length(trim(EventName of EventTable)) / 2)
 .
 
 SetupAttendeesDataFileName section.
@@ -257,7 +274,7 @@ SetupAttendeesDataFileName section.
     if CommandLineArgumentCount equal to 1 then
         accept AttendeesFileName from argument-value
     else
-        move EventFileName to AttendeesFileName
+        move "attendees.dat" to AttendeesFileName
     end-if
 .
 
@@ -475,7 +492,7 @@ AddAttendee section.
     move DayOfTheWeek(CurrentDayOfWeek) to ArrivalDay of CurrentAttendee
     set AttendeeComing of CurrentAttendee to true
     set AttendeeNotPaid of CurrentAttendee to true
-    move DefaultAmountToPay to AmountToPay of CurrentAttendee
+    move EventBaseCharge of EventTable to AmountToPay of CurrentAttendee
     set AddAttendeeFlagOn to true
     set RecordFound to true
     perform EditAttendee
