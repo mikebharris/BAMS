@@ -14,11 +14,12 @@
         10 DayPaid pic 99.
     05 Telephone    pic x(14) value spaces.
     05 ArrivalDay   pic xxx value spaces.
-        88 ArrivalDayIsValid values "Wed", "Thu", "Fri", "Sat".
+        88 ArrivalDayIsValid values "Sun","Mon","Tue","Wed", "Thu", "Fri", "Sat".
         88 ArrivalDayIsWednesday value "Wed".
         88 ArrivalDayIsThursday value "Thu".
         88 ArrivalDayIsFriday value "Fri".
         88 ArrivalDayIsSaturday value "Sat".
+        88 ArrivalDayIsSunday value "Sun".
     05 NumberOfKids pic 9 value zero.
     05 AttendanceStatus pic a value "C".
         88 AttendeeComing values "C", "c".

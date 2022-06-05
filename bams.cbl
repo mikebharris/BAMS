@@ -163,7 +163,7 @@ screen section.
     03 line 8 column 15 using Telephone of CurrentAttendee.
     03 line 10 column 1 value "Arrival day:".
     03 line 10 column 15 from ArrivalDay of CurrentAttendee.
-    03 line 10 column plus 2 value "(Wed/Thu/Fri/Sat)".
+    03 line 10 column plus 2 value "(Wed/Thu/Fri/Sat/Sun)".
     03 line 12 column 1 value "Status:".
     03 line 12 column 15 from AttendanceStatus of CurrentAttendee.
     03 line 12 column plus 2 value "(A = arrived, C = coming, X = cancelled)".
@@ -419,7 +419,8 @@ EditAttendee section.
                     when ArrivalDayIsWednesday of CurrentAttendee set ArrivalDayIsThursday of CurrentAttendee to true
                     when ArrivalDayIsThursday of CurrentAttendee set ArrivalDayIsFriday of CurrentAttendee to true
                     when ArrivalDayIsFriday of CurrentAttendee set ArrivalDayIsSaturday of CurrentAttendee to true
-                    when ArrivalDayIsSaturday of CurrentAttendee set ArrivalDayIsWednesday of CurrentAttendee to true
+                    when ArrivalDayIsSaturday of CurrentAttendee set ArrivalDayIsSunday of CurrentAttendee to true
+                    when other set ArrivalDayIsThursday of CurrentAttendee to true
                 end-evaluate
             when CommandKeyIsF6
                 evaluate true
