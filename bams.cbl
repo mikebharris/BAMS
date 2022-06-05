@@ -18,7 +18,7 @@ input-output section.
             record key is AuthCode of AttendeeRecord
             file status is DataFileStatus.
             
-        select EventFile assign to "event.dat"
+        select EventFile assign to EventFileName
             organization is line sequential.
 
         select optional BackupFile assign to BackupFileName
@@ -45,7 +45,8 @@ working-storage section.
 01 AddAttendeeFlag pic 9 value 0.
     88 AddAttendeeFlagOn value 1 when set to false is 0.
 
-01 AttendeesFileName pic x(20).
+01 AttendeesFileName pic x(20) value "attendees.dat".
+01 EventFileName pic x(20) value "event.dat".
 01 BackupFileName pic x(20).
 
 01 DataFileStatus   pic x(2).
@@ -240,8 +241,8 @@ procedure division.
 
 Main section.
     perform EnableExtendedKeyInput
+    perform LoadEventAndAttendeeData
     perform LoadEventDetails
-    perform SetupAttendeesDataFileName
     perform LoadDataFileIntoTable
     set ColourSchemeIsColour to true
 
@@ -269,13 +270,14 @@ LoadEventDetails section.
     compute EventNamePosition = 40 - (length(trim(EventName of EventTable)) / 2)
 .
 
-SetupAttendeesDataFileName section.
+LoadEventAndAttendeeData section.
     accept CommandLineArgumentCount from argument-number
-    if CommandLineArgumentCount equal to 1 then
+    if CommandLineArgumentCount greater than zero then
         accept AttendeesFileName from argument-value
-    else
-        move "attendees.dat" to AttendeesFileName
     end-if
+    if CommandLineArgumentCount equal to 2 then
+       accept EventFileName from argument-value
+    end-if   
 .
 
 LoadDataFileIntoTable section.
