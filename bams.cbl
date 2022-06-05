@@ -224,7 +224,7 @@ screen section.
     03 line 20 column 1 value "Diet issues:".
     03 line 20 column 15 from Diet of CurrentAttendee.
     03 line 24 column 1
-        value "Commands: F1 Home, F4 Edit                                                   " reverse-video.
+        value "Commands: F1 Home, F3 Add, F4 Edit                                            " reverse-video.
     03 line 24 column 78 to Command.
        
 procedure division.
@@ -463,6 +463,7 @@ ViewAttendee section.
     perform until CommandKeyIsF1
         accept ViewScreen end-accept
         evaluate true
+            when CommandKeyIsF3 perform AddAttendee
             when CommandKeyIsF4 perform EditAttendee
         end-evaluate
     end-perform
