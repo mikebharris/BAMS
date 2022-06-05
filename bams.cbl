@@ -472,7 +472,7 @@ AddAttendee section.
     initialize CurrentAttendee
     call "createAuthCode" using by reference AuthCode of CurrentAttendee
     move DayOfTheWeek(CurrentDayOfWeek) to ArrivalDay of CurrentAttendee
-    set AttendeeArrived of CurrentAttendee to true
+    set AttendeeComing of CurrentAttendee to true
     set AttendeeNotPaid of CurrentAttendee to true
     move DefaultAmountToPay to AmountToPay of CurrentAttendee
     set AddAttendeeFlagOn to true
