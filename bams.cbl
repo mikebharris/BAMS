@@ -458,9 +458,15 @@ SaveAttendee section.
             set NumberOfAttendees to CurrentAttendeeNumber
             move CurrentAttendee to Attendee(CurrentAttendeeNumber)
             write AttendeeRecord from Attendee(CurrentAttendeeNumber)
+                invalid key
+                    display "Error saving new attendee: " DataFileStatus
+            end-write
         when not AddAttendeeFlagOn
             move CurrentAttendee to Attendee(CurrentAttendeeNumber)
             rewrite AttendeeRecord from Attendee(CurrentAttendeeNumber)
+                invalid key
+                    display "Error updating attendee: " DataFileStatus
+            end-rewrite
     end-evaluate
     close AttendeesFile
 .
@@ -550,6 +556,9 @@ SetCurrentAttendeeToFound section.
 
 UploadToClams section.
     call "SYSTEM" using "./clams-upload.sh"
+    if return-code not equal zero
+        display "Upload to CLAMS failed with error " return-code
+    end-if
 .
 
 end program BAMS.
