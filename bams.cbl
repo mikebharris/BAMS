@@ -101,6 +101,7 @@ copy DD-Attendee replacing Attendee by
 
 01 CurrentAttendeeNumber pic 999 value zero.
 01 CurrentRow pic 99 value zero.
+01 BackupRowCounter pic 999 value zero.
 
 01 CurrentDayOfWeek pic 9 value zero.
 01 DaysOfTheWeek value "MonTueWedThuFriSatSun".
@@ -282,19 +283,19 @@ LoadEventAndAttendeeData section.
 
 LoadDataFileIntoTable section.
     move zeroes to AuthCode of AttendeeRecord
-    start AttendeesFile key is greater than AuthCode of AttendeeRecord
     open input AttendeesFile
+    start AttendeesFile key is greater than AuthCode of AttendeeRecord
         read AttendeesFile next record
             at end set EndOfAttendeesFile to true
         end-read
-        if not EndOfAttendeesFile then
-            perform with test before varying NumberOfAttendees from 1 by 1 until EndOfAttendeesFile
-                move AttendeeRecord to Attendee(NumberOfAttendees)
-                read AttendeesFile next record
-                    at end set EndOfAttendeesFile to true
-                end-read
-            end-perform
-        end-if
+        move zero to NumberOfAttendees
+        perform until EndOfAttendeesFile
+            add 1 to NumberOfAttendees
+            move AttendeeRecord to Attendee(NumberOfAttendees)
+            read AttendeesFile next record
+                at end set EndOfAttendeesFile to true
+            end-read
+        end-perform
     close AttendeesFile
 
     sort Attendee
@@ -324,9 +325,9 @@ DisplayHomeScreen section.
 SetupHomeScreenStats section.
     accept CurrentDayOfWeek from day-of-week
     initialize PeopleSignedUp, PeopleOnSite, PeopleToArrive, PeopleToArriveToday,
-        KidsOnSite, KidsToArrive, KidsToArriveToday
+        PeopleStayingTillMonday, KidsOnSite, KidsToArrive, KidsToArriveToday
     perform varying CurrentAttendeeNumber from 1 by 1
-        until CurrentAttendeeNumber equal to NumberOfAttendees
+        until CurrentAttendeeNumber greater than NumberOfAttendees
             evaluate true
                 when AttendeeArrived of Attendee(CurrentAttendeeNumber)
                     add 1 to PeopleOnSite
@@ -364,7 +365,7 @@ ListAttendees section.
         add PageOffset to RecordsPerPage giving LastRecordToShow
         perform varying CurrentAttendeeNumber from FirstRecordToShow by 1
             until CurrentAttendeeNumber greater than LastRecordToShow or
-                CurrentAttendeeNumber equal to NumberOfAttendees
+                CurrentAttendeeNumber greater than NumberOfAttendees
             display CurrentAttendeeNumber
                 at line CurrentRow
                 background-color BackgroundColour
@@ -470,9 +471,9 @@ SaveAttendee section.
 CreateTimeStampedBackupFile section.
     move concatenate(formatted-current-date("YYYYMMDDThhmmss"), ".bak") to BackupFileName
     open output BackupFile
-    perform varying CurrentRow from 1 by 1
-        until CurrentRow equal to NumberOfAttendees
-        move Attendee(CurrentRow) to BackupRecord
+    perform varying BackupRowCounter from 1 by 1
+        until BackupRowCounter greater than NumberOfAttendees
+        move Attendee(BackupRowCounter) to BackupRecord
         write BackupRecord
     end-perform
     close BackupFile
