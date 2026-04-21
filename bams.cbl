@@ -42,8 +42,8 @@ copy DD-Attendee replacing Attendee by
     88 EndOfBackupFile value high-values==.
 
 working-storage section.
-01 AddAttendeeFlag pic 9 value 0.
-    88 AddAttendeeFlagOn value 1 when set to false is 0.
+01 AddAttendeeFlag pic x value "N".
+    88 AddAttendeeFlagOn value "Y" when set to false is "N".
 
 01 AttendeesFileName pic x(255) value "attendees.dat".
 01 EventFileName pic x(20) value "event.dat".
@@ -77,7 +77,7 @@ copy DD-Attendee replacing 01 by 02 Attendee by
 
 01 EmailToSearchFor pic x(40) value spaces.
 
-01 EventTable.
+01 EventDetails.
     02 EventName pic x(40) value "HacktionLab".
     02 EventBaseCharge pic 999 value zero.
     02 EventStartDay value "Fri".
@@ -127,7 +127,7 @@ screen section.
 01 HomeScreen background-color BackgroundColour foreground-color ForegroundColour.
     03 blank screen.
     03 line 1 column 1 from ScreenHeader reverse-video.
-    03 line 4 column EventNamePosition from EventName of EventTable.
+    03 line 4 column EventNamePosition from EventName of EventDetails.
     03 line 7 column 34 value "Today is ".
     03 line 7 column plus 1 from DayOfTheWeek(CurrentDayOfWeek).
     03 line 10 column 5 value "Adults on site: ".
@@ -262,10 +262,10 @@ LoadEventDetails section.
            at end set EndOfEventFile to true
        end-read
        if not EndOfEventFile then
-           move EventRecord to EventTable
+           move EventRecord to EventDetails
        end-if
     close EventFile
-    compute EventNamePosition = 40 - (length(trim(EventName of EventTable)) / 2)
+    compute EventNamePosition = 40 - (length(trim(EventName of EventDetails)) / 2)
 .
 
 LoadEventAndAttendeeData section.
@@ -498,7 +498,7 @@ AddAttendee section.
     move DayOfTheWeek(CurrentDayOfWeek) to ArrivalDay of CurrentAttendee
     set AttendeeComing of CurrentAttendee to true
     set AttendeeNotPaid of CurrentAttendee to true
-    move EventBaseCharge of EventTable to AmountToPay of CurrentAttendee
+    move EventBaseCharge of EventDetails to AmountToPay of CurrentAttendee
     set AddAttendeeFlagOn to true
     set RecordFound to true
     perform EditAttendee
