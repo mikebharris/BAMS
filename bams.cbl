@@ -5,13 +5,16 @@ environment division.
 configuration section.
     special-names.
         crt status is CommandKeys.
+        *> Reverse case-folded alphabet: descending sort on this sequence produces visible A-Z order
         alphabet mixed is " ZzYyXxWwVvUuTtSsRrQqPpOoNnMmLlKkJjIiHhGgFfEeDdCcBbAa".
+        *> 6 hex digits = 16^6 = 16.7M possible AuthCodes, sufficient for any realistic event size
         class HexNumber is "0" thru "9", "A" thru "F", "a" thru "f".
     repository.
         function all intrinsic.
 
 input-output section.
     file-control.
+        *> optional: program starts cleanly before first import run
         select optional AttendeesFile assign to AttendeesFileName
             organization is indexed
             access mode is dynamic
@@ -147,6 +150,7 @@ Main section.
 .
 
 EnableExtendedKeyInput section.
+    *> GNU COBOL requires these at runtime to capture function keys and ESC via CRT STATUS
     set environment 'COB_SCREEN_EXCEPTIONS' to 'Y'
     set environment 'COB_SCREEN_ESC' to 'Y'
 .
@@ -174,6 +178,7 @@ LoadEventAndAttendeeData section.
 .
 
 LoadDataFileIntoTable section.
+    *> position past the zero key so we read from the first real record
     move zeroes to AuthCode of AttendeeRecord
     open input AttendeesFile
     start AttendeesFile key is greater than AuthCode of AttendeeRecord
@@ -190,6 +195,7 @@ LoadDataFileIntoTable section.
         end-perform
     close AttendeesFile
 
+    *> descending + mixed collating sequence = case-insensitive A-Z order on screen
     sort Attendee
         on descending key AttendeeName of Attendee
         collating sequence is mixed
