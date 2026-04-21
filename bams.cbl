@@ -45,9 +45,9 @@ working-storage section.
 01 AddAttendeeFlag pic 9 value 0.
     88 AddAttendeeFlagOn value 1 when set to false is 0.
 
-01 AttendeesFileName pic x(20) value "attendees.dat".
+01 AttendeesFileName pic x(255) value "attendees.dat".
 01 EventFileName pic x(20) value "event.dat".
-01 BackupFileName pic x(20).
+01 BackupFileName pic x(19).
 
 01 DataFileStatus   pic x(2).
     88 Successful   value "00".
@@ -58,9 +58,6 @@ working-storage section.
 copy DD-Attendee replacing 01 by 02 Attendee by
     ==Attendee occurs 1 to 200 times
             depending on NumberOfAttendees
-            ascending key is AttendeeName
-            ascending key is Email
-            ascending key is AuthCode
             indexed by AttendeeIndex==.
 
 01 AuthCodeToSearchFor pic x(6) value all "0".
