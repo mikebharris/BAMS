@@ -57,7 +57,7 @@ working-storage section.
 
 procedure division.
     accept CommandLineArgumentCount from argument-number
-    if CommandLineArgumentCount equal to 2 then
+    if CommandLineArgumentCount greater than zero then
         accept AttendeesFileName from argument-value
     else
         move "attendees.dat" to AttendeesFileName
@@ -65,8 +65,6 @@ procedure division.
     display spaces
     display "Special diet report"
     display "==================="
-    move zeroes to AuthCode
-    start AttendeesFile key is greater than AuthCode
     open input AttendeesFile
         read AttendeesFile next record
             at end set EndOfAttendeesFile to true
@@ -81,6 +79,7 @@ procedure division.
                     when ArrivalDayIsThursday add 1 to HeadCountThursday
                     when ArrivalDayIsFriday add 1 to HeadCountFriday
                     when ArrivalDayIsSaturday add 1 to HeadCountSaturday
+                    when ArrivalDayIsSunday add 1 to HeadCountSunday
                 end-evaluate
                 if CanStayTillMonday then
                     add 1 to HeadCountMonday
@@ -92,8 +91,11 @@ procedure division.
                     when ArrivalDayIsThursday add 1 to EstimatedHeadCountThursday
                     when ArrivalDayIsFriday add 1 to EstimatedHeadCountFriday
                     when ArrivalDayIsSaturday add 1 to EstimatedHeadCountSaturday
-                    when CanStayTillMonday add 1 to HeadCountMonday
+                    when ArrivalDayIsSunday add 1 to EstimatedHeadCountSunday
                 end-evaluate
+                if CanStayTillMonday then
+                    add 1 to EstimatedHeadCountMonday
+                end-if
             end-if
             if AttendeeComing or AttendeeArrived then
                 add 1 to NumberOfAttendees
