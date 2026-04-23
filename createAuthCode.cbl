@@ -12,14 +12,14 @@ local-storage section.
 01 HexDigits    pic x(16) value "0123456789ABCDEF".
 
 linkage section.
-01 NewAuthCode pic x(6) value zero.
+01 NewAuthCode pic x(6).
 
 procedure division using NewAuthCode.
     accept CurrentTime from time
     compute DecimalDigit = function random(Seed)
     perform with test after varying CurrentDigit from 1 by 1
         until CurrentDigit equal to 6
-        compute DecimalDigit = (function random * 15) + 1
+        compute DecimalDigit = (function random * 16)
         move HexDigits(DecimalDigit + 1:1) to NewAuthCode(CurrentDigit:1)
     end-perform
     goback
