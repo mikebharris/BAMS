@@ -30,8 +30,8 @@ copy DD-Attendee replacing Attendee by
 working-storage section.
 01 CountOfLinesProcessed pic 999 value zero.
 
-01 AttendeesFileName pic x(20) value spaces.
-01 CSVSourceFileName pic x(30) value spaces.
+01 AttendeesFileName pic x(255) value spaces.
+01 CSVFileName pic x(255) value spaces.
 01 CommandLineArgumentCount pic 9 value zero.
 
 procedure division.
