@@ -355,13 +355,13 @@ SaveAttendee section.
     open i-o AttendeesFile
     evaluate true
         when AddAttendeeFlagOn
-            add 1 to CurrentAttendeeNumber
-            set NumberOfAttendees to CurrentAttendeeNumber
-            move CurrentAttendee to Attendee(CurrentAttendeeNumber)
-            write AttendeeRecord from Attendee(CurrentAttendeeNumber)
+            add 1 to NumberOfAttendees
+            move CurrentAttendee to Attendee(NumberOfAttendees)
+            write AttendeeRecord from Attendee(NumberOfAttendees)
                 invalid key
                     display "Error saving new attendee: " DataFileStatus
             end-write
+            move NumberOfAttendees to CurrentAttendeeNumber
         when not AddAttendeeFlagOn
             move CurrentAttendee to Attendee(CurrentAttendeeNumber)
             rewrite AttendeeRecord from Attendee(CurrentAttendeeNumber)
