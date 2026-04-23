@@ -99,6 +99,7 @@ procedure division.
                 when less than or equal to zero set AttendeeNotPaid of Attendee to true
             end-evaluate
             if NumberOfKids of Attendee is less than zero or greater than 5 then
+                display "Warning: invalid NumberOfKids value for " trim(AuthCode of Attendee) " - zeroing"
                 move zero to NumberOfKids of Attendee
             end-if
             set AttendeeComing of Attendee to true
