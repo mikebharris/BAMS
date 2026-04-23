@@ -38,8 +38,8 @@ copy DD-Attendee.
     02 ArrivalDayFromWeb pic x(10).
     02 StayingLateFromWeb pic x(5).
 
-01 AttendeesFileName pic x(20) value spaces.
-01 CSVSourceFileName pic x(30) value spaces.
+01 AttendeesFileName pic x(255) value spaces.
+01 CSVSourceFileName pic x(255) value spaces.
 01 CommandLineArgumentCount pic 9 value zero.
 
 01 RecordWriteStatus   pic xx.
