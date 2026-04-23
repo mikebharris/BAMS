@@ -59,10 +59,16 @@ procedure division.
     display "Reading from " trim(CSVSourceFileName) " and writing to " trim(AttendeesFileName)
     open input CSVSourceFile
     open i-o AttendeesFile
+    *> assume the first line is a header line and skip it
+    read CSVSourceFile
+        at end set EndOfCSVFile to true
+    end-read
+    *> now read the rest of the file starting with the first line of data
     read CSVSourceFile
         at end set EndOfCSVFile to true
     end-read
     perform until EndOfCSVFile
+        *> process each line of data
         initialize Attendee
         unstring CSVFileInputLine
             delimited by ","
@@ -79,7 +85,7 @@ procedure division.
             StayingLateFromWeb,
             NumberOfKids of Attendee
         end-unstring
-        if AuthCode of Attendee not equal to 'Code' and AuthCode of Attendee is not equal to spaces then
+        if AuthCode of Attendee is not equal to spaces then
             add 1 to CountOfLinesProcessed
             move ArrivalDayFromWeb(1:3) to ArrivalDay of Attendee
             if PaidDateFromWeb is not equal to spaces then
@@ -113,6 +119,7 @@ procedure division.
                     add 1 to CountOfLinesImported
             end-write
         end-if
+        *> read the next line
         read CSVSourceFile
             at end set EndOfCSVFile to true
         end-read
