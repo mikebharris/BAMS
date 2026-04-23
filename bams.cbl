@@ -142,7 +142,7 @@ Main section.
     perform LoadDataFileIntoTable
     set ColourSchemeIsColour to true
 
-    perform until CommandKeyIsF10
+    perform until CommandKeyIsF12
         perform DisplayHomeScreen
     end-perform
 
@@ -216,7 +216,7 @@ DisplayHomeScreen section.
             else
                 set ColourSchemeIsMonochrome to true
             end-if
-        when CommandKeyIsF12 perform UploadToClams
+        when CommandKeyIsF11 perform UploadToClams
     end-evaluate
 .
 

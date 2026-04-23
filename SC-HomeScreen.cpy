@@ -27,5 +27,5 @@
     03 line 16 column 45 value "Kids to arrive today: ".
     03 pic z9 line 16 column plus 2 from KidsToArriveToday.
     03 line 24 column 1
-        value "Commands: F2 List, F3 Add, F4 Edit, F9 Mono/Colour, F10 Exit, F12 CLAMS            " reverse-video.
+        value "Commands: F2 List, F3 Add, F4 Edit, F9 Mono/Colour, F11 CLAMS, F12 Exit            " reverse-video.
     03 line 24 column 78 to Command.

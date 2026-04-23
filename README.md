@@ -90,8 +90,8 @@ BAMS is a classic console application that strives to use the keyboard to do thi
 * F7 - Screen specific function.  On Edit toggles the payment status.  On Search searches by Email.
 * F8 - Screen specific function. Save changes to the current attendee being edited.
 * F9 - Toggle the screen colours between monochrome and colour (default is colour).
-* F10 - Exit BAMS from the Home Screen and return to the operating system.
-* F12 - Upload to CLAMS (BAMS in the Cloud)
+* F11 - Upload to CLAMS (BAMS in the Cloud)
+* F12 - Exit BAMS from the Home Screen and return to the operating system.
 * PgUp/PgDown - Scroll screen-by-screen through a list of attendees.
 * ENTER - Tell BAMS to display the Edit Screen for the record number entered on the List Screen.
 
@@ -109,8 +109,8 @@ In the middle you can see what the day is, and you can immediately tell how many
 * F3 - Add a new attendee, which takes you to the Add Attendee Screen.
 * F3 - Edit an attendee, which takes you firstly to the Search Screen.
 * F9 - Toggle the screen colours between monochrome and colour.
-* F10 - Exit BAMS and return to the operating system.
-* F12 - Upload to CLAMS
+* F11 - Upload to CLAMS
+* F12 - Exit BAMS and return to the operating system.
 
 ### Upload to CLAMS functionality
 
