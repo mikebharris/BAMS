@@ -1,0 +1,42 @@
+FROM archlinux:latest
+
+RUN pacman -Syu --noconfirm && \
+    pacman -S --noconfirm \
+        base-devel \
+        git \
+        db \
+        gcc \
+        make
+
+# Create non-root build user
+RUN useradd -m builder && \
+    echo "builder ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+USER builder
+WORKDIR /home/builder
+
+# Install yay
+RUN git clone https://aur.archlinux.org/yay.git && \
+    cd yay && \
+    makepkg -si --noconfirm
+
+# Install gnucobol from AUR
+RUN yay -S --noconfirm gnucobol
+
+USER root
+
+WORKDIR /app
+
+COPY *.cbl ./
+COPY *.cpy ./
+COPY *.dat ./
+
+RUN cobc -std=default -x -free \
+    -o bams \
+    bams.cbl createAuthCode.cbl
+
+RUN cobc -std=default -x -free ImportAttendees.cbl
+RUN cobc -std=default -x -free ExportAttendees.cbl
+RUN cobc -std=default -x -free BarnCampReport.cbl
+
+CMD ["./bams"]

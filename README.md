@@ -45,6 +45,47 @@ This should be the version '/usr/local/bin/cobc' but if it isn't, replace 'cobc'
 
 If you manage to build BAMS on Linux more cleanly than the above, please raise a PR.  Thank you.
 
+### Docker version
+
+BAMS now includes a couple of Docker files to create a container with a working BAMS instance.
+
+Assuming you have Docker installed already and your user has the right permissions and you are happy with the default Dockerfile, build with:
+```
+sudo docker build -t docker-bams .
+```
+
+And run like this:
+```
+docker run --rm -it -e TERM=linux docker-bams
+```
+
+Or to keep docker container running detached:
+```
+docker run --name=bams -d -e TERM=linux docker-bams
+```
+
+To run bams from this container do:
+```
+docker exec -it -e TERM=xterm-256color bams ./bams
+```
+
+Or copy files to it:
+```
+docker cp bams-lots-data.csv  bams:app
+```
+
+Or run the BarnCampReport utility:
+```
+docker exec -it -e TERM=xterm-256color bams ./BarnCampReport
+```
+
+Both Dockerfiles use Arch Linux. BAMS wants version 6 of the Berkley DB library (aka libdb or just db) and Debian like GNU/Linuxes only have 5.32 because of licensing issues.
+
+* The standard default Dockerfile uses a wacky version of Arch with yay preinstalled as GNU Cobol isn't in the normal pacman repo. It uses yay to install Gnu Cobol from AUR.
+* There is also an alternative that downloads and compiles GNU Cobol.
+
+Both approaches are a bit slow. I found the default to be a bit quicker to build but YMMV.
+
 ## Setting up data
 
 First compile the data importer:
